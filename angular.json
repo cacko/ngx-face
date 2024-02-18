@@ -51,7 +51,10 @@
                 }
               ],
               "outputHashing": "all",
-              "serviceWorker": "ngsw-config.json"
+              "serviceWorker": "ngsw-config.json",
+              "allowedCommonJsDependencies": [
+                "moment"
+              ]
             },
             "development": {
               "optimization": false,

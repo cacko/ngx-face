@@ -1,38 +1,39 @@
-
-    <webcam
-        [height]="500"
-        [width]="500"
-        [trigger]="triggerObservable"
-        [imageType]="'image/png'"
-        (imageCapture)="handleImage($event)"
-        *ngIf="showWebcam"
-        [allowCameraSwitch]="allowCameraSwitch"
-        [switchCamera]="nextWebcamObservable"
-        [videoOptions]="videoOptions"
-        [imageQuality]="1"
-        (cameraSwitched)="cameraWasSwitched($event)"
-        (initError)="handleInitError($event)"
-    ></webcam>
-    <div
-        class="snapshot"
-        *ngIf="($generated | async) as image"
+<webcam
+    class="snapshot"
+    [height]="500"
+    [width]="500"
+    [trigger]="triggerObservable"
+    [imageType]="'image/png'"
+    (imageCapture)="handleImage($event)"
+    *ngIf="showWebcam"
+    [allowCameraSwitch]="allowCameraSwitch"
+    [switchCamera]="nextWebcamObservable"
+    [videoOptions]="videoOptions"
+    [imageQuality]="1"
+    (cameraSwitched)="cameraWasSwitched($event)"
+    (initError)="handleInitError($event)"
+></webcam>
+<div *ngIf="($notloading | async) as notloading">
+    <button
+        mat-flat-button
+        color="primary"
+        (click)="startCamera();"
+        *ngIf="!showWebcam"
     >
-        <img [src]="image">
-    </div>
+        Start camera
+    </button>
 
     <button
         mat-flat-button
         color="primary"
         (click)="triggerSnapshot();"
+        *ngIf="showWebcam"
     >
         Take A Snapshot
     </button>
-
+</div>
 
 <h4 *ngIf="errors.length > 0">Messages:</h4>
 <ul *ngFor="let error of errors">
     <li>{{error | json}}</li>
 </ul>
-<div>
-    {{ cameras | json }}
-</div>

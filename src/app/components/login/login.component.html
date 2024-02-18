@@ -1,0 +1,32 @@
+<div *ngIf="user.user | async as user; else showLogin">
+    <h1>Hello {{ user.displayName }}!</h1>
+    <div>
+      <button mat-flat-button color="primary" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </div>
+  </div>
+  <ng-template #showLogin>
+    <mat-card appearance="raised">
+      <mat-card-content>
+          <div buttons>
+            <div *ngIf="errorMessage">
+              <p errors>{{ errorMessage }}</p>
+            </div>
+            <div>
+              <button
+                mat-raised-button
+                button-with-icon
+                color="primary"
+                (click)="login($event)"
+              >
+                <mat-icon>login</mat-icon>
+                <div>Login with Google</div>
+              </button>
+            </div>
+          </div>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+  

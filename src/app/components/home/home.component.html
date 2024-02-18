@@ -1,0 +1,7 @@
+<div *ngIf="($data | async) as items" grid>
+    <div *ngFor="let item of items" grid-item>
+        <a [href]="'/g/' + item.slug">
+            <img [src]="item.image.thumb_src">
+        </a>
+    </div>
+</div>

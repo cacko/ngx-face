@@ -4,10 +4,11 @@ import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { WebcamImage, WebcamInitError, WebcamUtil, WebcamModule } from 'ngx-webcam';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../service/api.service';
-import { API, Generated } from '../../entity/upload.entity';
+import { API, GeneratedEntitty } from '../../entity/upload.entity';
 import { HttpEventType } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { LoaderService } from '../../service/loader.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-camera',
@@ -17,10 +18,6 @@ import { LoaderService } from '../../service/loader.service';
   styleUrl: './camera.component.scss'
 })
 export class CameraComponent implements OnInit {
-
-
-  private generatedSubject = new BehaviorSubject<string|null>(null);
-  $generated = this.generatedSubject.asObservable();
 
   // toggle webcam on/off
   public showWebcam = true;
@@ -35,6 +32,8 @@ export class CameraComponent implements OnInit {
   public errors: WebcamInitError[] = [];
   public cameras: any = {};
 
+  public $notloading = this.loader.$hidden;
+
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
@@ -42,7 +41,8 @@ export class CameraComponent implements OnInit {
 
   public constructor(
     private api: ApiService,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private router: Router
   ) {
 
   }
@@ -64,6 +64,10 @@ export class CameraComponent implements OnInit {
     this.showWebcam = !this.showWebcam;
   }
 
+  public startCamera(): void {
+    this.showWebcam = true;
+  }
+
   public handleInitError(error: WebcamInitError): void {
     this.errors.push(error);
   }
@@ -78,16 +82,15 @@ export class CameraComponent implements OnInit {
   public handleImage(webcamImage: WebcamImage): void {
     this.loader.show();
     this.showWebcam = false;
-    this.generatedSubject.next(webcamImage.imageAsDataUrl);
     this.api.upload(API.ACTION_GENERATE, webcamImage.imageAsDataUrl).subscribe({
       next: (event: any) => {
-        switch(event.type) {
+        switch (event.type) {
           case HttpEventType.UploadProgress:
             break;
           case HttpEventType.Response:
-            const response = event.body as Generated;
-            this.generatedSubject.next(response.image.raw_src);
+            const response = event.body as GeneratedEntitty;
             this.loader.hide();
+            this.router.navigateByUrl(`/g/${response.slug}`);
             break;
         }
       },

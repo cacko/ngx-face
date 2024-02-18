@@ -1,6 +1,7 @@
 export enum API {
     URL = "https://face-api.cacko.net/api",
     ACTION_GENERATE = "generate",
+    ACTION_GENERATED = "generated",
     CDN = "https://cdn.cacko.net/face"
   };
   
@@ -26,7 +27,7 @@ export enum API {
     hash: string;
   };
   
-  export interface Generated {
+  export interface GeneratedEntitty {
     slug: string;
     uid: string;
     last_modified: string;

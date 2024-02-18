@@ -1,0 +1,13 @@
+app-home {
+  [grid] {
+    display: grid;
+    grid-auto-flow: dense;
+    grid-template-rows: masonry;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    [grid-item] {
+        img {
+            width: 100%;
+        }
+    }
+  }
+}

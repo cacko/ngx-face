@@ -2,11 +2,13 @@ import { Component, OnInit, isDevMode } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CameraComponent } from './components/camera/camera.component';
 import { CommonModule } from '@angular/common';
-import { LoaderComponent } from './componenets/loader/loader.component';
+import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderService } from './service/loader.service';
 import { SwUpdate, VersionEvent } from '@angular/service-worker';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { interval } from 'rxjs';
+import { UserService } from './service/user.service';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
@@ -17,12 +19,24 @@ import { interval } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   title = 'facision';
+  user: User | null = null;
 
   constructor(
     public loader: LoaderService,
     private swUpdate: SwUpdate,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private userService: UserService
   ) {
+    this.userService.user.subscribe((res) => {
+      this.user = res;
+      this.loader.hide();
+
+    });
+    this.userService.init();
+
+  }
+
+  ngOnInit(): void {
     if (!isDevMode()) {
       this.swUpdate.versionUpdates.subscribe((evt: VersionEvent) => {
         if (evt.type == "VERSION_READY") {
@@ -40,9 +54,6 @@ export class AppComponent implements OnInit {
         this.swUpdate.checkForUpdate();
       });
     }
-  }
 
-  ngOnInit(): void {
-    this.loader.hide();
   }
 }

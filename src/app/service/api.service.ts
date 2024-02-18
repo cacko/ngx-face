@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpClient, HttpEvent } from '@angular/common/http';
+import { HttpRequest, HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, of } from 'rxjs';
-import { API } from '../entity/upload.entity';
+import { API, GeneratedEntitty } from '../entity/upload.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
+import { inject } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,8 @@ export class ApiService {
 
   private readySubject = new Subject<boolean>();
   ready = this.readySubject.asObservable();
+
+  userToken = '';
 
   constructor(
     private http: HttpClient
@@ -27,6 +31,13 @@ export class ApiService {
   }
 
 
+  get headers(): HttpHeaders {
+    return new HttpHeaders({
+      "X-User-Token": this.userToken
+    });
+  }
+
+
   upload(action: string, dataUrl: string, data: object = {}): Observable<HttpEvent<any>> {
     console.log(dataUrl);
     const formData: FormData = new FormData();
@@ -36,9 +47,41 @@ export class ApiService {
 
     const req = new HttpRequest('POST', `${API.URL}/${action}`, formData, {
       reportProgress: true,
-      responseType: 'json'
+      responseType: 'json',
+      headers: this.headers
     });
 
     return this.http.request(req);
   }
+
+  getGenerated(id: string): any {
+    return this.http.get(`${API.URL}/${API.ACTION_GENERATED}/${id}`, {
+      headers: this.headers
+    });
+  }
+
+  getGenerations(): any {
+    return this.http.get(`${API.URL}/${API.ACTION_GENERATED}`, {
+      headers: this.headers
+    });
+  }
+
 }
+
+
+export const generatedResolver: ResolveFn<GeneratedEntitty> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const id = route.paramMap.get('id')!;
+
+  return inject(ApiService).getGenerated(id);
+};
+
+export const generationsResolver: ResolveFn<GeneratedEntitty[]> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  return inject(ApiService).getGenerations();
+};
+
