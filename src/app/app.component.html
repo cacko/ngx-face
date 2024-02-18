@@ -7,12 +7,28 @@
         <span name>face-off</span>
     </div>
     <span class="spacer"></span>
+    <button
+        mat-icon-button
+        aria-label="New Photo"
+        routerLink="/new"
+        *ngIf="url != '/new'"
+    >
+        <mat-icon>photo_camera</mat-icon>
+    </button>
+    <button
+        mat-icon-button
+        aria-label="History"
+        routerLink="/"
+        *ngIf="url != '/'"
+    >
+        <mat-icon>photo_library</mat-icon>
+    </button>
     <span
         username
         class="no-mobile"
         color="accent"
     >
-        {{this.user.email }}
+        {{this.user.email | match: '^[^@]+'}}
     </span>
     <button
         mat-icon-button

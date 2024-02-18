@@ -1,5 +1,5 @@
 import { Component, OnInit, isDevMode } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Event, EventType, Router, RouterEvent, RouterModule, RouterOutlet, UrlSegment } from '@angular/router';
 import { CameraComponent } from './components/camera/camera.component';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -12,27 +12,37 @@ import { User } from '@angular/fire/auth';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
+import { NgPipesModule } from 'ngx-pipes';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet,
-    CameraComponent, CommonModule,
-    LoaderComponent, MatSnackBarModule, MatToolbarModule, MatIconModule, MatButtonModule],
+    CameraComponent,
+    CommonModule,
+    LoaderComponent,
+    MatSnackBarModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    NgPipesModule,
+    RouterModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   title = 'facision';
   user: User | null = null;
+  url: string = "/";
 
   constructor(
     public loader: LoaderService,
     private swUpdate: SwUpdate,
     private snackBar: MatSnackBar,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.userService.user.subscribe((res) => {
       this.user = res;
@@ -44,6 +54,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     if (!isDevMode()) {
       this.swUpdate.versionUpdates.subscribe((evt: VersionEvent) => {
         if (evt.type == "VERSION_READY") {
@@ -61,6 +72,15 @@ export class AppComponent implements OnInit {
         this.swUpdate.checkForUpdate();
       });
     }
+
+    this.router.events.subscribe((ev: Event) => {
+      switch (ev.type) {
+        case EventType.NavigationEnd:
+          console.log(ev);
+          this.url = ev.url;
+          break;
+      }
+    }) 
 
   }
 
