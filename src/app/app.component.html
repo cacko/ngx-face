@@ -1,3 +1,25 @@
 <app-loader *ngIf="loader.$visible | async"></app-loader>
+<mat-toolbar *ngIf="this.user">
+    <div
+        head
+        routerLink="/"
+    >
+        <span name>face-off</span>
+    </div>
+    <span class="spacer"></span>
+    <span
+        username
+        class="no-mobile"
+        color="accent"
+    >
+        {{this.user.email }}
+    </span>
+    <button
+        mat-icon-button
+        aria-label="Logout"
+        (click)="logout()"
+    >
+        <mat-icon>logout</mat-icon>
+    </button>
+</mat-toolbar>
 <router-outlet></router-outlet>
-

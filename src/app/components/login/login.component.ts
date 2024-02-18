@@ -6,6 +6,7 @@ import { UserService } from '../../service/user.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 enum LOGIN_MODE {
   PASSWORD = 'password',
@@ -16,7 +17,7 @@ enum LOGIN_MODE {
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
-  imports: [CommonModule, MatIconModule, MatCardModule],
+  imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule],
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {

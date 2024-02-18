@@ -9,11 +9,18 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { interval } from 'rxjs';
 import { UserService } from './service/user.service';
 import { User } from '@angular/fire/auth';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CameraComponent, CommonModule, LoaderComponent, MatSnackBarModule],
+  imports: [RouterOutlet,
+    CameraComponent, CommonModule,
+    LoaderComponent, MatSnackBarModule, MatToolbarModule, MatIconModule, MatButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -55,5 +62,9 @@ export class AppComponent implements OnInit {
       });
     }
 
+  }
+
+  logout() {
+    this.userService.logout();
   }
 }
