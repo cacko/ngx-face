@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "facision": {
+      "hosting": {
+        "facision": [
+          "facision"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "facision"
+  }
+}

@@ -1,0 +1,36 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  PROJECT: faceapi
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  build:
+    desc: build
+    cmds:
+      - rm -rf dist
+      - ng build --configuration production --progress --service-worker
+
+  deploy:
+    desc: deploy to firebase
+    cmds:
+      - ng deploy
+
+  push:
+    desc: commit and pushes current changes
+    cmds:
+      - git add .  || true
+      - git commit -am "$(curl -s https://commit.cacko.net/index.txt)" || true
+      - git push  || true
+
+  release:
+    desc: buid and deploy
+    cmds:
+      - task: build
+      - task: deploy
