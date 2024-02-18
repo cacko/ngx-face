@@ -3,7 +3,7 @@
 version: "3"
 
 vars:
-  PROJECT: faceapi
+  PROJECT: ngx-face
 
 tasks:
   default:
