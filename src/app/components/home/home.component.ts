@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { GeneratedCardComponent } from '../generated-card/generated-card.component';
-import { chain, reject } from 'lodash-es';
 import {
   trigger,
   state,
@@ -13,6 +12,7 @@ import {
   animate,
   transition
 } from '@angular/animations';
+import moment from 'moment';
 
 interface RouteDataEntity {
   data?: GeneratedEntitty[];
@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
   }
 
   onDelete(ev: any) {
-    const items = reject(this.dataSubject.value, { slug: ev });
+    const items = this.dataSubject.value?.filter(v => v.slug != ev) || [];
     this.dataSubject.next(items);
   }
 
@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
     this.activatedRoute.data.subscribe({
       next: (data: RouteDataEntity) => {
         const entity = data.data as GeneratedEntitty[];
-        const items = chain(entity).filter({ deleted: false }).orderBy(['last_modified'], ['desc']).value();
+        const items = entity.filter(d => !d.deleted).sort((a, b) => moment(a.last_modified).isAfter(moment(b.last_modified)) ? -1 : 1)
         this.dataSubject.next(items);
         this.infoSubject.next(items.length ? null : "No history");
       },

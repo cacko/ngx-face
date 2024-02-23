@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, isDevMode } from '@angular/core';
 import { Event, EventType, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CameraComponent } from './components/camera/camera.component';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderService } from './service/loader.service';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { filter } from 'rxjs';
+import { filter, interval } from 'rxjs';
 import { UserService } from './service/user.service';
 import { User } from '@angular/fire/auth';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -52,11 +52,13 @@ export class AppComponent implements OnInit {
     });
     this.userService.init();
 
-  }
-
-  ngOnInit(): void {
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.versionUpdates
+    if (!isDevMode()) {
+      const chcker = interval(10000).subscribe(() => {
+        if (!this.swUpdate.isEnabled) {
+          return;
+        }
+        chcker.unsubscribe();
+        this.swUpdate.versionUpdates
         .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
         .subscribe(evt => {
           this.snackBar
@@ -68,7 +70,13 @@ export class AppComponent implements OnInit {
                 .then(() => document.location.reload())
             );
         });
+        this.swUpdate.checkForUpdate();
+      });
     }
+  }
+
+  ngOnInit(): void {
+
     this.router.events.subscribe((ev: Event) => {
       switch (ev.type) {
         case EventType.NavigationEnd:
