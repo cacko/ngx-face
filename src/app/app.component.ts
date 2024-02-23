@@ -59,17 +59,17 @@ export class AppComponent implements OnInit {
         }
         chcker.unsubscribe();
         this.swUpdate.versionUpdates
-        .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
-        .subscribe(evt => {
-          this.snackBar
-            .open('Update is available', 'Update')
-            .onAction()
-            .subscribe(() =>
-              this.swUpdate
-                .activateUpdate()
-                .then(() => document.location.reload())
-            );
-        });
+          .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
+          .subscribe(evt => {
+            this.snackBar
+              .open('Update is available', 'Update')
+              .onAction()
+              .subscribe(() =>
+                this.swUpdate
+                  .activateUpdate()
+                  .then(() => document.location.reload())
+              );
+          });
         interval(20000).subscribe(() => this.swUpdate.checkForUpdate());
       });
     }
