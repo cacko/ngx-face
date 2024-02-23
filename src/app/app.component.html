@@ -1,12 +1,12 @@
 <app-loader *ngIf="loader.$visible | async"></app-loader>
 <mat-toolbar *ngIf="this.user">
-    <div
-        head
+    <button
+        mat-icon-button
+        aria-label="Home"
         routerLink="/"
     >
-        <span name>face</span>
-    </div>
-    <span class="spacer"></span>
+        <mat-icon>photo_library</mat-icon>
+    </button>
     <button
         mat-icon-button
         aria-label="New Photo"
@@ -16,21 +16,15 @@
         <mat-icon>photo_camera</mat-icon>
     </button>
     <button
-    mat-icon-button
-    aria-label="New Photo"
-    routerLink="/file"
-    *ngIf="url != '/file'"
->
-    <mat-icon>upload</mat-icon>
-</button>
-    <button
         mat-icon-button
-        aria-label="History"
-        routerLink="/"
-        *ngIf="url != '/'"
+        aria-label="New Photo"
+        routerLink="/file"
+        *ngIf="url != '/file'"
     >
-        <mat-icon>photo_library</mat-icon>
+        <mat-icon>upload</mat-icon>
     </button>
+    <span class="spacer"></span>
+
     <span
         username
         class="no-mobile"

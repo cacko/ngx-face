@@ -109,20 +109,19 @@ export class CameraComponent implements OnInit {
     this.api.upload(webcamImage.imageAsDataUrl, data).subscribe({
       next: (resp: any) => {
         const response = resp as GeneratedEntitty;
-        console.log(response);
         this.router.navigateByUrl(`/g/${response.slug}`).then(() => {
           this.loader.hide();
         });
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
         this.loader.hide();
       }
     })
   }
 
   public cameraWasSwitched(deviceId: string): void {
-    console.log('active device: ' + deviceId);
+    console.debug('active device: ' + deviceId);
     this.deviceId = deviceId;
   }
 

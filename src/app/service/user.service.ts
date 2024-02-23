@@ -27,14 +27,12 @@ export class UserService {
   init() {
     onIdTokenChanged(this.auth, (res) => {
       res?.getIdTokenResult().then((tokenResult) => {
-        console.debug(tokenResult);
         this.api.userToken = tokenResult.token;
         this.api.getOptions();
         const expiry = moment(tokenResult.expirationTime);
         const refresh = expiry.subtract(5 * 60, 'seconds')
         this.refreshSub && this.refreshSub?.unsubscribe();
         this.refreshSub = timer(refresh.toDate()).subscribe(() => {
-          console.debug("schedule token refresh");
           res.getIdToken(true);
         });
       });

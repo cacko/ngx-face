@@ -103,7 +103,6 @@ export class GeneratedCardComponent implements OnInit {
     this.loading = true;
     this.api.delete(this.data.slug).subscribe({
       next: (data) => {
-        console.log(data);
         this.deleted.emit(this.data.slug);
       }, error: (err: any)  => {
         console.error(err);
