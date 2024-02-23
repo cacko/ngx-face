@@ -12,3 +12,15 @@ export interface Options {
     models: string[];
     templates: string[];
 }
+
+export interface PromptEntity {
+    clip_skip ?: number;
+    guidance_scale ?: number;
+    template ?: string;
+    model ?: string;
+    prompt ?: string;
+    num_inferance_steps ?: number;
+    scale ?: number;
+    height ?: number;
+    width ?: number;
+}

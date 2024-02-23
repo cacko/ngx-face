@@ -62,6 +62,7 @@ $my-theme: mat.define-dark-theme(
 @import './scss/components/login';
 @import './scss/components/loading';
 @import './scss/components/file';
+@import './scss/components/prompt';
 
 html {
     box-sizing: border-box;

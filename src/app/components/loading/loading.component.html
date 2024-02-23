@@ -1,2 +1,3 @@
-<ng-content></ng-content>
+<div status><ng-content></ng-content></div>
 <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+<app-prompt *ngIf="prompt" [data]="prompt"></app-prompt>

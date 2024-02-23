@@ -9,8 +9,11 @@ app-loading {
     align-items: center;
     justify-content: center;
     z-index: 1;
-    font-size: 2rem;
-    font-variant: small-caps;
-    text-transform: uppercase;
-    font-family: Anta;
+    [status] {
+        font-size: 2rem;
+        font-variant: small-caps;
+        text-transform: uppercase;
+        font-family: Anta;
+    }
+
 }

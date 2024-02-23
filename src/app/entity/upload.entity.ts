@@ -52,6 +52,7 @@ export enum API {
     deleted: boolean;
     guidance_scale ?: number;
     height ?: number;
+    width ?: number;
     image : ApiImage;
     source : ApiImage;
     template ?: string;

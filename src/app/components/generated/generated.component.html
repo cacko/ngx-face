@@ -1,4 +1,4 @@
-<app-loading *ngIf="loading">In Progress</app-loading>
+<app-loading [entity]="$data | async" *ngIf="loading">In Progress</app-loading>
 <div
     *ngIf="($data | async) as data"
     [ngSwitch]="data.status"

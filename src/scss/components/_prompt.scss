@@ -1,0 +1,15 @@
+app-prompt {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    [grid] {
+        display: grid;
+        grid-template-columns: 5rem 1fr;
+        column-gap: 0.5rem;
+        [label] {
+            text-align: right;
+            font-variant: small-caps;
+            text-transform: lowercase;
+        }
+    }
+}
