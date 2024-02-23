@@ -60,6 +60,7 @@ export class GeneratedCardComponent implements OnInit {
     ev.stopPropagation();
     this.setMode(mode);
   }
+  
   setMode(mode: ViewMode) {
     this.mode = mode;
     switch (mode) {
@@ -88,9 +89,9 @@ export class GeneratedCardComponent implements OnInit {
   private reload(slug: string) {
     this.api.getGenerated(slug).subscribe({
       next: (data: any) => {
-        console.log(data);
         const entity = data as GeneratedEntitty;
         this.data = data;
+        this.ngOnInit();
       }
     })
   }

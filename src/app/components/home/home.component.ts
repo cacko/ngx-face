@@ -38,7 +38,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.data.subscribe({
       next: (data: RouteDataEntity) => {
-        console.log(data);
         const entity = data.data as GeneratedEntitty[];
         this.dataSubject.next(orderBy(entity, ['last_modified'], ['desc']));
         this.infoSubject.next(entity.length ? null : "No history");

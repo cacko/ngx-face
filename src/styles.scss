@@ -1,6 +1,6 @@
 @use "@angular/material" as mat;
 @use "sass:map";
-@use "./scss/components/generated-card" as generated-card;
+@use "./scss/components/generated-card" as myGeneratedCard;
 @include mat.core();
 
 $theme-primary: mat.define-palette(mat.$blue-grey-palette, 500);
@@ -22,7 +22,7 @@ $background-palette: (
   disabled-list-option: rgba(white, 0.12),
   tooltip: map.get($theme-primary, 700)
 );
-$custom-typography: mat.define-typography-config($font-family: "Syne Mono");
+$custom-typography: mat.define-typography-config($font-family: "Anta");
 
 $my-theme: mat.define-dark-theme(
   (
@@ -53,7 +53,7 @@ $my-theme: mat.define-dark-theme(
     )
   )
 );
-@include generated-card.apply_theme($my-theme);
+@include myGeneratedCard.apply-theme($my-theme);
 @import './scss/components/spacer';
 @import './scss/components/camera';
 @import './scss/components/generated';

@@ -1,18 +1,18 @@
-import { Component, OnInit, isDevMode } from '@angular/core';
-import { ActivatedRoute, Event, EventType, Router, RouterEvent, RouterModule, RouterOutlet, UrlSegment } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Event, EventType, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CameraComponent } from './components/camera/camera.component';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderService } from './service/loader.service';
-import { SwUpdate, VersionEvent, VersionReadyEvent } from '@angular/service-worker';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { filter } from 'rxjs';
 import { UserService } from './service/user.service';
 import { User } from '@angular/fire/auth';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgPipesModule } from 'ngx-pipes';
-
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,8 @@ import { NgPipesModule } from 'ngx-pipes';
     MatIconModule,
     MatButtonModule,
     NgPipesModule,
-    RouterModule
+    RouterModule,
+    MatSnackBarModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -39,15 +40,12 @@ export class AppComponent implements OnInit {
     public loader: LoaderService,
     private swUpdate: SwUpdate,
     private userService: UserService,
-    private router: Router
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private iconRegister: MatIconRegistry
   ) {
-    if (!isDevMode()) {
-      this.swUpdate.versionUpdates
-      .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
-      .subscribe(evt => {
-          document.location.reload();
-      });
-    }
+    this.iconRegister.setDefaultFontSetClass('material-symbols-sharp');
+
     this.userService.user.subscribe((res) => {
       this.user = res;
       this.loader.hide();
@@ -57,14 +55,27 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.swUpdate.isEnabled) {
+      this.swUpdate.versionUpdates
+        .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
+        .subscribe(evt => {
+          this.snackBar
+            .open('Update is available', 'Update')
+            .onAction()
+            .subscribe(() =>
+              this.swUpdate
+                .activateUpdate()
+                .then(() => document.location.reload())
+            );
+        });
+    }
     this.router.events.subscribe((ev: Event) => {
       switch (ev.type) {
         case EventType.NavigationEnd:
           this.url = ev.url;
           break;
       }
-    }) 
-
+    });
   }
 
   async logout() {

@@ -1,4 +1,5 @@
 <webcam
+    #webcam
     [trigger]="triggerObservable"
     [imageType]="'image/png'"
     [width]="width"
@@ -10,31 +11,21 @@
     [imageQuality]="1"
     (cameraSwitched)="cameraWasSwitched($event)"
     (initError)="handleInitError($event)"
-></webcam>
-<div captured>
+    (imageClick)="triggerSnapshot()"
+>
+</webcam>
+<button
+    switch-button
+    mat-icon-button
+    (click)="switchFacingMode($event);"
+    *ngIf="multipleWebcamsAvailable && showWebcam"
+>
+    <mat-icon>cameraswitch</mat-icon>
+</button>
+<div captured (click)="startCamera()">
     <img [src]="this.captured?.imageAsDataUrl">
 </div>
-<div *ngIf="($notloading | async) as notloading">
-    <button
-        mat-flat-button
-        color="primary"
-        (click)="startCamera();"
-        *ngIf="!showWebcam"
-    >
-        Start camera
-    </button>
-
-    <button
-        mat-flat-button
-        color="primary"
-        (click)="triggerSnapshot();"
-        *ngIf="showWebcam"
-    >
-        Take A Snapshot
-    </button>
-</div>
 <app-options (submit)="onSubmit($event)"></app-options>
-
 <h4 *ngIf="errors.length > 0">Messages:</h4>
 <ul *ngFor="let error of errors">
     <li>{{error | json}}</li>

@@ -1,7 +1,11 @@
 <form [formGroup]="form">
     <mat-form-field>
-        <ngx-mat-file-input formControlName="file" [accept]="accept"></ngx-mat-file-input>
+        <ngx-mat-file-input
+            formControlName="file"
+            [accept]="accept"
+            placeholder="Select image"
+        ></ngx-mat-file-input>
         <mat-icon matSuffix>upload</mat-icon>
-      </mat-form-field>
+    </mat-form-field>
 </form>
 <app-options (submit)="onSubmit($event)"></app-options>

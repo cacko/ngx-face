@@ -1,14 +1,12 @@
-import { ApplicationConfig, isDevMode, importProvidersFrom, EnvironmentProviders } from '@angular/core';
+import { ApplicationConfig, isDevMode, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideServiceWorker } from '@angular/service-worker';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
-import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +20,5 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(provideFirebaseApp(() => initializeApp({ "projectId": "facision", "appId": "1:987420655172:web:034b56fad9a19d52180611", "storageBucket": "facision.appspot.com", "apiKey": "AIzaSyDPhJq5i3kpX5PeE3NQbMCoKHuj1VOC1Yo", "authDomain": "facision.firebaseapp.com", "messagingSenderId": "987420655172", "measurementId": "G-9JD2CLZF26", "databaseURL": "https://facision-default-rtdb.europe-west1.firebasedatabase.app/" }))),
     importProvidersFrom(provideAuth(() => getAuth())),
     importProvidersFrom(provideDatabase(() =>  getDatabase())),
-    importProvidersFrom(provideAnalytics(() => getAnalytics())),
-    ScreenTrackingService, UserTrackingService
   ]
 };

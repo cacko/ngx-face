@@ -41,7 +41,8 @@
                     text-transform: uppercase;
                     font-variant: small-caps;
                     &.status-error {
-                        color: mat.get-color-from-palette($warn)
+                        color: mat.get-color-from-palette($warn);
+                        font-weight: bold;
                     }
                 }
             }

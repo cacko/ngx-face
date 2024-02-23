@@ -1,5 +1,86 @@
-<app-loading *ngIf="loading"></app-loading>
-<div *ngIf="($data | async) as data">
-    <img [src]="data.image.raw_src" *ngIf="data.status == status.GENERATED">
-    <img [src]="data.source.raw_src" *ngIf="data.status != status.GENERATED">
+<app-loading *ngIf="loading">In Progress</app-loading>
+<div
+    *ngIf="($data | async) as data"
+    [ngSwitch]="data.status"
+    content
+>
+    <ng-template [ngSwitchCase]="status.GENERATED">
+        <div
+            class="spacer"
+            (click)="toggleFit($event)"
+        ></div>
+        <div info>
+            <div>{{data.last_modified | amTimeAgo}}</div>
+            <div class="spacer"></div>
+            <button
+                mat-icon-button
+                *ngIf="mode == modes.GENERATED"
+                (click)="onMode($event, modes.SOURCE)"
+            >
+                <mat-icon>person</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                *ngIf="mode == modes.SOURCE"
+                (click)="onMode($event, modes.GENERATED)"
+            >
+                <mat-icon>image</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                *ngIf="screen == screens.FIT_SCREEN"
+                (click)="onScreen($event, screens.FULLSCREEN)"
+            >
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                *ngIf="screen == screens.FULLSCREEN"
+                (click)="onScreen($event, screens.FIT_SCREEN)"
+            >
+                <mat-icon>fit_screen</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                (click)="onDelete($event)"
+            >
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="status.ERROR">
+        <div
+            class="spacer"
+            (click)="toggleFit($event)"
+        ></div>
+        <div status>
+            <div label>{{data.status}}</div>
+        </div>
+        <div class="spacer"></div>
+        <div info>
+            <div>{{data.last_modified | amTimeAgo}}</div>
+            <div class="spacer"></div>
+            <button
+                mat-icon-button
+                *ngIf="mode == modes.GENERATED"
+                (click)="onMode($event, modes.SOURCE)"
+            >
+                <mat-icon>fit_screen</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                *ngIf="mode == modes.SOURCE"
+                (click)="onMode($event, modes.GENERATED)"
+            >
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                (click)="onDelete($event)"
+            >
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </ng-template>
+    <ng-template [ngSwitchDefault]></ng-template>
 </div>

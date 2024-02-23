@@ -20,6 +20,7 @@ tasks:
   deploy:
     desc: deploy to firebase
     cmds:
+      - rm -rf dist
       - ng deploy
 
   push:
@@ -32,5 +33,4 @@ tasks:
   release:
     desc: buid and deploy
     cmds:
-      - task: build
       - task: deploy

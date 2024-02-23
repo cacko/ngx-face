@@ -6,8 +6,6 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
-  "url": "https://face.cacko.net",
-  "manifestUrl": "https://face.cacko.net/manifest.webmanifest",
   "icons": [
     {
       "src": "assets/icons/maskable_icon_x72.png",
