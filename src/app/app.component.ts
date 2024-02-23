@@ -13,6 +13,7 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgPipesModule } from 'ngx-pipes';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { DatabaseService } from './service/database.service';
 
 @Component({
   selector: 'app-root',
@@ -41,12 +42,14 @@ export class AppComponent implements OnInit {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private iconRegister: MatIconRegistry
+    private iconRegister: MatIconRegistry,
+    private db: DatabaseService
   ) {
     this.iconRegister.setDefaultFontSetClass('material-symbols-sharp');
 
     this.userService.user.subscribe((res) => {
       this.user = res;
+      this.user?.uid && this.db.init(this.user?.uid);
       this.loader.hide();
     });
     this.userService.init();
@@ -55,7 +58,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (isDevMode() === false) {
       this.swUpdate.versionUpdates.subscribe((evt: VersionEvent) => {
-        console.debug(evt);
         if (evt.type == 'VERSION_READY') {
           this.snackBar
             .open('Update is available', 'Update', { duration: 15000 })

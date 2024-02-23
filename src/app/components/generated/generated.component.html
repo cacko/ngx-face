@@ -1,17 +1,39 @@
-<app-loading [entity]="$data | async" *ngIf="loading">In Progress</app-loading>
+<app-loading
+    [entity]="$data | async"
+    *ngIf="loading"
+>
+    In Progress
+</app-loading>
 <div
     *ngIf="($data | async) as data"
     [ngSwitch]="data.status"
     content
 >
+
     <ng-template [ngSwitchCase]="status.GENERATED">
         <div
-            class="spacer"
+            class="spacer toggle"
             (click)="toggleFit($event)"
         ></div>
+        <app-prompt
+            *ngIf="prompt"
+            [data]="prompt"
+        ></app-prompt>
         <div info>
             <div>{{data.last_modified | amTimeAgo}}</div>
             <div class="spacer"></div>
+            <button
+                mat-icon-button
+                (click)="onDownload($event, data.image.raw_src, data.slug)"
+            >
+                <mat-icon>download</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                (click)="onPrompt($event)"
+            >
+                <mat-icon>data_object</mat-icon>
+            </button>
             <button
                 mat-icon-button
                 *ngIf="mode == modes.GENERATED"

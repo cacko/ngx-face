@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { DatabaseService } from '../../service/database.service';
-import { ScreenFit, ViewMode } from '../../entity/view.entity';
+import { PromptEntity, ScreenFit, ViewMode, fromGenerated } from '../../entity/view.entity';
 import { MomentModule } from 'ngx-moment';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { ScreenTrackingService } from '@angular/fire/analytics';
+import { PromptComponent } from '../prompt/prompt.component';
+import { saveAs } from 'file-saver';
 
 interface RouteDataEntity {
   data?: GeneratedEntitty;
@@ -19,7 +20,7 @@ interface RouteDataEntity {
 @Component({
   selector: 'app-generated',
   standalone: true,
-  imports: [CommonModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent],
   templateUrl: './generated.component.html',
   styleUrl: './generated.component.scss'
 })
@@ -33,6 +34,7 @@ export class GeneratedComponent implements OnInit {
   modes = ViewMode;
   screen: ScreenFit = ScreenFit.FULLSCREEN;
   screens = ScreenFit;
+  prompt?: PromptEntity | null = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -110,6 +112,20 @@ export class GeneratedComponent implements OnInit {
 
   onDelete(ev: any) {
 
+  }
+
+  onPrompt(ev: MouseEvent) {
+    ev.stopPropagation();
+    if (this.prompt) {
+      this.prompt = null;
+      return;
+    }
+    this.prompt = fromGenerated(this.dataSubject.value as GeneratedEntitty);
+  }
+
+  onDownload(ev: MouseEvent, src: string, name: string) {
+    ev.stopPropagation();
+    saveAs(src, `${name}.png`);
   }
 
   private listen(uid: string, slug: string) {

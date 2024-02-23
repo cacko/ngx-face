@@ -3,6 +3,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { GeneratedEntitty } from '../../entity/upload.entity';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 import { MatButtonModule } from '@angular/material/button';
 import { GeneratedCardComponent } from '../generated-card/generated-card.component';
 import {
@@ -13,6 +15,7 @@ import {
   transition
 } from '@angular/animations';
 import moment from 'moment';
+import { MatIconModule } from '@angular/material/icon';
 
 interface RouteDataEntity {
   data?: GeneratedEntitty[];
@@ -22,7 +25,9 @@ interface RouteDataEntity {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, RouterModule, GeneratedCardComponent],
+  imports: [CommonModule,
+    MatButtonModule, RouterModule,
+    GeneratedCardComponent, MatProgressBarModule, MatButtonModule, MatIconModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   animations: [

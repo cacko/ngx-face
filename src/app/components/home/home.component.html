@@ -1,8 +1,36 @@
-<div *ngIf="($data | async) as items" grid>
-    <app-generated-card *ngFor="let item of items" [@simpleFadeAnimation]="'in'"  grid-item [data]="item" (deleted)="onDelete($event)">
+<div
+    *ngIf="($data | async) as items"
+    grid
+>
+    <app-generated-card
+        *ngFor="let item of items"
+        [@simpleFadeAnimation]="'in'"
+        grid-item
+        [data]="item"
+        (deleted)="onDelete($event)"
+    >
     </app-generated-card>
 </div>
-<h1 *ngIf="($info | async) as info">
-    {{info}}
-</h1>
-
+<div
+    *ngIf="($info | async) as info"
+    status
+>
+    <div>{{info}}</div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <div>
+        <button
+            mat-icon-button
+            aria-label="New Photo"
+            routerLink="/camera"
+        >
+            <mat-icon>photo_camera</mat-icon>
+        </button>
+        <button
+            mat-icon-button
+            aria-label="New Photo"
+            routerLink="/file"
+        >
+            <mat-icon>upload</mat-icon>
+        </button>
+    </div>
+</div>

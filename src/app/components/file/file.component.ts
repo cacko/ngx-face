@@ -65,7 +65,7 @@ export class FileComponent {
         this.router.navigateByUrl(`/g/${response.slug}`);
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
         this.loader.hide();
       }
     })

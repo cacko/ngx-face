@@ -58,7 +58,8 @@ export enum API {
     template ?: string;
     model ?: string;
     prompt ?: string;
-    num_inferance_steps ?: number;
+    num_inference_steps ?: number;
+    negative_prompt ?: string;
     scale ?: number;
     status: STATUS;
     error: string;

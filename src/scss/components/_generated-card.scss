@@ -25,6 +25,9 @@
             flex-direction: column;
             width: 100%;
             height: 100%;
+            &:hover {
+                cursor: pointer;
+            }
             div[info] {
                 padding: 0 0.5rem;
                 display: flex;
