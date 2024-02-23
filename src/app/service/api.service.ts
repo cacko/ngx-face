@@ -67,6 +67,12 @@ export class ApiService {
     });
   }
 
+  delete(id: string): Observable<Object> {
+    return this.http.delete(`${API.URL}/${API.ACTION_GENERATED}/${id}`, {
+      headers: this.headers
+    });
+  }
+
   getGenerated(id: string): any {
     return this.http.get(`${API.URL}/${API.ACTION_GENERATED}/${id}`, {
       headers: this.headers

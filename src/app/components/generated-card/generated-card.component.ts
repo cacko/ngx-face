@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GeneratedEntitty, STATUS } from '../../entity/upload.entity';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -19,6 +19,7 @@ import { ApiService } from '../../service/api.service';
 export class GeneratedCardComponent implements OnInit {
 
   @Input() data !: GeneratedEntitty;
+  @Output() deleted = new EventEmitter<string>();
 
   mode: ViewMode = ViewMode.GENERATED;
   modes = ViewMode;
@@ -60,7 +61,7 @@ export class GeneratedCardComponent implements OnInit {
     ev.stopPropagation();
     this.setMode(mode);
   }
-  
+
   setMode(mode: ViewMode) {
     this.mode = mode;
     switch (mode) {
@@ -99,5 +100,15 @@ export class GeneratedCardComponent implements OnInit {
 
   onDelete(ev: MouseEvent) {
     ev.stopPropagation();
+    this.loading = true;
+    this.api.delete(this.data.slug).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.deleted.emit(this.data.slug);
+      }, error: (err: any)  => {
+        console.error(err);
+      },
+      complete: () => (this.loading = false)
+    });
   }
 }

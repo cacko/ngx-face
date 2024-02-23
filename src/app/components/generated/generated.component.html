@@ -40,12 +40,6 @@
             >
                 <mat-icon>fit_screen</mat-icon>
             </button>
-            <button
-                mat-icon-button
-                (click)="onDelete($event)"
-            >
-                <mat-icon>delete</mat-icon>
-            </button>
         </div>
     </ng-template>
     <ng-template [ngSwitchCase]="status.ERROR">
@@ -73,12 +67,6 @@
                 (click)="onMode($event, modes.GENERATED)"
             >
                 <mat-icon>fullscreen</mat-icon>
-            </button>
-            <button
-                mat-icon-button
-                (click)="onDelete($event)"
-            >
-                <mat-icon>delete</mat-icon>
             </button>
         </div>
     </ng-template>

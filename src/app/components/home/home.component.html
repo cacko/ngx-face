@@ -1,5 +1,5 @@
 <div *ngIf="($data | async) as items" grid>
-    <app-generated-card *ngFor="let item of items" grid-item [data]="item">
+    <app-generated-card *ngFor="let item of items" [@simpleFadeAnimation]="'in'"  grid-item [data]="item" (deleted)="onDelete($event)">
     </app-generated-card>
 </div>
 <h1 *ngIf="($info | async) as info">
