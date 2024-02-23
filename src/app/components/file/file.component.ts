@@ -9,12 +9,13 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { GeneratedEntitty } from '../../entity/upload.entity';
 import { MatIconModule } from '@angular/material/icon';
+import { OptionsComponent } from '../options/options.component';
 
 
 @Component({
   selector: 'app-file',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialFileInputModule, RouterModule, MatFormFieldModule, MatIconModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialFileInputModule, RouterModule, MatFormFieldModule, MatIconModule, OptionsComponent],
   templateUrl: './file.component.html',
   styleUrl: './file.component.scss'
 })
@@ -28,36 +29,33 @@ export class FileComponent {
     private api: ApiService,
     private router: Router,
     private loader: LoaderService
-  )
-  {
+  ) {
     this.form = this.fb.group({
       file: [null,
         [Validators.required, FileValidator.maxContentSize(1000000)]
       ]
     });
-    const fileInput = this.form.get("file");
-    fileInput?.valueChanges.subscribe((value: any) => {
-      console.log(value.files);
-      const file = value.files[0];
-      this.api.uploadForm(file, {}).subscribe({
-        next: (event: any) => {
-          switch (event.type) {
-            case HttpEventType.UploadProgress:
-              break;
-            case HttpEventType.Response:
-              const response = event.body as GeneratedEntitty;
-              this.loader.hide();
-              this.router.navigateByUrl(`/g/${response.slug}`);
-              break;
-          }
-        },
-        error: (err: any) => {
-          console.log(err);
-          this.loader.hide();
-        }
-      })
+
+  }
+
+  onSubmit(data: any) {
+    if (!this.form.valid) {
+      return;
     }
-    )
+    const fileInput = this.form.get("file");
+    const file = fileInput?.value.files[0];
+    this.loader.show();
+    this.api.uploadForm(file, data).subscribe({
+      next: (event: any) => {
+          const response = event as GeneratedEntitty;
+          this.loader.hide();
+          this.router.navigateByUrl(`/g/${response.slug}`);
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.loader.hide();
+      }
+    })
   }
 
 }

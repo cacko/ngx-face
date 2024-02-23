@@ -1,11 +1,16 @@
 app-camera {
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
     width: 100%;
     height: 100%;
     align-items: center;
     justify-content: flex-start;
-    webcam {
-
+    [captured] {
+        img {
+            max-width: 100vh;
+            max-height: 50vh;
+        }
     }
 }

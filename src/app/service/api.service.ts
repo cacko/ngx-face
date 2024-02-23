@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject, of } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { API, GeneratedEntitty } from '../entity/upload.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
+import { Options } from '../entity/view.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,13 @@ export class ApiService {
   ready = this.readySubject.asObservable();
 
   userToken = '';
+
+  private optionsSubject = new BehaviorSubject<Options>({
+    models: [],
+    templates: []
+  });
+  options = this.optionsSubject.asObservable();
+
 
   constructor(
     private http: HttpClient
@@ -37,34 +45,26 @@ export class ApiService {
     });
   }
 
-  uploadForm(file: File, data: object = {}): Observable<HttpEvent<any>> {
+  uploadForm(file: File, data: object = {}): Observable<Object> {
     const formData: FormData = new FormData();
 
     formData.append('file', file);
     formData.append('data', JSON.stringify(data));
 
-    const req = new HttpRequest('POST', `${API.URL}/${API.ACTION_GENERATE}`, formData, {
-      reportProgress: true,
-      responseType: 'json',
+    return this.http.post(`${API.URL}/${API.ACTION_GENERATE}`, formData, {
       headers: this.headers
     });
 
-    return this.http.request(req);
   }
-  upload(dataUrl: string, data: object = {}): Observable<HttpEvent<any>> {
-    console.log(dataUrl);
+  upload(dataUrl: string, data: object = {}): Observable<Object> {
     const formData: FormData = new FormData();
     const imageBlob = this.dataURLtoBlob(dataUrl);
     formData.append('file', imageBlob, `${uuidv4()}.png`);
     formData.append('data', JSON.stringify(data));
 
-    const req = new HttpRequest('POST', `${API.URL}/${API.ACTION_GENERATE}`, formData, {
-      reportProgress: true,
-      responseType: 'json',
+    return this.http.post(`${API.URL}/${API.ACTION_GENERATE}`, formData, {
       headers: this.headers
     });
-
-    return this.http.request(req);
   }
 
   getGenerated(id: string): any {
@@ -79,6 +79,16 @@ export class ApiService {
     });
   }
 
+  getOptions(): void {
+    this.http.get(`${API.URL}/${API.ACTION_OPTIONS}`, {
+      headers: this.headers
+    }).subscribe({
+      next: (data: any) => {
+        const options = data as Options;
+        this.optionsSubject.next(options);
+      }
+    })
+  }
 }
 
 

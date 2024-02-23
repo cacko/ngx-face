@@ -2,6 +2,7 @@ export enum API {
     URL = "https://face-api.cacko.net/api",
     ACTION_GENERATE = "generate",
     ACTION_GENERATED = "generated",
+    ACTION_OPTIONS = "options",
     CDN = "https://cdn.cacko.net/face"
   };
   
@@ -36,6 +37,12 @@ export enum API {
     raw_src: string;
     hash: string;
   };
+
+  export interface OptionsEntity {
+    prompt ?: string;
+    model ?: string;
+    template ?: string;
+  }
   
   export interface GeneratedEntitty {
     slug: string;

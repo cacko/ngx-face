@@ -1,6 +1,6 @@
 @use "@angular/material" as mat;
-
 @use "sass:map";
+@use "./scss/components/generated-card" as generated-card;
 @include mat.core();
 
 $theme-primary: mat.define-palette(mat.$blue-grey-palette, 500);
@@ -53,12 +53,12 @@ $my-theme: mat.define-dark-theme(
     )
   )
 );
+@include generated-card.apply_theme($my-theme);
 @import './scss/components/spacer';
 @import './scss/components/camera';
 @import './scss/components/generated';
 @import './scss/components/home';
 @import './scss/components/login';
-@import './scss/components/generated-card';
 @import './scss/components/loading';
 @import './scss/components/file';
 

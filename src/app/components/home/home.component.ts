@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { GeneratedCardComponent } from '../generated-card/generated-card.component';
-
+import { orderBy } from 'lodash-es';
 
 interface RouteDataEntity {
   data?: GeneratedEntitty[];
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
       next: (data: RouteDataEntity) => {
         console.log(data);
         const entity = data.data as GeneratedEntitty[];
-        this.dataSubject.next(entity);
+        this.dataSubject.next(orderBy(entity, ['last_modified'], ['desc']));
         this.infoSubject.next(entity.length ? null : "No history");
       },
     });

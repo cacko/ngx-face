@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ViewMode } from '../../entity/view.entity';
 import { LoadingComponent } from '../loading/loading.component';
+import { DatabaseService } from '../../service/database.service';
+import { ApiService } from '../../service/api.service';
 @Component({
   selector: 'app-generated-card',
   standalone: true,
@@ -23,7 +25,11 @@ export class GeneratedCardComponent implements OnInit {
   statuses = STATUS;
   loading = false;
 
-  constructor(private elementRef: ElementRef) {
+  constructor(
+    private elementRef: ElementRef, 
+    private db: DatabaseService, 
+    private api: ApiService
+    ) {
 
   }
 
@@ -40,6 +46,7 @@ export class GeneratedCardComponent implements OnInit {
       case STATUS.PENDING:
       case STATUS.STARTED:
         this.loading = true;
+        this.listen(this.data.uid, this.data.slug);
         this.setMode(ViewMode.SOURCE);
         break;
     }
@@ -64,6 +71,30 @@ export class GeneratedCardComponent implements OnInit {
         break;
     }
   }
+
+  private listen(uid: string, slug: string) {
+    const lst = this.db.listen(uid, slug).subscribe((obs) => {
+      switch (obs) {
+        case STATUS.GENERATED:
+        case STATUS.ERROR:
+          this.reload(slug);
+          lst.unsubscribe();
+          this.loading = false;
+      }
+    })
+  }
+
+
+  private reload(slug: string) {
+    this.api.getGenerated(slug).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        const entity = data as GeneratedEntitty;
+        this.data = data;
+      }
+    })
+  }
+
 
   onDelete(ev: MouseEvent) {
     ev.stopPropagation();

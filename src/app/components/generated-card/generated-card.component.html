@@ -1,5 +1,9 @@
 <app-loading *ngIf="loading"></app-loading>
 <div content [routerLink]="'/g/' + data.slug">
+    <div status>
+        <div class="spacer"></div>
+        <div label ngClass="status-{{data.status}}">{{data.status}}</div>
+    </div>
     <div class="spacer"></div>
     <div info>
         <div>
