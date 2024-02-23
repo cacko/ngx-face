@@ -70,7 +70,7 @@ export class AppComponent implements OnInit {
                 .then(() => document.location.reload())
             );
         });
-        this.swUpdate.checkForUpdate();
+        interval(20000).subscribe(() => this.swUpdate.checkForUpdate());
       });
     }
   }
