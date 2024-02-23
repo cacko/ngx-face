@@ -1,0 +1,15 @@
+app-generated {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  img {
+    @media (orientation: landscape) {
+      height: 100%;
+    }
+
+    @media (orientation: portrait) {
+      width: 100%;
+    }
+  }
+}

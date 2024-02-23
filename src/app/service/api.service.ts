@@ -37,15 +37,28 @@ export class ApiService {
     });
   }
 
+  uploadForm(file: File, data: object = {}): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
 
-  upload(action: string, dataUrl: string, data: object = {}): Observable<HttpEvent<any>> {
+    formData.append('file', file);
+    formData.append('data', JSON.stringify(data));
+
+    const req = new HttpRequest('POST', `${API.URL}/${API.ACTION_GENERATE}`, formData, {
+      reportProgress: true,
+      responseType: 'json',
+      headers: this.headers
+    });
+
+    return this.http.request(req);
+  }
+  upload(dataUrl: string, data: object = {}): Observable<HttpEvent<any>> {
     console.log(dataUrl);
     const formData: FormData = new FormData();
     const imageBlob = this.dataURLtoBlob(dataUrl);
     formData.append('file', imageBlob, `${uuidv4()}.png`);
     formData.append('data', JSON.stringify(data));
 
-    const req = new HttpRequest('POST', `${API.URL}/${action}`, formData, {
+    const req = new HttpRequest('POST', `${API.URL}/${API.ACTION_GENERATE}`, formData, {
       reportProgress: true,
       responseType: 'json',
       headers: this.headers

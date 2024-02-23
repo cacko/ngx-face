@@ -25,8 +25,8 @@ export class CameraComponent implements OnInit {
   public multipleWebcamsAvailable = false;
   public deviceId: string = "";
   public videoOptions: MediaTrackConstraints = {
-    width: {ideal: 1024},
-    height: {ideal: 576},
+    width: { ideal: 1024 },
+    height: { ideal: 576 },
     facingMode: "user"
   };
   public errors: WebcamInitError[] = [];
@@ -82,7 +82,7 @@ export class CameraComponent implements OnInit {
   public handleImage(webcamImage: WebcamImage): void {
     this.loader.show();
     this.showWebcam = false;
-    this.api.upload(API.ACTION_GENERATE, webcamImage.imageAsDataUrl).subscribe({
+    this.api.upload(webcamImage.imageAsDataUrl).subscribe({
       next: (event: any) => {
         switch (event.type) {
           case HttpEventType.UploadProgress:

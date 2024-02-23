@@ -9,6 +9,7 @@ import { CameraComponent } from './components/camera/camera.component';
 import { GeneratedComponent } from './components/generated/generated.component';
 import { generatedResolver, generationsResolver } from './service/api.service';
 import { HomeComponent } from './components/home/home.component';
+import { FileComponent } from './components/file/file.component';
 
 /** add redirect URL to login */
 const redirectUnauthorizedToLogin = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -40,8 +41,15 @@ export const routes: Routes = [
         data: { authGuardPipe: redirectUnauthorizedToLogin },
     },
     {
-        path: 'new',
+        path: 'camera',
         component: CameraComponent,
+        pathMatch: 'full',
+        canActivate: [AuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+    },
+    {
+        path: 'file',
+        component: FileComponent,
         pathMatch: 'full',
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },

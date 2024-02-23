@@ -58,6 +58,9 @@ $my-theme: mat.define-dark-theme(
 @import './scss/components/generated';
 @import './scss/components/home';
 @import './scss/components/login';
+@import './scss/components/generated-card';
+@import './scss/components/loading';
+@import './scss/components/file';
 
 html {
     box-sizing: border-box;

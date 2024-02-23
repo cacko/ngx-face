@@ -10,6 +10,16 @@ export enum API {
     JPEG = "image/jpeg",
     WEBP = "image/webp"
   };
+
+  export enum STATUS {
+    STARTED = "started",
+    ERROR = "error",
+    PENDING ="pending",
+    GENERATED = "generated",
+    IN_PROGRESS = "in_progress",
+    IDLE = "idle"
+  };
+  
   
   export const ACCEPTS = [FILETYPE.PNG, FILETYPE.JPEG, FILETYPE.WEBP];
   
@@ -42,4 +52,6 @@ export enum API {
     prompt ?: string;
     num_inferance_steps ?: number;
     scale ?: number;
+    status: STATUS;
+    error: string;
   }

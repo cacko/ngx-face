@@ -47,7 +47,6 @@ export class AppComponent implements OnInit {
     this.userService.user.subscribe((res) => {
       this.user = res;
       this.loader.hide();
-
     });
     this.userService.init();
 

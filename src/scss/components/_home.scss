@@ -1,13 +1,16 @@
 app-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+
   [grid] {
-    display: grid;
+    width: 100%;
+    display: grid;  
+    justify-content: center;
+    align-items: center;
     grid-auto-flow: dense;
     grid-template-rows: masonry;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    [grid-item] {
-        img {
-            width: 100%;
-        }
-    }
+    grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 1fr));
   }
 }

@@ -1,3 +1,5 @@
+<app-loading *ngIf="loading"></app-loading>
 <div *ngIf="($data | async) as data">
-    <img [src]="data.image.raw_src">
+    <img [src]="data.image.raw_src" *ngIf="data.status == status.GENERATED">
+    <img [src]="data.source.raw_src" *ngIf="data.status != status.GENERATED">
 </div>

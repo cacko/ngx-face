@@ -10,11 +10,19 @@
     <button
         mat-icon-button
         aria-label="New Photo"
-        routerLink="/new"
-        *ngIf="url != '/new'"
+        routerLink="/camera"
+        *ngIf="url != '/camera'"
     >
         <mat-icon>photo_camera</mat-icon>
     </button>
+    <button
+    mat-icon-button
+    aria-label="New Photo"
+    routerLink="/file"
+    *ngIf="url != '/file'"
+>
+    <mat-icon>upload</mat-icon>
+</button>
     <button
         mat-icon-button
         aria-label="History"
