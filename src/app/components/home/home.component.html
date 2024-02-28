@@ -12,10 +12,10 @@
     </app-generated-card>
 </div>
 <div
-    *ngIf="($info | async) as info"
+    *ngIf="($data | async)?.length === 0"
     home-status
 >
-    <div>{{info}}</div>
+    <div>No History</div>
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     <div>
         <button

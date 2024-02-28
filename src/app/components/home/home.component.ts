@@ -54,10 +54,6 @@ export class HomeComponent implements OnInit {
   private dataSubject = new BehaviorSubject<GeneratedEntitty[] | null>(null);
   $data = this.dataSubject.asObservable();
 
-  private infoSubject = new BehaviorSubject<string | null>(null);
-  $info = this.infoSubject.asObservable();
-
-
   constructor(
     private activatedRoute: ActivatedRoute
   ) {
@@ -75,7 +71,6 @@ export class HomeComponent implements OnInit {
         const entity = data.data as GeneratedEntitty[];
         const items = entity.filter(d => !d.deleted).sort((a, b) => moment(a.last_modified).isAfter(moment(b.last_modified)) ? -1 : 1)
         this.dataSubject.next(items);
-        this.infoSubject.next(items.length ? null : "No history");
       },
     });
   }

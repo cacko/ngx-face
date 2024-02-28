@@ -1,5 +1,5 @@
 <app-loader *ngIf="loader.$visible | async"></app-loader>
-<mat-toolbar *ngIf="user">
+<mat-toolbar *ngIf="($user | async) as user">
     <button
         mat-icon-button
         aria-label="Home"

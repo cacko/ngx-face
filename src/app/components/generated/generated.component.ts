@@ -61,7 +61,6 @@ export class GeneratedComponent implements OnInit {
           case STATUS.STARTED:
             this.setMode(ViewMode.SOURCE);
             this.listen(entity.uid, entity.slug);
-            this.loading = true;
         }
       },
     });
@@ -141,7 +140,9 @@ export class GeneratedComponent implements OnInit {
         case STATUS.ERROR:
           this.reload(slug);
           lst.unsubscribe();
-          this.loading = false;
+          break;
+        default:
+          this.reload(slug);
       }
     })
   }

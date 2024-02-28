@@ -15,5 +15,9 @@ app-loading {
         text-transform: uppercase;
         font-family: Anta;
     }
+    >app-prompt {
+        background-color: unset !important;
+        color: unset !important;
+    }
 
 }

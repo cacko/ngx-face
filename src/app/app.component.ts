@@ -39,8 +39,9 @@ import { AvatarComponent } from './components/avatar/avatar.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  user: User | null = null;
+  // user: User | null = null;
   url: string = "/";
+  $user = this.userService.user;
 
   constructor(
     public loader: LoaderService,
@@ -54,8 +55,7 @@ export class AppComponent implements OnInit {
     this.iconRegister.setDefaultFontSetClass('material-symbols-sharp');
 
     this.userService.user.subscribe((res) => {
-      this.user = res;
-      this.user?.uid && this.db.init(this.user?.uid);
+      res?.uid && this.db.init(res?.uid);
       this.loader.hide();
     });
     this.userService.init();
