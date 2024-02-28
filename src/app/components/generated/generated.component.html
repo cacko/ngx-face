@@ -1,9 +1,3 @@
-<app-loading
-    [entity]="$data | async"
-    *ngIf="loading"
->
-    In Progress
-</app-loading>
 <div
     *ngIf="($data | async) as data"
     [ngSwitch]="data.status"
@@ -69,7 +63,7 @@
             class="spacer"
             (click)="toggleFit($event)"
         ></div>
-        <div status>
+        <div [attr.status]="data.status" status-line>
             <div label>{{data.status}}</div>
         </div>
         <div class="spacer"></div>
@@ -92,5 +86,21 @@
             </button>
         </div>
     </ng-template>
-    <ng-template [ngSwitchDefault]></ng-template>
+    <ng-template [ngSwitchCase]="status.IN_PROGRESS">
+        <app-loading [entity]="data">In Progress</app-loading>
+    </ng-template>
+
+    <ng-template [ngSwitchDefault]>
+        <div
+            class="spacer"
+            (click)="toggleFit($event)"
+        ></div>
+        <div [attr.status]="data.status" status-line>
+            <div label>{{data.status}}</div>
+        </div>
+        <div class="spacer"></div>
+        <div info>
+            <div timestamp>{{data.last_modified | amTimeAgo}}</div>
+        </div>
+    </ng-template>
 </div>

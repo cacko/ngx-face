@@ -70,19 +70,22 @@ export class ApiService {
 
   delete(id: string): Observable<Object> {
     return this.http.delete(`${API.URL}/${API.ACTION_GENERATED}/${id}`, {
-      headers: this.headers
+      headers: this.headers,
+      withCredentials: true,
     });
   }
 
   getGenerated(id: string): any {
     return this.http.get(`${API.URL}/${API.ACTION_GENERATED}/${id}`, {
-      headers: this.headers
+      headers: this.headers,
+      withCredentials: true,
     });
   }
 
   getGenerations(): any {
     return this.http.get(`${API.URL}/${API.ACTION_GENERATED}`, {
-      headers: this.headers
+      headers: this.headers,
+      withCredentials: true,
     });
   }
 
@@ -105,7 +108,6 @@ export const generatedResolver: ResolveFn<GeneratedEntitty> = (
   state: RouterStateSnapshot
 ) => {
   const id = route.paramMap.get('id')!;
-
   return inject(ApiService).getGenerated(id);
 };
 

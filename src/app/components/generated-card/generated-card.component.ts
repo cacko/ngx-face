@@ -9,10 +9,19 @@ import { ViewMode } from '../../entity/view.entity';
 import { LoadingComponent } from '../loading/loading.component';
 import { DatabaseService } from '../../service/database.service';
 import { ApiService } from '../../service/api.service';
+import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-generated-card',
   standalone: true,
-  imports: [CommonModule, RouterModule, MomentModule, MatButtonModule, MatIconModule, LoadingComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MomentModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    LoadingComponent
+  ],
   templateUrl: './generated-card.component.html',
   styleUrl: './generated-card.component.scss'
 })
@@ -24,13 +33,12 @@ export class GeneratedCardComponent implements OnInit {
   mode: ViewMode = ViewMode.GENERATED;
   modes = ViewMode;
   statuses = STATUS;
-  loading = false;
 
   constructor(
-    private elementRef: ElementRef, 
-    private db: DatabaseService, 
+    private elementRef: ElementRef,
+    private db: DatabaseService,
     private api: ApiService
-    ) {
+  ) {
 
   }
 
@@ -46,7 +54,6 @@ export class GeneratedCardComponent implements OnInit {
       case STATUS.IN_PROGRESS:
       case STATUS.PENDING:
       case STATUS.STARTED:
-        this.loading = true;
         this.listen(this.data.uid, this.data.slug);
         this.setMode(ViewMode.SOURCE);
         break;
@@ -81,7 +88,9 @@ export class GeneratedCardComponent implements OnInit {
         case STATUS.ERROR:
           this.reload(slug);
           lst.unsubscribe();
-          this.loading = false;
+          break;
+        default:
+          this.data.status = obs as STATUS;
       }
     })
   }
@@ -100,14 +109,13 @@ export class GeneratedCardComponent implements OnInit {
 
   onDelete(ev: MouseEvent) {
     ev.stopPropagation();
-    this.loading = true;
     this.api.delete(this.data.slug).subscribe({
       next: (data) => {
         this.deleted.emit(this.data.slug);
-      }, error: (err: any)  => {
+      }, error: (err: any) => {
         console.error(err);
       },
-      complete: () => (this.loading = false)
+      complete: () => {}
     });
   }
 }

@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "@angular/material" as mat;
+@use "../mixin";
 
 @mixin apply-theme($theme) {
   $color-config: mat.get-color-config($theme);
@@ -41,7 +42,7 @@
         }
       }
       app-prompt {
-        background-color: rgba(255,255,255,0.3);
+        background-color: rgba(255,255,255,0.5);
         color: mat.get-color-from-palette($background-palette, status-bar);
       }
       div[info] {
@@ -67,6 +68,17 @@
           font-variant: small-caps;
           font-size: 2.5rem;
         }
+      }
+
+    }
+  }
+  [status-line] {
+    padding: 1rem;
+    width: 100%;
+    text-align: center;
+    @each $status, $color in mixin.status-colors($theme) {
+      &[status="#{$status}"] {
+          background-color: adjust-color($color, $alpha: -0.7);
       }
     }
   }

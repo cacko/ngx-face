@@ -1,38 +1,92 @@
-<app-loading *ngIf="loading">In Progress</app-loading>
-<div content [routerLink]="'/g/' + data.slug">
-    <div status *ngIf="!loading && data.status != statuses.GENERATED">
+<div
+    content
+    [routerLink]="'/g/' + data.slug"
+    [ngSwitch]="data.status"
+>
+    <ng-template [ngSwitchCase]="statuses.GENERATED">
         <div class="spacer"></div>
-        <div label ngClass="status-{{data.status}}">{{data.status}}</div>
-    </div>
-    <div class="spacer"></div>
-    <div info>
-        <div>
-            {{data.last_modified | amTimeAgo}}
+        <div info>
+            <div>{{data.last_modified | amTimeAgo}}</div>
+            <div class="spacer"></div>
+            <div>
+                <button
+                    mat-icon-button
+                    *ngIf="mode == modes.GENERATED"
+                    (click)="onMode($event, modes.SOURCE)"
+                >
+                    <mat-icon>person</mat-icon>
+                </button>
+                <button
+                    mat-icon-button
+                    *ngIf="mode == modes.SOURCE"
+                    (click)="onMode($event, modes.GENERATED)"
+                >
+                    <mat-icon>image</mat-icon>
+                </button>
+            </div>
+            <div>
+                <button
+                    mat-icon-button
+                    (click)="onDelete($event)"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="statuses.IN_PROGRESS">
+        <div class="spacer"></div>
+        <app-loading>In Progress</app-loading>
+        <div class="spacer"></div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="statuses.ERROR">
+        <div class="spacer"></div>
+        <div card-status>
+            <div
+                label
+                [attr.status]="data.status"
+                status-line
+            >
+                {{data.status}}
+            </div>
         </div>
         <div class="spacer"></div>
-        <div *ngIf="data.status == statuses.GENERATED">
-            <button
-                mat-icon-button
-                *ngIf="mode == modes.GENERATED"
-                (click)="onMode($event, modes.SOURCE)"
-            >
-                <mat-icon>person</mat-icon>
-            </button>
-            <button
-                mat-icon-button
-                *ngIf="mode == modes.SOURCE"
-                (click)="onMode($event, modes.GENERATED)"
-            >
-                <mat-icon>image</mat-icon>
-            </button>
+        <div info>
+            <div>{{data.last_modified | amTimeAgo}}</div>
+            <div class="spacer"></div>
+            <div>
+                <button
+                    mat-icon-button
+                    (click)="onDelete($event)"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
         </div>
-        <div>
-            <button
-            mat-icon-button
-            (click)="onDelete($event)"
-        >
-            <mat-icon>delete</mat-icon>
-        </button>
+    </ng-template>
+    <ng-template [ngSwitchDefault]>
+        <div class="spacer"></div>
+        <div card-status>
+            <div
+                label
+                [attr.status]="data.status"
+                status-line
+            >
+                {{data.status}}
+            </div>
         </div>
-    </div>
+        <div class="spacer"></div>
+        <div info>
+            <div>{{data.last_modified | amTimeAgo}}</div>
+            <div class="spacer"></div>
+            <div>
+                <button
+                    mat-icon-button
+                    (click)="onDelete($event)"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+    </ng-template>
 </div>
