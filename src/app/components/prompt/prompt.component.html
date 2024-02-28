@@ -1,4 +1,9 @@
-<div *ngFor="let p of data | pairs" grid>
-    <div label>{{p[0]|camelize}}</div>
-    <div value>{{p[1]}}</div>
+<div *ngFor="let p of data | omit: 'hash' | pairs" grid>
+    <div label>{{p[0]|startCase}}</div>
+    <div value>
+        {{p[1]|toOneLine}}
+        <!-- <button mat-icon-button class="sm" *ngIf="p[0] === 'prompt'" >
+            <mat-icon >content_copy</mat-icon>
+        </button> -->
+    </div>
 </div>

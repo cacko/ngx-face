@@ -2,6 +2,7 @@
 @use "sass:map";
 @use "./scss/components/generated-card" as myGeneratedCard;
 @use "./scss/components/generated" as myGenerated;
+@use "./scss/components/login" as myLogin;
 @include mat.core();
 
 $theme-primary: mat.define-palette(mat.$blue-grey-palette, 500);
@@ -21,9 +22,11 @@ $background-palette: (
   disabled-button-toggle: black,
   unselected-chip: map.get($theme-primary, 700),
   disabled-list-option: rgba(white, 0.12),
-  tooltip: map.get($theme-primary, 700)
+  tooltip: map.get($theme-primary, 700),
 );
-$custom-typography: mat.define-typography-config($font-family: "Anta");
+$custom-typography: mat.define-typography-config(
+  $font-family: "Anta",
+);
 
 $my-theme: mat.define-dark-theme(
   (
@@ -35,7 +38,7 @@ $my-theme: mat.define-dark-theme(
       foreground: mat.$dark-theme-foreground-palette,
     ),
     typography: $custom-typography,
-    density: 0
+    density: 0,
   )
 );
 
@@ -50,58 +53,58 @@ $my-theme: mat.define-dark-theme(
       warn: $theme-warn,
       foreground: mat.$dark-theme-foreground-palette,
       background: $background-palette,
-      is-dark: true
-    )
+      is-dark: true,
+    ),
   )
 );
 @include myGeneratedCard.apply-theme($my-theme);
 @include myGenerated.apply-theme($my-theme);
-@import './scss/components/spacer';
-@import './scss/components/camera';
-@import './scss/components/home';
-@import './scss/components/login';
-@import './scss/components/loading';
-@import './scss/components/file';
-@import './scss/components/prompt';
-@import './scss/components/avatar';
+@include myLogin.apply-theme($my-theme);
+@import "./scss/components/spacer";
+@import "./scss/components/camera";
+@import "./scss/components/home";
+@import "./scss/components/loading";
+@import "./scss/components/file";
+@import "./scss/components/prompt";
+@import "./scss/components/avatar";
+
 html {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    user-select: none;
-  }
-  
-  *,
-  *:before,
-  *:after {
-    box-sizing: inherit;
-    user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-  }
-  
-  html,
-  body {
-    height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  user-select: none;
+  app-root {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    padding: 0;
-    margin: 0;
+    height: 100%;
     overflow: hidden;
+    position: relative;
     user-select: none;
-    app-root {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-      user-select: none;
-    }
-  
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
-  
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

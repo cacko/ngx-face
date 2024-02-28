@@ -120,12 +120,7 @@ export class GeneratedComponent implements OnInit {
       return;
     }
     const prompt = this.dataSubject.value?.prompt as PromptEntity;
-    this.prompt = Object.entries(prompt).reduce((r: any, [k, v]) => {
-      if (!["hash", "template"].includes(k) &&  v != undefined) {
-        r[k] = v;
-      }
-      return r;
-    }, {}) as PromptEntity;
+    this.prompt = prompt;
   }
 
   onDownload(ev: MouseEvent, src: string, name: string) {

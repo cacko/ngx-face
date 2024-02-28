@@ -19,6 +19,41 @@
         <mat-label>Prompt</mat-label>
         <textarea formControlName="prompt" matInput placeholder="generation prompt"></textarea>
       </mat-form-field>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            More options
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field class="example-full-width">
+          <mat-label>Negative prompt</mat-label>
+          <textarea formControlName="negative_prompt" matInput placeholder="generation negative prompt"></textarea>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Guidance Scale</mat-label>
+          <input type="number" min="0" formControlName="guidance_scale" matInput placeholder="amount of noise">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Inference Steps</mat-label>
+          <input type="number" min="4" formControlName="num_inference_steps" matInput placeholder="generation steps">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Scale</mat-label>
+          <input formControlName="scale" type="number" step="0.1" matInput placeholder="scale of the face to keep">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Clip Skip</mat-label>
+          <input formControlName="clip_skip" matInput placeholder="clip skip" type="number" min="0" max="2">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Width</mat-label>
+          <input type="number" min="0" max="1280" formControlName="width" matInput placeholder="width of the result">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Height</mat-label>
+          <input type="number" min="0" max="1280" formControlName="height" matInput placeholder="height of the result">
+        </mat-form-field>
+      </mat-expansion-panel>
       <div buttons>
         <button type="submit" mat-flat-button>
             <mat-icon>outbox</mat-icon>

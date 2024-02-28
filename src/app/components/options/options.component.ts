@@ -9,11 +9,11 @@ import { MatInputModule } from '@angular/material/input';
 import { OptionsEntity } from '../../entity/upload.entity';
 import { MatButtonModule } from '@angular/material/button';
 import { StartCasePipe } from '../../pipes/start-case.pipe';
-
+import { MatExpansionModule } from '@angular/material/expansion';
 @Component({
   selector: 'app-options',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule, StartCasePipe],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule, StartCasePipe, MatExpansionModule],
   templateUrl: './options.component.html',
   styleUrl: './options.component.scss'
 })
@@ -31,7 +31,14 @@ export class OptionsComponent implements OnInit {
     this.form = this.fb.group({
       prompt: [null],
       model: [null],
-      template: [null]
+      template: [null],
+      guidance_scale: [null],
+      num_inference_steps: [null],
+      scale: [null],
+      negative_prompt: [null],
+      clip_skip: [null],
+      width: [null],
+      height: [null]
     });
   }
 

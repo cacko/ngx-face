@@ -1,19 +1,40 @@
-app-login {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  mat-card {
-    mat-card-content {
-      [buttons] {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      [logo] {
-        img {
-          width: 30vh;
+@use "sass:map";
+@use "@angular/material" as mat;
+@use "../mixin";
+
+@mixin apply-theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  $palette: map.get($color-config, primary);
+  $accent: map.get($color-config, accent);
+  $warn: map.get($color-config, warn);
+  $background-palette: map-get(
+    $map: $color-config,
+    $key: background,
+  );
+
+  app-login {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    mat-card {
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      mat-card-content {
+        height: auto;
+        width: auto;
+        [buttons] {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        [logo] {
+          img {
+            width: 30vh;
+          }
         }
       }
     }
