@@ -3,7 +3,7 @@
         <mat-label>Model</mat-label>
         <mat-select formControlName="model">
           @for (model of options.models; track model) {
-            <mat-option [value]="model">{{model}}</mat-option>
+            <mat-option [value]="model">{{model | startCase}}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -11,7 +11,7 @@
         <mat-label>Template</mat-label>
         <mat-select formControlName="template">
           @for (template of options.templates; track template) {
-            <mat-option [value]="template">{{template}}</mat-option>
+            <mat-option [value]="template">{{template | startCase}}</mat-option>
           }
         </mat-select>
       </mat-form-field>

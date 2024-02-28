@@ -8,11 +8,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { OptionsEntity } from '../../entity/upload.entity';
 import { MatButtonModule } from '@angular/material/button';
+import { StartCasePipe } from '../../pipes/start-case.pipe';
 
 @Component({
   selector: 'app-options',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule, StartCasePipe],
   templateUrl: './options.component.html',
   styleUrl: './options.component.scss'
 })
