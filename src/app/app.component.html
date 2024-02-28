@@ -1,5 +1,5 @@
 <app-loader *ngIf="loader.$visible | async"></app-loader>
-<mat-toolbar *ngIf="this.user">
+<mat-toolbar *ngIf="user">
     <button
         mat-icon-button
         aria-label="Home"
@@ -9,7 +9,6 @@
     </button>
     <button
         mat-icon-button
-        aria-label="New Photo"
         routerLink="/camera"
         *ngIf="url != '/camera'"
     >
@@ -17,27 +16,34 @@
     </button>
     <button
         mat-icon-button
-        aria-label="New Photo"
         routerLink="/file"
         *ngIf="url != '/file'"
     >
         <mat-icon>upload</mat-icon>
     </button>
     <span class="spacer"></span>
-
-    <span
-        username
-        class="no-mobile"
-        color="accent"
-    >
-        {{this.user.email | match: '^[^@]+'}}
-    </span>
     <button
         mat-icon-button
-        aria-label="Logout"
-        (click)="logout()"
+        mat-icon-avatar
+        [matMenuTriggerFor]="usermenu"
     >
-        <mat-icon>logout</mat-icon>
+        <app-avatar [user]="user"></app-avatar>
     </button>
+    <mat-menu #usermenu="matMenu">
+        <button
+        mat-menu-item="mat-menu-item"
+    >
+        <mat-icon>person</mat-icon>
+        <span>{{user.displayName}}</span>
+    </button>
+        <mat-divider></mat-divider>
+        <button
+            mat-menu-item="mat-menu-item"
+            (click)="logout()"
+        >
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
 </mat-toolbar>
 <router-outlet></router-outlet>

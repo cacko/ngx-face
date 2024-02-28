@@ -20,7 +20,7 @@
             [data]="prompt"
         ></app-prompt>
         <div info>
-            <div>{{data.last_modified | amTimeAgo}}</div>
+            <div timestamp>{{data.last_modified | amTimeAgo}}</div>
             <div class="spacer"></div>
             <button
                 mat-icon-button
@@ -74,7 +74,7 @@
         </div>
         <div class="spacer"></div>
         <div info>
-            <div>{{data.last_modified | amTimeAgo}}</div>
+            <div timestamp>{{data.last_modified | amTimeAgo}}</div>
             <div class="spacer"></div>
             <button
                 mat-icon-button

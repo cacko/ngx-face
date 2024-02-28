@@ -13,8 +13,9 @@
 
     app-generated-card {
         width: 100%;
-        height: 300px;
-        background-position: center;
+        aspect-ratio: 1;
+        height: auto;
+        background-position: top center;
         background-size: cover;
         background-repeat: no-repeat;
         border: 2px solid black;

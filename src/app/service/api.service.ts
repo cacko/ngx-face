@@ -63,7 +63,8 @@ export class ApiService {
     formData.append('data', JSON.stringify(data));
 
     return this.http.post(`${API.URL}/${API.ACTION_GENERATE}`, formData, {
-      headers: this.headers
+      headers: this.headers,
+      withCredentials: true,
     });
   }
 
@@ -87,7 +88,8 @@ export class ApiService {
 
   getOptions(): void {
     this.http.get(`${API.URL}/${API.ACTION_OPTIONS}`, {
-      headers: this.headers
+      headers: this.headers,
+      withCredentials: true,
     }).subscribe({
       next: (data: any) => {
         const options = data as Options;

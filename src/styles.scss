@@ -63,7 +63,7 @@ $my-theme: mat.define-dark-theme(
 @import './scss/components/loading';
 @import './scss/components/file';
 @import './scss/components/prompt';
-
+@import './scss/components/avatar';
 html {
     box-sizing: border-box;
     padding: 0;
@@ -75,6 +75,9 @@ html {
   *:before,
   *:after {
     box-sizing: inherit;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
   }
   
   html,

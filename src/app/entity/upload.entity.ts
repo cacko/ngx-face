@@ -1,3 +1,5 @@
+import { PromptEntity } from "./view.entity";
+
 export enum API {
     URL = "https://face-api.cacko.net/api",
     ACTION_GENERATE = "generate",
@@ -50,17 +52,9 @@ export enum API {
     last_modified: string;
     clip_skip ?: number;
     deleted: boolean;
-    guidance_scale ?: number;
-    height ?: number;
-    width ?: number;
     image : ApiImage;
     source : ApiImage;
-    template ?: string;
-    model ?: string;
-    prompt ?: string;
-    num_inference_steps ?: number;
-    negative_prompt ?: string;
-    scale ?: number;
+    prompt : PromptEntity;
     status: STATUS;
     error: string;
   }

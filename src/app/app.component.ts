@@ -14,6 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgPipesModule } from 'ngx-pipes';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { DatabaseService } from './service/database.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { AvatarComponent } from './components/avatar/avatar.component';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +30,10 @@ import { DatabaseService } from './service/database.service';
     MatButtonModule,
     NgPipesModule,
     RouterModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule,
+    MatDividerModule,
+    AvatarComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

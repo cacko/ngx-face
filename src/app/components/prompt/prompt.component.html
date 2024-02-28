@@ -1,4 +1,4 @@
 <div *ngFor="let p of data | pairs" grid>
-    <div label>{{p[0]}}</div>
+    <div label>{{p[0]|camelize}}</div>
     <div value>{{p[1]}}</div>
 </div>

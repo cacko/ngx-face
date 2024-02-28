@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { DatabaseService } from '../../service/database.service';
-import { PromptEntity, ScreenFit, ViewMode, fromGenerated } from '../../entity/view.entity';
+import { PromptEntity, ScreenFit, ViewMode } from '../../entity/view.entity';
 import { MomentModule } from 'ngx-moment';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -120,7 +120,13 @@ export class GeneratedComponent implements OnInit {
       this.prompt = null;
       return;
     }
-    this.prompt = fromGenerated(this.dataSubject.value as GeneratedEntitty);
+    const prompt = this.dataSubject.value?.prompt as PromptEntity;
+    this.prompt = Object.entries(prompt).reduce((r: any, [k, v]) => {
+      if (!["hash", "template"].includes(k) &&  v != undefined) {
+        r[k] = v;
+      }
+      return r;
+    }, {}) as PromptEntity;
   }
 
   onDownload(ev: MouseEvent, src: string, name: string) {

@@ -1,0 +1,21 @@
+app-avatar {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    border-radius: 50%;
+    user-select: none !important;
+
+}
+[mat-icon-avatar] {
+    padding: 0.3rem !important;
+    user-select: none;
+
+}
+
+[mat-menu-item="mat-menu-item"] {
+    user-select: none;
+}

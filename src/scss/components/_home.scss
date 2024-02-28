@@ -3,7 +3,8 @@ app-home {
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
-
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   [grid] {
     width: 100%;
     display: grid;
