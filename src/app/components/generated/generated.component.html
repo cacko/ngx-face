@@ -14,6 +14,12 @@
         ></app-prompt>
         <div info>
             <div timestamp>{{data.last_modified | amTimeAgo}}</div>
+            <button
+                mat-icon-button
+                (click)="onDownload($event, data.image.raw_src, data.slug)"
+            >
+                <mat-icon>replay</mat-icon>
+            </button>
             <div class="spacer"></div>
             <button
                 mat-icon-button
@@ -62,7 +68,10 @@
             class="spacer"
             (click)="toggleFit($event)"
         ></div>
-        <div [attr.status]="data.status" status-line>
+        <div
+            [attr.status]="data.status"
+            status-line
+        >
             <div label>{{data.status}}</div>
         </div>
         <div class="spacer"></div>
@@ -94,7 +103,10 @@
             class="spacer"
             (click)="toggleFit($event)"
         ></div>
-        <div [attr.status]="data.status" status-line>
+        <div
+            [attr.status]="data.status"
+            status-line
+        >
             <div label>{{data.status}}</div>
         </div>
         <div class="spacer"></div>

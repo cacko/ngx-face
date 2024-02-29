@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-
+import {MatRippleModule} from '@angular/material/core'; 
 enum LOGIN_MODE {
   PASSWORD = 'password',
   MAGIC = 'magic',
@@ -17,7 +17,7 @@ enum LOGIN_MODE {
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
-  imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule],
+  imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule, MatRippleModule],
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
       })
       .catch((err: FirebaseError) => {
         this.errorMessage = err.message;
+        this.loader.hide();
       });
   }
 

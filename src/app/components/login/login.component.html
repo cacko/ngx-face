@@ -14,22 +14,20 @@
 <ng-template #showLogin>
     <mat-card appearance="raised">
         <mat-card-content>
-            <div logo>
-                <img src="/assets/logo.webp">
-            </div>
+            <button
+                login
+                mat-icon-button
+                (click)="login($event)"
+                matRipple
+                [matRippleCentered]="true"
+                [matRippleDisabled]="false"
+                [matRippleUnbounded]="false"
+                aria-level="Click to login"
+            >
+            </button>
             <div buttons>
                 <div *ngIf="errorMessage">
                     <p errors>{{ errorMessage }}</p>
-                </div>
-                <div>
-                    <button
-                        mat-flat-button
-                        color="primary"
-                        (click)="login($event)"
-                    >
-                        <mat-icon>login</mat-icon>
-                        <div>Login with Google</div>
-                    </button>
                 </div>
             </div>
         </mat-card-content>

@@ -142,6 +142,10 @@ export class GeneratedComponent implements OnInit {
     })
   }
 
+  onReplay(ev: MouseEvent) {
+    ev.stopPropagation();
+  }
+
 
   private reload(slug: string) {
     this.api.getGenerated(slug).subscribe({

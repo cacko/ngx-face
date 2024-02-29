@@ -10,6 +10,7 @@ import { GeneratedComponent } from './components/generated/generated.component';
 import { generatedResolver, generationsResolver } from './service/api.service';
 import { HomeComponent } from './components/home/home.component';
 import { FileComponent } from './components/file/file.component';
+import { ReplayComponent } from './components/replay/replay.component';
 
 /** add redirect URL to login */
 const redirectUnauthorizedToLogin = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -57,6 +58,16 @@ export const routes: Routes = [
     {
         path: 'g/:id',
         component: GeneratedComponent,
+        pathMatch: 'full',
+        resolve: {
+            data: generatedResolver,
+        },
+        canActivate: [AuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+    },
+    {
+        path: 're/:id',
+        component: ReplayComponent,
         pathMatch: 'full',
         resolve: {
             data: generatedResolver,
