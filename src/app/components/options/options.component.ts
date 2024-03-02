@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,10 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { ApiService } from '../../service/api.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { OptionsEntity } from '../../entity/upload.entity';
 import { MatButtonModule } from '@angular/material/button';
 import { StartCasePipe } from '../../pipes/start-case.pipe';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { PromptEntity } from '../../entity/view.entity';
 @Component({
   selector: 'app-options',
   standalone: true,
@@ -20,7 +20,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 export class OptionsComponent implements OnInit {
   form: FormGroup;
 
-  @Output() submit = new EventEmitter<OptionsEntity>();
+  @Output() submit = new EventEmitter<PromptEntity>();
+  @Input() prompt ?: PromptEntity|null = null;
 
   $options = this.api.options;
 
@@ -43,11 +44,14 @@ export class OptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.prompt) {
+      this.form.patchValue(this.prompt);
+    }
   }
 
   onSubmit(ev: SubmitEvent) {
     ev.preventDefault();
     ev.stopPropagation();
-    this.submit.emit(this.form.value)
+    this.form.valid && this.submit.emit(this.form.value)
   }
 }

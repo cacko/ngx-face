@@ -55,7 +55,11 @@ export class AppComponent implements OnInit {
     this.iconRegister.setDefaultFontSetClass('material-symbols-sharp');
 
     this.userService.user.subscribe((res) => {
-      res?.uid && this.db.init(res?.uid);
+      if (res?.uid) {
+        this.db.init(res?.uid);
+      } else {
+        this.db.deInit();
+      }
       this.loader.hide();
     });
     this.userService.init();

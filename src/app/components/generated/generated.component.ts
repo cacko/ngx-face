@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { GeneratedEntitty, STATUS } from '../../entity/upload.entity';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
@@ -20,7 +20,7 @@ interface RouteDataEntity {
 @Component({
   selector: 'app-generated',
   standalone: true,
-  imports: [CommonModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent],
+  imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent],
   templateUrl: './generated.component.html',
   styleUrl: './generated.component.scss'
 })
@@ -40,7 +40,8 @@ export class GeneratedComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private api: ApiService,
     private db: DatabaseService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private router: Router
   ) { }
 
 
@@ -56,9 +57,7 @@ export class GeneratedComponent implements OnInit {
           case STATUS.ERROR:
             this.setMode(ViewMode.SOURCE);
             break;
-          case STATUS.IN_PROGRESS:
-          case STATUS.PENDING:
-          case STATUS.STARTED:
+          default:
             this.setMode(ViewMode.SOURCE);
             this.listen(entity.uid, entity.slug);
         }
@@ -128,24 +127,27 @@ export class GeneratedComponent implements OnInit {
     saveAs(src, `${name}.png`);
   }
 
+  onReplay(ev: MouseEvent, slug: string) {
+    ev.stopPropagation();
+    this.router.navigateByUrl(`re/${slug}`);
+  }
+
   private listen(uid: string, slug: string) {
     const lst = this.db.listen(uid, slug).subscribe((obs) => {
+      if (obs === null) {
+        return;
+      }
       switch (obs) {
         case STATUS.GENERATED:
         case STATUS.ERROR:
-          this.reload(slug);
           lst.unsubscribe();
+          this.reload(slug);
           break;
         default:
           this.reload(slug);
       }
     })
   }
-
-  onReplay(ev: MouseEvent) {
-    ev.stopPropagation();
-  }
-
 
   private reload(slug: string) {
     this.api.getGenerated(slug).subscribe({

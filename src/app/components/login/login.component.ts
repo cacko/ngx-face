@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import {MatRippleModule} from '@angular/material/core'; 
+import { timer } from 'rxjs';
 enum LOGIN_MODE {
   PASSWORD = 'password',
   MAGIC = 'magic',
@@ -23,6 +24,7 @@ enum LOGIN_MODE {
 export class LoginComponent implements OnInit {
   private redirectTo: string = '/';
   errorMessage: string | null = null;
+  show_login = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,6 +49,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loader.hide();
+    timer(10000).subscribe(() => (this.show_login = true));
     this.activatedRoute.queryParams.subscribe((qp: any) => {
       this.redirectTo = qp.redirectTo || '/';
       return;

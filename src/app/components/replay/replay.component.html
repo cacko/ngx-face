@@ -1,1 +1,4 @@
-<p>replay works!</p>
+<div preview>
+    <img [src]="data?.source?.webp_src">
+</div>
+<app-options [prompt]="data?.prompt" (submit)="onSubmit($event)"></app-options>

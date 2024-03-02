@@ -83,6 +83,9 @@ export class GeneratedCardComponent implements OnInit {
 
   private listen(uid: string, slug: string) {
     const lst = this.db.listen(uid, slug).subscribe((obs) => {
+      if (obs === null) {
+        return;
+      }
       switch (obs) {
         case STATUS.GENERATED:
         case STATUS.ERROR:

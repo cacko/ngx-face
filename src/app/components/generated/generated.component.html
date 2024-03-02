@@ -16,7 +16,7 @@
             <div timestamp>{{data.last_modified | amTimeAgo}}</div>
             <button
                 mat-icon-button
-                (click)="onDownload($event, data.image.raw_src, data.slug)"
+                (click)="onReplay($event, data.slug)"
             >
                 <mat-icon>replay</mat-icon>
             </button>

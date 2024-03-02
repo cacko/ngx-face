@@ -24,6 +24,13 @@
                 [matRippleUnbounded]="false"
                 aria-level="Click to login"
             >
+                <div
+                    *ngIf="show_login"
+                    click-to-login
+                    class="animate__animated animate__heartBeat animate__slower animate__infinite"
+                >
+                    click to login
+                </div>
             </button>
             <div buttons>
                 <div *ngIf="errorMessage">
