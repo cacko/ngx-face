@@ -7,6 +7,7 @@
     *ngIf="showWebcam"
     [allowCameraSwitch]="allowCameraSwitch"
     [switchCamera]="nextWebcamObservable"
+    [mirrorImage]="mirrorImage"
     [videoOptions]="videoOptions"
     [imageQuality]="1"
     (cameraSwitched)="cameraWasSwitched($event)"

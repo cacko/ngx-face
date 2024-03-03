@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class CameraComponent implements OnInit {
 
   // toggle webcam on/off
+  public mirrorImage = "never";
   public showWebcam = true;
   public allowCameraSwitch = false;
   public multipleWebcamsAvailable = false;
