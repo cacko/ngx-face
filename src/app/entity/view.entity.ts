@@ -1,3 +1,6 @@
+import { ListenEvent } from 'rxfire/database';
+
+
 export enum ViewMode {
     GENERATED = "generated",
     SOURCE = "source"
@@ -24,4 +27,9 @@ export interface PromptEntity {
     height?: number;
     width?: number;
     seed ?: number;
+}
+
+export interface ChangeEntity {
+    event: ListenEvent;
+    slug: string;
 }

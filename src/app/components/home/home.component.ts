@@ -16,6 +16,10 @@ import {
 } from '@angular/animations';
 import moment from 'moment';
 import { MatIconModule } from '@angular/material/icon';
+import { DatabaseService } from '../../service/database.service';
+import { ChangeEntity } from '../../entity/view.entity';
+import { ListenEvent } from '@angular/fire/database';
+import { ApiService } from '../../service/api.service';
 
 interface RouteDataEntity {
   data?: GeneratedEntitty[];
@@ -55,7 +59,9 @@ export class HomeComponent implements OnInit {
   $data = this.dataSubject.asObservable();
 
   constructor(
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private db: DatabaseService,
+    private api: ApiService
   ) {
 
   }
@@ -71,8 +77,37 @@ export class HomeComponent implements OnInit {
         const entity = data.data as GeneratedEntitty[];
         const items = entity.sort((a, b) => moment(a.last_modified).isAfter(moment(b.last_modified)) ? -1 : 1)
         this.dataSubject.next(items);
+        this.db.$change.subscribe((change: ChangeEntity | null) => {
+          switch (change?.event) {
+            case ListenEvent.added:
+              !this.exists(change.slug) && this.onAdded(change.slug);
+              break;
+            case ListenEvent.removed:
+              this.exists(change.slug) && this.onRemoved(change.slug);
+              break;
+          }
+        });
       },
     });
+  }
+
+  private exists(slug: string): boolean {
+    return this.dataSubject.value?.map((it) => it.slug).includes(slug) || false;
+  }
+
+  private onAdded(slug: string) {
+    this.api.getGenerated(slug).subscribe({
+      next: (data: any) => {
+        const item = data as GeneratedEntitty;
+        const items = this.dataSubject.value || [];
+        this.dataSubject.next([item].concat(items));
+      },
+      error: () => { }
+    })
+  }
+
+  private onRemoved(slug: string) {
+    this.onDelete(slug);
   }
 
 

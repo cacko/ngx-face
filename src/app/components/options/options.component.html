@@ -1,13 +1,4 @@
 <form [formGroup]="form" (submit)="onSubmit($event)">
-    <mat-form-field *ngIf="($options | async) as options">
-        <mat-label>Model</mat-label>
-        <mat-select formControlName="model">
-          <mat-option>-None-</mat-option>
-          @for (model of options.models; track model) {
-            <mat-option [value]="model">{{model | startCase}}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
       <mat-form-field *ngIf="($options | async) as options">
         <mat-label>Template</mat-label>
         <mat-select formControlName="template">
@@ -27,6 +18,15 @@
             More options
           </mat-panel-title>
         </mat-expansion-panel-header>
+        <mat-form-field *ngIf="($options | async) as options">
+          <mat-label>Model</mat-label>
+          <mat-select formControlName="model">
+            <mat-option>-None-</mat-option>
+            @for (model of options.models; track model) {
+              <mat-option [value]="model">{{model | startCase}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>Negative prompt</mat-label>
           <textarea rows=3 formControlName="negative_prompt" matInput placeholder="generation negative prompt"></textarea>

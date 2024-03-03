@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Database, objectVal, ref, stateChanges, DataSnapshot } from '@angular/fire/database';
-
+import { Database, ref, stateChanges, DataSnapshot } from '@angular/fire/database';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { STATUS } from '../entity/upload.entity';
-
+import { QueryChange, ListenEvent } from 'rxfire/database';
+import { ChangeEntity } from '../entity/view.entity';
 
 interface Listeners {
   [key: string]: BehaviorSubject<STATUS | null>;
@@ -20,7 +20,10 @@ export class DatabaseService {
 
   subs: Listeners = {};
   statuses: Statuses = {};
-  private listLst ?: Subscription|null = null;
+  private listLst?: Subscription | null = null;
+
+  private changeSubject = new BehaviorSubject<ChangeEntity | null>(null);
+  $change = this.changeSubject.asObservable();
 
   constructor(
     private db: Database
@@ -29,13 +32,23 @@ export class DatabaseService {
   init(uid: string) {
     const path = `generation/${uid}`;
     const list = ref(this.db, path);
-    this.listLst = stateChanges(list).subscribe((change: any) => {
+    this.listLst = stateChanges(list).subscribe((change: QueryChange) => {
       const snapshot: DataSnapshot = change.snapshot;
-      const key = snapshot.key;
+      const key = snapshot.key as string;
+      switch (change.event) {
+        case ListenEvent.added:
+        case ListenEvent.removed:
+          this.changeSubject.next({
+            event: change.event,
+            slug: key
+          })
+          break;
+      }
       const gPath = `${path}/${key}`;
       this.createListener(gPath);
       const result = snapshot.val().status;
-      this.subs[gPath].next(result)
+      this.subs[gPath].next(result);
+
     })
   }
 
