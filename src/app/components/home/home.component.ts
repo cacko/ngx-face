@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GeneratedEntitty } from '../../entity/upload.entity';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
@@ -95,6 +95,7 @@ export class HomeComponent implements OnInit {
     return this.dataSubject.value?.map((it) => it.slug).includes(slug) || false;
   }
 
+
   private onAdded(slug: string) {
     this.api.getGenerated(slug).subscribe({
       next: (data: any) => {
@@ -103,7 +104,7 @@ export class HomeComponent implements OnInit {
         this.dataSubject.next([item].concat(items));
       },
       error: () => { }
-    })
+    });
   }
 
   private onRemoved(slug: string) {

@@ -61,7 +61,6 @@ export class ApiService {
     const imageBlob = this.dataURLtoBlob(dataUrl);
     formData.append('file', imageBlob, `${uuidv4()}.png`);
     formData.append('data', JSON.stringify(data));
-
     return this.http.post(`${API.URL}/${API.ACTION_GENERATE}`, formData, {
       headers: this.headers,
       withCredentials: true,
