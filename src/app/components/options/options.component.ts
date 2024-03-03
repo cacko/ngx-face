@@ -39,7 +39,6 @@ export class OptionsComponent implements OnInit {
       negative_prompt: [null],
       clip_skip: [null],
       seed: [null],
-      strength: [null],
       width: [null],
       height: [null]
     });
@@ -58,7 +57,6 @@ export class OptionsComponent implements OnInit {
         negative_prompt: null,
         clip_skip: null,
         seed: null,
-        strength: null,
         num_inference_steps: null
       });
     })
