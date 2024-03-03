@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
     this.activatedRoute.data.subscribe({
       next: (data: RouteDataEntity) => {
         const entity = data.data as GeneratedEntitty[];
-        const items = entity.filter(d => !d.deleted).sort((a, b) => moment(a.last_modified).isAfter(moment(b.last_modified)) ? -1 : 1)
+        const items = entity.sort((a, b) => moment(a.last_modified).isAfter(moment(b.last_modified)) ? -1 : 1)
         this.dataSubject.next(items);
       },
     });

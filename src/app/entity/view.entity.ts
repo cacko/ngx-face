@@ -24,4 +24,5 @@ export interface PromptEntity {
     height?: number;
     width?: number;
     seed ?: number;
+    strength ?: number;
 }

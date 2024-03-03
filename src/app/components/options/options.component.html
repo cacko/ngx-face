@@ -2,6 +2,7 @@
     <mat-form-field *ngIf="($options | async) as options">
         <mat-label>Model</mat-label>
         <mat-select formControlName="model">
+          <mat-option>-None-</mat-option>
           @for (model of options.models; track model) {
             <mat-option [value]="model">{{model | startCase}}</mat-option>
           }
@@ -10,6 +11,7 @@
       <mat-form-field *ngIf="($options | async) as options">
         <mat-label>Template</mat-label>
         <mat-select formControlName="template">
+          <mat-option>-None-</mat-option>
           @for (template of options.templates; track template) {
             <mat-option [value]="template">{{template | startCase}}</mat-option>
           }
@@ -48,6 +50,10 @@
         <mat-form-field class="example-full-width">
           <mat-label>Seed</mat-label>
           <input formControlName="seed" matInput placeholder="Seed" type="number" min="-1">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Strength</mat-label>
+          <input formControlName="strength" type="number" step="0.1" matInput placeholder="strength of the face to keep">
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>Width</mat-label>

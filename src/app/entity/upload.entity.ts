@@ -51,7 +51,6 @@ export enum API {
     uid: string;
     last_modified: string;
     clip_skip ?: number;
-    deleted: boolean;
     image : ApiImage;
     source : ApiImage;
     prompt : PromptEntity;

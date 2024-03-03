@@ -78,20 +78,6 @@
         <div info>
             <div timestamp>{{data.last_modified | amTimeAgo}}</div>
             <div class="spacer"></div>
-            <button
-                mat-icon-button
-                *ngIf="mode == modes.GENERATED"
-                (click)="onMode($event, modes.SOURCE)"
-            >
-                <mat-icon>fit_screen</mat-icon>
-            </button>
-            <button
-                mat-icon-button
-                *ngIf="mode == modes.SOURCE"
-                (click)="onMode($event, modes.GENERATED)"
-            >
-                <mat-icon>fullscreen</mat-icon>
-            </button>
         </div>
     </ng-template>
     <ng-template [ngSwitchCase]="status.IN_PROGRESS">

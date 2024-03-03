@@ -21,7 +21,7 @@ export class OptionsComponent implements OnInit {
   form: FormGroup;
 
   @Output() submit = new EventEmitter<PromptEntity>();
-  @Input() prompt ?: PromptEntity|null = null;
+  @Input() prompt?: PromptEntity | null = null;
 
   $options = this.api.options;
 
@@ -39,6 +39,7 @@ export class OptionsComponent implements OnInit {
       negative_prompt: [null],
       clip_skip: [null],
       seed: [null],
+      strength: [null],
       width: [null],
       height: [null]
     });
@@ -48,6 +49,19 @@ export class OptionsComponent implements OnInit {
     if (this.prompt) {
       this.form.patchValue(this.prompt);
     }
+    this.form.get("template")?.valueChanges.subscribe((value: any) => {
+      value && this.form.patchValue({
+        prompt: null,
+        model: null,
+        guidance_scale: null,
+        scale: null,
+        negative_prompt: null,
+        clip_skip: null,
+        seed: null,
+        strength: null,
+        num_inference_steps: null
+      });
+    })
   }
 
   onClear(ev: MouseEvent) {

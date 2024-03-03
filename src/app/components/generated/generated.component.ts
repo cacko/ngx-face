@@ -140,11 +140,13 @@ export class GeneratedComponent implements OnInit {
       switch (obs) {
         case STATUS.GENERATED:
         case STATUS.ERROR:
-          this.reload(slug);
-          lst.unsubscribe();
+          setTimeout(() => {
+            this.reload(slug);
+            lst.unsubscribe();
+          });
           break;
         default:
-          this.reload(slug);
+          setTimeout(() => this.reload(slug));
       }
     })
   }
@@ -154,6 +156,7 @@ export class GeneratedComponent implements OnInit {
       next: (data: any) => {
         const entity = data as GeneratedEntitty;
         this.dataSubject.next(entity);
+        console.log(entity);
         this.setMode(entity.status == STATUS.GENERATED ? ViewMode.GENERATED : ViewMode.SOURCE);
       }
     })

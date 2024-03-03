@@ -89,8 +89,10 @@ export class GeneratedCardComponent implements OnInit {
       switch (obs) {
         case STATUS.GENERATED:
         case STATUS.ERROR:
-          this.reload(slug);
-          lst.unsubscribe();
+          setTimeout(() => {
+            this.reload(slug);
+            lst.unsubscribe();
+          });
           break;
         default:
           this.data.status = obs as STATUS;
