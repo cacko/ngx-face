@@ -156,7 +156,6 @@ export class GeneratedComponent implements OnInit {
       next: (data: any) => {
         const entity = data as GeneratedEntitty;
         this.dataSubject.next(entity);
-        console.log(entity);
         this.setMode(entity.status == STATUS.GENERATED ? ViewMode.GENERATED : ViewMode.SOURCE);
       }
     })
