@@ -46,6 +46,10 @@
           <input formControlName="clip_skip" matInput placeholder="clip skip" type="number" min="0" max="2">
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-label>Seed</mat-label>
+          <input formControlName="seed" matInput placeholder="Seed" type="number" min="-1">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
           <mat-label>Width</mat-label>
           <input type="number" min="0" max="1280" formControlName="width" matInput placeholder="width of the result">
         </mat-form-field>
@@ -59,5 +63,9 @@
             <mat-icon>outbox</mat-icon>
             Submit
         </button>
+        <button color="warn" mat-flat-button (click)="onClear($event)">
+          <mat-icon>cancel</mat-icon>
+          Clear
+      </button>
       </div>
 </form>

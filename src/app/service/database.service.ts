@@ -45,8 +45,7 @@ export class DatabaseService {
     this.statuses = {};
   }
 
-  private createListener(gPath: string) {
-    const path = `generation/${gPath}`;
+  private createListener(path: string) {
     if (path in this.statuses) {
       return;
     }
@@ -59,7 +58,7 @@ export class DatabaseService {
 
   listen(uid: string, slug: string): Observable<STATUS | null> {
     const path = `generation/${uid}/${slug}`;
-    this.createListener(`${uid}/${slug}`);
+    this.createListener(path);
     return this.statuses[path];
   }
 

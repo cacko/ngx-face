@@ -38,6 +38,7 @@ export class OptionsComponent implements OnInit {
       scale: [null],
       negative_prompt: [null],
       clip_skip: [null],
+      seed: [null],
       width: [null],
       height: [null]
     });
@@ -47,6 +48,12 @@ export class OptionsComponent implements OnInit {
     if (this.prompt) {
       this.form.patchValue(this.prompt);
     }
+  }
+
+  onClear(ev: MouseEvent) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    this.form.reset();
   }
 
   onSubmit(ev: SubmitEvent) {

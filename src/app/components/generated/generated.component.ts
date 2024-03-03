@@ -140,8 +140,8 @@ export class GeneratedComponent implements OnInit {
       switch (obs) {
         case STATUS.GENERATED:
         case STATUS.ERROR:
-          lst.unsubscribe();
           this.reload(slug);
+          lst.unsubscribe();
           break;
         default:
           this.reload(slug);
