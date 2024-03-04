@@ -1,11 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, Subject, of } from 'rxjs';
 import { API, GeneratedEntitty } from '../entity/upload.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
 import { Options } from '../entity/view.entity';
+
+
+// const URL = 'https://api.punkapi.com/v2/beers';@Injectable({
+//   providedIn: 'root'
+// })
+// export class HttpService {
+//   public responseCache = new Map();constructor(private http: HttpClient) {}public getBeerList(): Observable<any> {
+//     const beersFromCache = this.responseCache.get(URL);
+//     if (beersFromCache) {
+//       return of(beersFromCache);
+//     }
+//     const response = this.http.get<any>(URL);
+//     response.subscribe(beers => this.responseCache.set(URL, beers));
+//     return response;
+//   }
+// }
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +33,6 @@ export class ApiService {
   ready = this.readySubject.asObservable();
 
   userToken = '';
-
-  private optionsSubject = new BehaviorSubject<Options>({
-    models: [],
-    templates: []
-  });
-  options = this.optionsSubject.asObservable();
-
 
   constructor(
     private http: HttpClient
@@ -86,18 +95,6 @@ export class ApiService {
       headers: this.headers,
       withCredentials: true,
     });
-  }
-
-  getOptions(): void {
-    this.http.get(`${API.URL}/${API.ACTION_OPTIONS}`, {
-      headers: this.headers,
-      withCredentials: true,
-    }).subscribe({
-      next: (data: any) => {
-        const options = data as Options;
-        this.optionsSubject.next(options);
-      }
-    })
   }
 }
 

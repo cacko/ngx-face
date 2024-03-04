@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { StartCasePipe } from '../../pipes/start-case.pipe';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PromptEntity } from '../../entity/view.entity';
+import { DatabaseService } from '../../service/database.service';
 @Component({
   selector: 'app-options',
   standalone: true,
@@ -23,11 +24,12 @@ export class OptionsComponent implements OnInit {
   @Output() submit = new EventEmitter<PromptEntity>();
   @Input() prompt?: PromptEntity | null = null;
 
-  $options = this.api.options;
+  $options = this.db.options;
 
   constructor(
     private fb: FormBuilder,
-    private api: ApiService
+    private api: ApiService,
+    private db: DatabaseService
   ) {
     this.form = this.fb.group({
       prompt: [null],

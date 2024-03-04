@@ -6,10 +6,9 @@ app-prompt {
     flex-direction: column;
     padding: 0.5rem;
     [grid] {
-        display: grid;
-        grid-template-columns: auto 2fr;
-        column-gap: 0.5rem;
+        display: block;
         [label] {
+            display: inline;
             text-align: right;
             font-weight: bold;
             font-size: 120%;
@@ -17,6 +16,7 @@ app-prompt {
             text-transform: lowercase;
         }
         [value] {
+            display: inline;
             font-family: 'Share Tech Mono';
             button {
                 @include mat.button-density(-5);
