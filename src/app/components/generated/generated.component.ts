@@ -55,6 +55,7 @@ export class GeneratedComponent implements OnInit {
         this.dataSubject.next(entity);
         switch (entity.status) {
           case STATUS.GENERATED:
+            this.setMode(ViewMode.GENERATED);
             this.setBackground(this.dataSubject.value?.image.raw_src || "");
             break;
           case STATUS.ERROR:
