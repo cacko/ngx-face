@@ -154,7 +154,15 @@ export class GeneratedComponent implements OnInit {
       next: (data: any) => {
         const entity = data as GeneratedEntitty;
         this.dataSubject.next(entity);
-        this.setMode(entity.status == STATUS.GENERATED ? ViewMode.GENERATED : ViewMode.SOURCE);
+        switch (entity.status) {
+          case STATUS.GENERATED:
+            this.setBackground(entity.image.raw_src || "");
+            this.setMode(ViewMode.GENERATED);
+            break;
+          default:
+            this.setMode(ViewMode.SOURCE);
+            break;
+        }
       }
     })
   }
