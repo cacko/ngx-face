@@ -5,6 +5,7 @@ app-prompt {
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
+    z-index: 1;
     [grid] {
         display: block;
         [label] {

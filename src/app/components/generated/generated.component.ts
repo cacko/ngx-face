@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { GeneratedEntitty, STATUS } from '../../entity/upload.entity';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { PromptComponent } from '../prompt/prompt.component';
 import { saveAs } from 'file-saver';
+import { OverlayComponent } from '../overlay/overlay.component';
 
 interface RouteDataEntity {
   data?: GeneratedEntitty;
@@ -20,10 +21,11 @@ interface RouteDataEntity {
 @Component({
   selector: 'app-generated',
   standalone: true,
-  imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent],
+  imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent, OverlayComponent],
   templateUrl: './generated.component.html',
   styleUrl: './generated.component.scss'
 })
+
 export class GeneratedComponent implements OnInit {
 
   private dataSubject = new BehaviorSubject<GeneratedEntitty | null>(null);
@@ -35,6 +37,7 @@ export class GeneratedComponent implements OnInit {
   screen: ScreenFit = ScreenFit.FULLSCREEN;
   screens = ScreenFit;
   prompt?: PromptEntity | null = null;
+  private overlay: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -52,13 +55,15 @@ export class GeneratedComponent implements OnInit {
         this.dataSubject.next(entity);
         switch (entity.status) {
           case STATUS.GENERATED:
-            this.setMode(ViewMode.GENERATED)
+            this.setBackground(this.dataSubject.value?.image.raw_src || "");
             break;
           case STATUS.ERROR:
             this.setMode(ViewMode.SOURCE);
+            this.setBackground(this.dataSubject.value?.source.raw_src || "");
             break;
           default:
             this.setMode(ViewMode.SOURCE);
+            this.setBackground(this.dataSubject.value?.source.raw_src || "");
             this.listen(entity.uid, entity.slug);
         }
       },
@@ -86,24 +91,16 @@ export class GeneratedComponent implements OnInit {
 
   setMode(mode: ViewMode) {
     this.mode = mode;
-    switch (mode) {
-      case ViewMode.GENERATED:
-        this.setBackground(this.dataSubject.value?.image.raw_src || "");
-        break;
-      case ViewMode.SOURCE:
-        this.setBackground(this.dataSubject.value?.source.raw_src || "");
-        break;
-    }
   }
 
   setScreenFit(mode: ScreenFit) {
     this.screen = mode;
     switch (mode) {
       case ScreenFit.FIT_SCREEN:
-        this.elementRef.nativeElement.classList.add("real-size");
+        this.elementRef.nativeElement.toggleAttribute("real-size", true);
         break;
       case ScreenFit.FULLSCREEN:
-        this.elementRef.nativeElement.classList.remove("real-size");
+        this.elementRef.nativeElement.toggleAttribute("real-size", false);
         break;
     }
   }

@@ -40,6 +40,7 @@ export class UserService {
 
   async login() {
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
     return await signInWithPopup(this.auth, provider);
   }
 

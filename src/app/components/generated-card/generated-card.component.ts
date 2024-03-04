@@ -10,6 +10,7 @@ import { LoadingComponent } from '../loading/loading.component';
 import { DatabaseService } from '../../service/database.service';
 import { ApiService } from '../../service/api.service';
 import { MatCardModule } from '@angular/material/card';
+import { OverlayComponent } from '../overlay/overlay.component';
 @Component({
   selector: 'app-generated-card',
   standalone: true,
@@ -20,7 +21,8 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    LoadingComponent
+    LoadingComponent,
+    OverlayComponent
   ],
   templateUrl: './generated-card.component.html',
   styleUrl: './generated-card.component.scss'
@@ -33,6 +35,7 @@ export class GeneratedCardComponent implements OnInit {
   mode: ViewMode = ViewMode.GENERATED;
   modes = ViewMode;
   statuses = STATUS;
+  private overlay: any;
 
   constructor(
     private elementRef: ElementRef,
@@ -45,16 +48,19 @@ export class GeneratedCardComponent implements OnInit {
   ngOnInit(): void {
     switch (this.data.status) {
       case STATUS.GENERATED:
+        this.setBackground(this.data.image.raw_src);
         this.setMode(ViewMode.GENERATED);
         break;
       case STATUS.ERROR:
       case STATUS.IDLE:
+        this.setBackground(this.data.source.raw_src);
         this.setMode(ViewMode.SOURCE);
         break;
       case STATUS.IN_PROGRESS:
       case STATUS.PENDING:
       case STATUS.STARTED:
         this.listen(this.data.uid, this.data.slug);
+        this.setBackground(this.data.source.raw_src);
         this.setMode(ViewMode.SOURCE);
         break;
     }
@@ -63,6 +69,7 @@ export class GeneratedCardComponent implements OnInit {
   private setBackground(src: string): void {
     this.elementRef.nativeElement.style.backgroundImage = `url('${src}')`;
   }
+
 
   onMode(ev: MouseEvent, mode: ViewMode) {
     ev.stopPropagation();
@@ -73,10 +80,10 @@ export class GeneratedCardComponent implements OnInit {
     this.mode = mode;
     switch (mode) {
       case ViewMode.GENERATED:
-        this.setBackground(this.data.image.raw_src);
+        this.overlay && this.overlay.classList.remove("show")
         break;
       case ViewMode.SOURCE:
-        this.setBackground(this.data.source.raw_src);
+        this.overlay && this.overlay.classList.add("show")
         break;
     }
   }
@@ -120,7 +127,7 @@ export class GeneratedCardComponent implements OnInit {
       }, error: (err: any) => {
         console.error(err);
       },
-      complete: () => {}
+      complete: () => { }
     });
   }
 }

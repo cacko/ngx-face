@@ -4,6 +4,12 @@
     content
 >
     <ng-template [ngSwitchCase]="status.GENERATED">
+        <app-overlay
+            [src]="data.source.raw_src"
+            [attr.real-size]="screen == screens.FIT_SCREEN ? '1' : null"
+            [attr.show]="mode == modes.SOURCE ? '1' : null"
+            (singleClick)="toggleFit($event)"
+        ></app-overlay>
         <div
             class="spacer toggle"
             (click)="toggleFit($event)"
