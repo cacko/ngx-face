@@ -4,7 +4,10 @@
     [ngSwitch]="data.status"
 >
     <ng-template [ngSwitchCase]="statuses.GENERATED">
-        <app-overlay [src]="data.source.raw_src"></app-overlay>
+        <app-overlay
+            [src]="data.source.raw_src"
+            [attr.show]="mode == modes.SOURCE ? '1' : null"
+        ></app-overlay>
         <div class="spacer toggle"></div>
         <div info>
             <div>{{data.last_modified | amTimeAgo}}</div>

@@ -1,6 +1,19 @@
-app-overlay {
+@use "sass:map";
+@use "@angular/material" as mat;
+
+@mixin apply-theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  $palette: map.get($color-config, primary);
+  $accent: map.get($color-config, accent);
+  $warn: map.get($color-config, warn);
+  $background-palette: map-get(
+    $map: $color-config,
+    $key: background,
+  );
+
+  app-overlay {
     position: absolute;
-    top:0; 
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
@@ -9,17 +22,22 @@ app-overlay {
     background-position: center;
     background-repeat: no-repeat;
     transition: opacity 0.5s ease-in;
+    background-color: mat.get-color-from-palette($background-palette);
     &[real-size] {
-        @media (orientation: landscape) {
-          background-size: auto 100vh;
-        }
-  
-        @media (orientation: portrait) {
-          background-size: 100vw auto;
-        }
+      @media (orientation: landscape) {
+        background-size: auto 100vh;
       }
+
+      @media (orientation: portrait) {
+        background-size: 100vw auto;
+      }
+    }
     &[show] {
       opacity: 1;
       transition: opacity 0.5s ease-in;
     }
+    &:hover {
+        cursor: pointer;
+    }
   }
+}

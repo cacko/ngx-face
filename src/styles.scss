@@ -3,7 +3,9 @@
 @use "./scss/components/generated-card" as myGeneratedCard;
 @use "./scss/components/generated" as myGenerated;
 @use "./scss/components/login" as myLogin;
+@use "./scss/components/overlay" as myOverlay;
 @use "./scss/components/preview" as myPreview;
+
 @include mat.core();
 
 $theme-primary: mat.define-palette(mat.$blue-grey-palette, 500);
@@ -62,6 +64,7 @@ $my-theme: mat.define-dark-theme(
 @include myGenerated.apply-theme($my-theme);
 @include myLogin.apply-theme($my-theme);
 @include myPreview.apply-theme($my-theme);
+@include myOverlay.apply-theme($my-theme);
 @import "./scss/components/spacer";
 @import "./scss/components/camera";
 @import "./scss/components/home";
@@ -70,7 +73,6 @@ $my-theme: mat.define-dark-theme(
 @import "./scss/components/replay";
 @import "./scss/components/prompt";
 @import "./scss/components/avatar";
-@import "./scss/components/overlay";
 
 html {
   box-sizing: border-box;
