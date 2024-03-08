@@ -22,8 +22,8 @@
           <mat-label>Model</mat-label>
           <mat-select formControlName="model">
             <mat-option>-None-</mat-option>
-            @for (model of options.models; track model) {
-              <mat-option [value]="model">{{model | startCase}}</mat-option>
+            @for (model of options.models | orderBy; track model) {
+              <mat-option [value]="model | trim: '*'">{{model | startCase}}</mat-option>
             }
           </mat-select>
         </mat-form-field>

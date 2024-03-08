@@ -12,7 +12,7 @@ export enum ScreenFit {
 }
 
 export interface Options {
-    models?: string[];
+    models: string[];
     templates: string[];
 }
 

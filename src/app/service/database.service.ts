@@ -68,7 +68,7 @@ export class DatabaseService {
       next: (value: any) => {
         const data = value as Options;
         this.optionsSubject.next({
-          models: data.models,
+          models: concat(this.optionsSubject.value.models.filter(v => v.endsWith("*")), data.models),
           templates: concat(this.optionsSubject.value.templates.filter(v => v.endsWith("*")), data.templates)
         });
       }
@@ -78,11 +78,11 @@ export class DatabaseService {
       next: (value: any) => {
         const data = value as Options;
         this.optionsSubject.next({
-          models: this.optionsSubject.value.models,
+          models: concat(this.optionsSubject.value.models.filter(v => !v.endsWith("*")), data.models.map(v => `${v}*`)),
           templates: concat(this.optionsSubject.value.templates.filter(v => !v.endsWith("*")), data.templates.map(v => `${v}*`))
         });
       },
-      error: (err: any) => {}
+      error: (err: any) => { }
     });
   }
 
