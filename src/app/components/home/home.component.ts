@@ -15,11 +15,13 @@ import {
   transition
 } from '@angular/animations';
 import moment from 'moment';
+import { findIndex, indexOf } from 'lodash-es';
 import { MatIconModule } from '@angular/material/icon';
 import { DatabaseService } from '../../service/database.service';
 import { ChangeEntity } from '../../entity/view.entity';
 import { ListenEvent } from '@angular/fire/database';
 import { ApiService } from '../../service/api.service';
+import { NgArrayPipesModule } from 'ngx-pipes';
 
 interface RouteDataEntity {
   data?: GeneratedEntitty[];
@@ -30,8 +32,14 @@ interface RouteDataEntity {
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule,
-    MatButtonModule, RouterModule,
-    GeneratedCardComponent, MatProgressBarModule, MatButtonModule, MatIconModule],
+    MatButtonModule,
+    RouterModule,
+    GeneratedCardComponent,
+    MatProgressBarModule,
+    MatButtonModule,
+    MatIconModule,
+    NgArrayPipesModule
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   animations: [
@@ -74,8 +82,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.data.subscribe({
       next: (data: RouteDataEntity) => {
-        const entity = data.data as GeneratedEntitty[];
-        const items = entity.sort((a, b) => moment(a.last_modified).isAfter(moment(b.last_modified)) ? -1 : 1)
+        const items = data.data as GeneratedEntitty[];
         this.dataSubject.next(items);
         this.db.$change.subscribe((change: ChangeEntity | null) => {
           switch (change?.event) {
@@ -92,7 +99,7 @@ export class HomeComponent implements OnInit {
   }
 
   private exists(slug: string): boolean {
-    return this.dataSubject.value?.map((it) => it.slug).includes(slug) || false;
+    return findIndex(this.dataSubject.value || [], ['slug', slug]) > -1;
   }
 
 

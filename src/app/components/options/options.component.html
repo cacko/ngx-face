@@ -3,8 +3,8 @@
         <mat-label>Template</mat-label>
         <mat-select formControlName="template">
           <mat-option>-None-</mat-option>
-          @for (template of options.templates; track template) {
-            <mat-option [value]="template">{{template | startCase}}</mat-option>
+          @for (template of options.templates | orderBy; track template) {
+            <mat-option [value]="template | trim: '*'">{{template | startCase}}</mat-option>
           }
         </mat-select>
       </mat-form-field>

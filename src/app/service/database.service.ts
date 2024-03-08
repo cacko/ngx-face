@@ -1,9 +1,10 @@
 import { ApplicationConfig, Injectable } from '@angular/core';
 import { Database, ref, stateChanges, DataSnapshot, objectVal } from '@angular/fire/database';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription, endWith } from 'rxjs';
 import { STATUS } from '../entity/upload.entity';
 import { QueryChange, ListenEvent } from 'rxfire/database';
 import { ChangeEntity, Options } from '../entity/view.entity';
+import { concat } from 'lodash-es';
 
 interface Listeners {
   [key: string]: BehaviorSubject<STATUS | null>;
@@ -25,14 +26,16 @@ export class DatabaseService {
   subs: Listeners = {};
   statuses: Statuses = {};
   private listLst?: Subscription | null = null;
-  private optLst?: Subscription | null = null;
+  private optSafeLst?: Subscription | null = null;
+  private optNSFWLst?: Subscription | null = null;
+
 
   private changeSubject = new BehaviorSubject<ChangeEntity | null>(null);
   $change = this.changeSubject.asObservable();
 
   private optionsSubject = new BehaviorSubject<Options>({
     models: [],
-    templates: []
+    templates: [],
   });
   options = this.optionsSubject.asObservable();
 
@@ -60,18 +63,33 @@ export class DatabaseService {
       const result = snapshot.val().status;
       this.subs[gPath].next(result);
     });
-    const app = ref(this.db, "app");
-    this.optLst = objectVal(app).subscribe({
+    const safe_options = ref(this.db, "app/options/safe");
+    this.optSafeLst = objectVal(safe_options).subscribe({
       next: (value: any) => {
-        const data = value as AppData;
-        this.optionsSubject.next(data.options);
+        const data = value as Options;
+        this.optionsSubject.next({
+          models: data.models,
+          templates: concat(this.optionsSubject.value.templates.filter(v => v.endsWith("*")), data.templates)
+        });
       }
-    })
+    });
+    const nsfw_options = ref(this.db, "app/options/nsfw");
+    this.optNSFWLst = objectVal(nsfw_options).subscribe({
+      next: (value: any) => {
+        const data = value as Options;
+        this.optionsSubject.next({
+          models: this.optionsSubject.value.models,
+          templates: concat(this.optionsSubject.value.templates.filter(v => !v.endsWith("*")), data.templates.map(v => `${v}*`))
+        });
+      },
+      error: (err: any) => {}
+    });
   }
 
   deInit() {
     this.listLst?.unsubscribe();
-    this.optLst?.unsubscribe();
+    this.optSafeLst?.unsubscribe();
+    this.optNSFWLst?.unsubscribe();
     this.subs = {};
     this.statuses = {};
   }

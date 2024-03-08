@@ -3,7 +3,7 @@
     grid
 >
     <app-generated-card
-        *ngFor="let item of items"
+        *ngFor="let item of items | orderBy: '-last_modified'"
         [@simpleFadeAnimation]="'in'"
         grid-item
         [data]="item"

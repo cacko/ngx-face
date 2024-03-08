@@ -76,11 +76,13 @@ export class GeneratedComponent implements OnInit {
   }
 
   onMode(ev: MouseEvent, mode: ViewMode) {
+    ev.preventDefault();
     ev.stopPropagation();
     this.setMode(mode);
   }
 
   onScreen(ev: MouseEvent, mode: ScreenFit) {
+    ev.preventDefault();
     ev.stopPropagation();
     this.setScreenFit(mode);
   }

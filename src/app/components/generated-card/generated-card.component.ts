@@ -72,6 +72,7 @@ export class GeneratedCardComponent implements OnInit {
 
 
   onMode(ev: MouseEvent, mode: ViewMode) {
+    ev.preventDefault();
     ev.stopPropagation();
     this.setMode(mode);
   }
@@ -120,6 +121,7 @@ export class GeneratedCardComponent implements OnInit {
 
 
   onDelete(ev: MouseEvent) {
+    ev.preventDefault();
     ev.stopPropagation();
     this.api.delete(this.data.slug).subscribe({
       next: (data) => {

@@ -11,10 +11,11 @@ import { StartCasePipe } from '../../pipes/start-case.pipe';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PromptEntity } from '../../entity/view.entity';
 import { DatabaseService } from '../../service/database.service';
+import { NgPipesModule, TrimPipe } from 'ngx-pipes';
 @Component({
   selector: 'app-options',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule, StartCasePipe, MatExpansionModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule, StartCasePipe, NgPipesModule ,MatExpansionModule],
   templateUrl: './options.component.html',
   styleUrl: './options.component.scss'
 })

@@ -8,7 +8,7 @@ import { startCase } from 'lodash-es';
 export class StartCasePipe implements PipeTransform {
 
   transform(value: string, ...args: unknown[]): string {
-    return startCase(value);
+    return startCase(value) + (value.endsWith('*') ? '*' : '');
   }
 
 }
