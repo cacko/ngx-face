@@ -41,31 +41,20 @@
             </button>
             <button
                 mat-icon-button
-                *ngIf="mode == modes.GENERATED"
-                (click)="onMode($event, modes.SOURCE)"
+                (click)="onMode($event)"
             >
-                <mat-icon>person</mat-icon>
+                <mat-icon>
+                    {{mode == modes.SOURCE ? 'image' : 'person'}}
+                </mat-icon>
             </button>
             <button
+                type="button"
                 mat-icon-button
-                *ngIf="mode == modes.SOURCE"
-                (click)="onMode($event, modes.GENERATED)"
+                (click)="onScreen($event)"
             >
-                <mat-icon>image</mat-icon>
-            </button>
-            <button
-                mat-icon-button
-                *ngIf="screen == screens.FIT_SCREEN"
-                (click)="onScreen($event, screens.FULLSCREEN)"
-            >
-                <mat-icon>fullscreen</mat-icon>
-            </button>
-            <button
-                mat-icon-button
-                *ngIf="screen == screens.FULLSCREEN"
-                (click)="onScreen($event, screens.FIT_SCREEN)"
-            >
-                <mat-icon>fit_screen</mat-icon>
+                <mat-icon>
+                    {{ screen == screens.FIT_SCREEN ? 'fullscreen' : 'fit_screen' }}
+                </mat-icon>
             </button>
         </div>
     </ng-template>

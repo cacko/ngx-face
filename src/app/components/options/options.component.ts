@@ -60,7 +60,9 @@ export class OptionsComponent implements OnInit {
         negative_prompt: null,
         clip_skip: null,
         seed: null,
-        num_inference_steps: null
+        num_inference_steps: null,
+        width: null,
+        height: null,
       });
     })
   }

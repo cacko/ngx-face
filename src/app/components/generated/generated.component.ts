@@ -75,16 +75,18 @@ export class GeneratedComponent implements OnInit {
     this.elementRef.nativeElement.style.backgroundImage = `url('${src}')`;
   }
 
-  onMode(ev: MouseEvent, mode: ViewMode) {
+  onMode(ev: MouseEvent) {
     ev.preventDefault();
     ev.stopPropagation();
-    this.setMode(mode);
+    this.setMode(this.mode == ViewMode.GENERATED ? ViewMode.SOURCE : ViewMode.GENERATED);
+    return false;
   }
 
-  onScreen(ev: MouseEvent, mode: ScreenFit) {
+  onScreen(ev: MouseEvent) {
     ev.preventDefault();
     ev.stopPropagation();
-    this.setScreenFit(mode);
+    this.setScreenFit(this.screen == ScreenFit.FIT_SCREEN ? ScreenFit.FULLSCREEN : ScreenFit.FIT_SCREEN);
+    return false;
   }
 
   toggleFit(ev: MouseEvent) {
