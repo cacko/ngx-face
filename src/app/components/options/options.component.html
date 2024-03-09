@@ -1,5 +1,6 @@
 <form [formGroup]="form" (submit)="onSubmit($event)">
       <mat-form-field *ngIf="($options | async) as options">
+        <mat-icon matSuffix>grid_guides</mat-icon>
         <mat-label>Template</mat-label>
         <mat-select formControlName="template">
           <mat-option>-None-</mat-option>
@@ -9,8 +10,9 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field class="example-full-width">
+        <mat-icon matSuffix >description</mat-icon>
         <mat-label>Prompt</mat-label>
-        <textarea rows="3" formControlName="prompt" matInput placeholder="generation prompt"></textarea>
+        <textarea rows="3" formControlName="prompt" autocomplete="prompt"  matInput placeholder="generation prompt"></textarea>
       </mat-form-field>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -19,6 +21,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-form-field *ngIf="($options | async) as options">
+          <mat-icon matSuffix>lightbulb</mat-icon>
           <mat-label>Model</mat-label>
           <mat-select formControlName="model">
             <mat-option>-None-</mat-option>
@@ -28,36 +31,45 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-icon matSuffix>thumb_down</mat-icon>
           <mat-label>Negative prompt</mat-label>
           <textarea rows=3 formControlName="negative_prompt" matInput placeholder="generation negative prompt"></textarea>
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-icon matSuffix>blur_linear</mat-icon>
           <mat-label>Guidance Scale</mat-label>
-          <input type="number" min="0" formControlName="guidance_scale" matInput placeholder="amount of noise">
+          <input type="number" min="0" autocomplete="guidance_scale" formControlName="guidance_scale" matInput placeholder="amount of noise">
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-icon matSuffix>footprint</mat-icon>
           <mat-label>Inference Steps</mat-label>
-          <input type="number" min="4" formControlName="num_inference_steps" matInput placeholder="generation steps">
+          <input type="number" min="4"  autocomplete="num_inference_steps"  formControlName="num_inference_steps" matInput placeholder="generation steps">
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-icon matSuffix>face_2</mat-icon>
           <mat-label>Scale</mat-label>
-          <input formControlName="scale" type="number" step="0.1" matInput placeholder="scale of the face to keep">
+          <input formControlName="scale" autocomplete="guidance_scale"  type="number" s step="0.1" matInput placeholder="scale of the face to keep">
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-icon matSuffix>cut</mat-icon>
           <mat-label>Clip Skip</mat-label>
-          <input formControlName="clip_skip" matInput placeholder="clip skip" type="number" min="0" max="2">
+          <input formControlName="clip_skip" autocomplete="clip_skip"  matInput placeholder="clip skip" type="number" min="0" max="2">
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-icon matSuffix>fingerprint</mat-icon>
           <mat-label>Seed</mat-label>
-          <input formControlName="seed" matInput placeholder="Seed" type="number" min="-1">
+          <input formControlName="seed" autocomplete="seed"  matInput placeholder="Seed" type="number" min="-1">
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-icon matSuffix>width</mat-icon>
           <mat-label>Width</mat-label>
-          <input type="number" min="0" max="1280" formControlName="width" matInput placeholder="width of the result">
+          <input type="number" min="0" max="1280" autocomplete="width"  formControlName="width" matInput placeholder="width of the result">
         </mat-form-field>
         <mat-form-field class="example-full-width">
+          <mat-icon matSuffix>height</mat-icon>
+
           <mat-label>Height</mat-label>
-          <input type="number" min="0" max="1280" formControlName="height" matInput placeholder="height of the result">
+          <input type="number" min="0" max="1280" autocomplete="height"  formControlName="height" matInput placeholder="height of the result">
         </mat-form-field>
       </mat-expansion-panel>
       <div buttons>
