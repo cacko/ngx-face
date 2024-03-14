@@ -18,10 +18,10 @@
 <button
     switch-button
     mat-icon-button
-    (click)="switchFacingMode($event);"
-    *ngIf="multipleWebcamsAvailable && showWebcam"
+    (click)="showNextCamera($event);"
+    *ngIf="multipleWebcamsAvailable && showWebcam "
 >
-    <mat-icon>cameraswitch</mat-icon>
+    <mat-icon>{{hasFaceCamera ? 'switch_camera' : 'video_call'}}</mat-icon>
 </button>
 <div captured (click)="startCamera()">
     <img [src]="this.captured?.imageAsDataUrl">

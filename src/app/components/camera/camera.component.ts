@@ -11,6 +11,12 @@ import { Router } from '@angular/router';
 import { OptionsComponent } from '../options/options.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { MatIconModule } from '@angular/material/icon';
+import { concat, findIndex } from 'lodash-es';
+
+interface Cameras {
+  user: string[];
+  environment: string[];
+}
 
 @Component({
   selector: 'app-camera',
@@ -26,12 +32,12 @@ export class CameraComponent implements OnInit {
   public showWebcam = true;
   public allowCameraSwitch = false;
   public multipleWebcamsAvailable = false;
+  public hasFaceCamera = false;
   public deviceId: string = "";
-  public videoOptions: MediaTrackConstraints = {
-    facingMode: "user"
-  };
+  public videoOptions: MediaTrackConstraints = {};
   public errors: WebcamInitError[] = [];
-  public cameras: any = {};
+  public cameras: Cameras = { user: [], environment: [] };
+
   public width: number = 640;
   public $notloading = this.loader.$hidden;
 
@@ -39,7 +45,6 @@ export class CameraComponent implements OnInit {
   private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
 
   captured: WebcamImage | null = null;
-
 
   public constructor(
     private api: ApiService,
@@ -52,13 +57,26 @@ export class CameraComponent implements OnInit {
 
   public ngOnInit(): void {
     const screenWidth = this.elementRef.nativeElement.clientWidth;
-    this.width = screenWidth < 640 ? screenWidth : 640 ;
+    this.width = screenWidth < 640 ? screenWidth : 640;
     WebcamUtil.getAvailableVideoInputs()
       .then((mediaDevices: MediaDeviceInfo[]) => {
-        this.cameras = mediaDevices;
+        this.cameras = mediaDevices.reduce((res: Cameras, camera) => {
+          if (/front/i.test(camera.label)) {
+            res.user.push(camera.deviceId);
+          } else {
+            res.environment.push(camera.deviceId);
+          }
+          return res;
+        }, { user: [], environment: [] });
+        if (this.cameras.user.length) {
+          this.videoOptions.facingMode = "user";
+          this.hasFaceCamera = true;
+        }
         this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
       });
   }
+
+
 
   public triggerSnapshot(): void {
     this.trigger.next();
@@ -81,17 +99,19 @@ export class CameraComponent implements OnInit {
     this.errors.push(error);
   }
 
-  public showNextWebcam(directionOrDeviceId: boolean | string): void {
-    this.nextWebcam.next(directionOrDeviceId);
-  }
-
   public switchFacingMode(ev: MouseEvent) {
     ev.stopPropagation();
-    setTimeout(() => this.stopCamera())
-    const videoOptions = this.videoOptions;
-    videoOptions.facingMode = videoOptions.facingMode === "user" ? "environment" : "user";
-    this.videoOptions = videoOptions;
-    setTimeout(() => this.startCamera());
+    const inUserMode = this.cameras.user.includes(this.deviceId);
+    const cameras = inUserMode ? this.cameras.environment : this.cameras.user;
+    this.videoOptions.facingMode = inUserMode ? "environment" : "user";
+    const nextId = cameras[0] || true;
+    this.nextWebcam.next(nextId);
+    return true;
+  }
+
+  public showNextCamera(ev: MouseEvent) {
+    ev.stopPropagation();
+    this.hasFaceCamera && this.switchFacingMode(ev) || this.nextWebcam.next(true);
   }
 
   public handleImage(webcamImage: WebcamImage): void {
@@ -100,11 +120,9 @@ export class CameraComponent implements OnInit {
   }
 
   onSubmit(data: any) {
-
     if (!this.captured) {
       return;
     }
-
     const webcamImage = this.captured;
     this.loader.show();
     this.api.upload(webcamImage.imageAsDataUrl, data).subscribe({
@@ -121,8 +139,13 @@ export class CameraComponent implements OnInit {
     })
   }
 
+
+
   public cameraWasSwitched(deviceId: string): void {
     console.debug('active device: ' + deviceId);
+    const inUserMode = this.cameras.user.includes(deviceId);
+    const cameras = inUserMode ? this.cameras.user : this.cameras.environment;
+    cameras.push(cameras.shift() as string);
     this.deviceId = deviceId;
   }
 

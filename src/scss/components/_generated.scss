@@ -21,17 +21,10 @@
     background-repeat: no-repeat;
     justify-content: center;
     width: 100vw;
-    max-width: 1280px;
     align-self: center;
     height: 100vh;
     &[real-size] {
-      @media (orientation: landscape) {
-        background-size: auto 100vh;
-      }
-
-      @media (orientation: portrait) {
-        background-size: 100vw auto;
-      }
+      background-size: contain;
     }
     [content] {
       display: flex;
