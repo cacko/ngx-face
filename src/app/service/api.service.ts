@@ -112,11 +112,11 @@ export class ApiService {
     this.storage.set("entities", value);
   }
 
-  getGenerated(id: string, fetch: boolean = false): any {
+  getGenerated(id: string, useCache: boolean = true): any {
     return new Observable((subscriber: any) => {
       const entities = this.entities;
       const idx = findIndex(entities, { slug: id });
-      if (idx > -1 && !fetch) {
+      if (idx > -1 && useCache) {
         subscriber.next(entities[idx]);
         return;
       }

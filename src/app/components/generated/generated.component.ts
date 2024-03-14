@@ -12,7 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { PromptComponent } from '../prompt/prompt.component';
 import { saveAs } from 'file-saver';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+
 import { OverlayComponent } from '../overlay/overlay.component';
+import moment, { Moment } from 'moment';
 
 interface RouteDataEntity {
   data?: GeneratedEntitty;
@@ -21,7 +24,7 @@ interface RouteDataEntity {
 @Component({
   selector: 'app-generated',
   standalone: true,
-  imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent, OverlayComponent],
+  imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent, OverlayComponent, MatSnackBarModule],
   templateUrl: './generated.component.html',
   styleUrl: './generated.component.scss'
 })
@@ -44,7 +47,8 @@ export class GeneratedComponent implements OnInit {
     private api: ApiService,
     private db: DatabaseService,
     private elementRef: ElementRef,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
 
@@ -68,6 +72,12 @@ export class GeneratedComponent implements OnInit {
             this.listen(entity.uid, entity.slug);
         }
       },
+      error: (err: any) => {
+        this.snackBar
+          .open(err, 'Error', { duration: 5000 })
+          .afterDismissed()
+          .subscribe(() => this.router.navigateByUrl(`/`));
+      }
     });
   }
 
@@ -139,22 +149,22 @@ export class GeneratedComponent implements OnInit {
       if (obs === null) {
         return;
       }
-      switch (obs) {
+      switch (obs.status) {
         case STATUS.GENERATED:
         case STATUS.ERROR:
           setTimeout(() => {
-            this.reload(slug);
+            this.reload(slug, obs.last_modified);
             lst.unsubscribe();
           });
           break;
         default:
-          setTimeout(() => this.reload(slug));
+          setTimeout(() => this.reload(slug, obs.last_modified));
       }
     })
   }
 
-  private reload(slug: string) {
-    this.api.getGenerated(slug, true).subscribe({
+  private reload(slug: string, last_modified: string) {
+    this.api.getGenerated(slug, moment(last_modified).isSame(moment(this.dataSubject.value?.last_modified))).subscribe({
       next: (data: any) => {
         const entity = data as GeneratedEntitty;
         this.dataSubject.next(entity);

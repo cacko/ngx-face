@@ -1,3 +1,4 @@
+import { Moment } from "moment";
 import { PromptEntity } from "./view.entity";
 
 export enum API {
@@ -56,4 +57,9 @@ export enum API {
     prompt : PromptEntity;
     status: STATUS;
     error: string;
+  }
+
+  export interface DbChangeEntity {
+    status: STATUS;
+    last_modified: string;
   }

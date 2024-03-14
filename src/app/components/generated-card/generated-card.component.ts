@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GeneratedEntitty, STATUS } from '../../entity/upload.entity';
+import { DbChangeEntity, GeneratedEntitty, STATUS } from '../../entity/upload.entity';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MomentModule } from 'ngx-moment';
@@ -11,6 +11,8 @@ import { DatabaseService } from '../../service/database.service';
 import { ApiService } from '../../service/api.service';
 import { MatCardModule } from '@angular/material/card';
 import { OverlayComponent } from '../overlay/overlay.component';
+import moment, { Moment } from 'moment';
+
 @Component({
   selector: 'app-generated-card',
   standalone: true,
@@ -94,23 +96,23 @@ export class GeneratedCardComponent implements OnInit {
       if (obs === null) {
         return;
       }
-      switch (obs) {
+      switch (obs.status) {
         case STATUS.GENERATED:
         case STATUS.ERROR:
           setTimeout(() => {
-            this.reload(slug);
+            this.reload(slug, obs.last_modified);
             lst.unsubscribe();
           });
           break;
         default:
-          this.data.status = obs as STATUS;
+          this.data.status = obs.status;
       }
     })
   }
 
 
-  private reload(slug: string) {
-    this.api.getGenerated(slug, true).subscribe({
+  private reload(slug: string, last_modified: string) {
+    this.api.getGenerated(slug, moment(last_modified).isSame(moment(this.data.last_modified))).subscribe({
       next: (data: any) => {
         const entity = data as GeneratedEntitty;
         this.data = data;

@@ -1,17 +1,17 @@
 import { ApplicationConfig, Injectable } from '@angular/core';
 import { Database, ref, stateChanges, DataSnapshot, objectVal } from '@angular/fire/database';
 import { BehaviorSubject, Observable, Subject, Subscription, endWith } from 'rxjs';
-import { STATUS } from '../entity/upload.entity';
+import { DbChangeEntity, STATUS } from '../entity/upload.entity';
 import { QueryChange, ListenEvent } from 'rxfire/database';
 import { ChangeEntity, Options } from '../entity/view.entity';
 import { concat } from 'lodash-es';
 
 interface Listeners {
-  [key: string]: BehaviorSubject<STATUS | null>;
+  [key: string]: BehaviorSubject<DbChangeEntity | null>;
 }
 
 interface Statuses {
-  [key: string]: Observable<STATUS | null>;
+  [key: string]: Observable<DbChangeEntity | null>;
 }
 
 interface AppData {
@@ -60,8 +60,7 @@ export class DatabaseService {
       }
       const gPath = `${path}/${key}`;
       this.createListener(gPath);
-      const result = snapshot.val().status;
-      this.subs[gPath].next(result);
+      this.subs[gPath].next(snapshot.val());
     });
     const safe_options = ref(this.db, "app/options/safe");
     this.optSafeLst = objectVal(safe_options).subscribe({
@@ -98,14 +97,14 @@ export class DatabaseService {
     if (path in this.statuses) {
       return;
     }
-    const sub = new BehaviorSubject<STATUS | null>(null);
+    const sub = new BehaviorSubject<DbChangeEntity | null>(null);
     const obs = sub.asObservable();
     this.subs[path] = sub;
     this.statuses[path] = obs;
   }
 
 
-  listen(uid: string, slug: string): Observable<STATUS | null> {
+  listen(uid: string, slug: string): Observable<DbChangeEntity | null> {
     const path = `generation/${uid}/${slug}`;
     this.createListener(path);
     return this.statuses[path];
