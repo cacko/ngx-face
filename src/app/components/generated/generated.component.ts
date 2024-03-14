@@ -154,7 +154,7 @@ export class GeneratedComponent implements OnInit {
   }
 
   private reload(slug: string) {
-    this.api.getGenerated(slug).subscribe({
+    this.api.getGenerated(slug, true).subscribe({
       next: (data: any) => {
         const entity = data as GeneratedEntitty;
         this.dataSubject.next(entity);

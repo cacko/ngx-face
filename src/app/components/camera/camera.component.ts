@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { OptionsComponent } from '../options/options.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { MatIconModule } from '@angular/material/icon';
-import { concat, findIndex } from 'lodash-es';
 
 interface Cameras {
   user: string[];

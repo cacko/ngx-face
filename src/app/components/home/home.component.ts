@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
 
 
   private onAdded(slug: string) {
-    this.api.getGenerated(slug).subscribe({
+    this.api.getGenerated(slug, true).subscribe({
       next: (data: any) => {
         const item = data as GeneratedEntitty;
         const items = this.dataSubject.value || [];
@@ -117,7 +117,4 @@ export class HomeComponent implements OnInit {
   private onRemoved(slug: string) {
     this.onDelete(slug);
   }
-
-
-
 }
