@@ -132,10 +132,12 @@ export class ApiService {
             entities[idx] = data;
           }
           this.entities = entities;
-          subscriber.next(data);
         },
         error: (error: any) => console.debug(error),
-        complete: () => this.loader.hide()
+        complete: () => {
+          subscriber.next(this.entities);
+          this.loader.hide();
+        },
       });
     });
   }

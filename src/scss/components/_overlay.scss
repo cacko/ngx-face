@@ -29,7 +29,9 @@
       background-repeat: no-repeat;
     }
     &[real-size] {
-      background-size: containt;
+      [image] {
+        background-size: contain;
+      }
     }
 
     &[show] {
