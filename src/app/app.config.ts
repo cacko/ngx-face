@@ -1,5 +1,5 @@
 import { ApplicationConfig, isDevMode, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
@@ -13,7 +13,7 @@ import { provideNgxLocalstorage } from 'ngx-localstorage';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withViewTransitions()),
     provideHttpClient(),
     provideAnimationsAsync(),
     provideServiceWorker('ngsw-worker.js', {

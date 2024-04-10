@@ -6,13 +6,21 @@
     <ng-template [ngSwitchCase]="status.GENERATED">
         <app-overlay
             [src]="data.source.raw_src"
-            [attr.real-size]="screen == screens.FIT_SCREEN ? '1' : null"
+            [screenFit]="this.screen"
             [attr.show]="mode == modes.SOURCE ? '1' : null"
-            (singleClick)="toggleFit($event)"
+            [drag]="true"
+            (doubleClick)="onScreen($event)"
+        ></app-overlay>
+        <app-overlay
+            [src]="data.image.raw_src"
+            [screenFit]="this.screen"
+            [attr.show]="mode == modes.GENERATED ? '1' : null"
+            [drag]="true"
+            (doubleClick)="onScreen($event)"
         ></app-overlay>
         <div
             class="spacer toggle"
-            (click)="toggleFit($event)"
+            (click)="onScreen($event)"
         ></div>
         <app-prompt
             *ngIf="prompt"
@@ -59,10 +67,14 @@
         </div>
     </ng-template>
     <ng-template [ngSwitchCase]="status.ERROR">
-        <div
-            class="spacer"
-            (click)="toggleFit($event)"
-        ></div>
+        <app-overlay
+            [src]="data.source.raw_src"
+            [attr.real-size]="screen == screens.FIT_SCREEN ? '1' : null"
+            show
+            [drag]="true"
+            (doubleClick)="onScreen($event)"
+        ></app-overlay>
+        <div class="spacer"></div>
         <div
             [attr.status]="data.status"
             status-line
@@ -76,14 +88,25 @@
         </div>
     </ng-template>
     <ng-template [ngSwitchCase]="status.IN_PROGRESS">
+        <app-overlay
+            [src]="data.source.raw_src"
+            [screenFit]="this.screen"
+            show
+            [drag]="true"
+            (doubleClick)="onScreen($event)"
+
+        ></app-overlay>
         <app-loading [entity]="data">In Progress</app-loading>
     </ng-template>
 
     <ng-template [ngSwitchDefault]>
-        <div
-            class="spacer"
-            (click)="toggleFit($event)"
-        ></div>
+        <app-overlay
+            [src]="data.source.raw_src"
+            [screenFit]="this.screen"
+            show
+            [drag]="true"
+        ></app-overlay>
+        <div class="spacer"></div>
         <div
             [attr.status]="data.status"
             status-line

@@ -1,16 +1,14 @@
 import { CommonModule, DOCUMENT } from "@angular/common";
 import {
   AfterViewInit,
-  ContentChild,
   Directive,
   ElementRef,
   HostBinding,
+  HostListener,
   Inject,
   Input,
-  OnChanges,
   OnDestroy,
   Renderer2,
-  SimpleChanges,
 } from "@angular/core";
 import { fromEvent, Subscription } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -21,9 +19,8 @@ import { takeUntil } from "rxjs/operators";
 })
 export class DragScrollDirective implements AfterViewInit, OnDestroy {
 
-  private element !: HTMLElement;
+  private element !: HTMLImageElement;
   private subscriptions: Subscription[] = [];
-  private disableDrag = false;
 
   private readonly DEFAULT_DRAGGING_BOUNDARY_QUERY = "body";
   @Input() boundaryQuery = this.DEFAULT_DRAGGING_BOUNDARY_QUERY;
@@ -35,15 +32,26 @@ export class DragScrollDirective implements AfterViewInit, OnDestroy {
   ) { }
 
   ngAfterViewInit(): void {
-    this.element = this.elementRef.nativeElement as HTMLElement;
-    console.log(this.elementRef);
+    this.element = this.elementRef.nativeElement as HTMLImageElement;
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.ngOnDestroy();
     this.initDrag();
   }
 
-  @Input() set reset(realSize: number | null) {
+
+  @HostListener('load')
+  onLoad() {
+    this.initDrag();
+  }
+
+  @Input() set reset(realSize: boolean) {
     if (!this.element) {
       return;
     }
+    realSize && this.renderer.setStyle(this.element, "object-position", "center center");
   }
 
   initDrag(): void {
@@ -57,52 +65,66 @@ export class DragScrollDirective implements AfterViewInit, OnDestroy {
 
     let initialX: number,
       initialY: number,
-      currentX = this.element.scrollLeft,
-      currentY = this.element.scrollTop;
+      aspectRatio = this.element.naturalWidth / this.element.naturalHeight,
+      clientRatio = this.element.clientWidth / this.element.clientHeight,
+      isScrollX = aspectRatio > clientRatio,
+      isScrollY = aspectRatio < clientRatio,
+      currentX = -(this.element.clientHeight * aspectRatio - this.element.clientWidth) / 2,
+      currentY = -(this.element.clientWidth / aspectRatio - this.element.clientHeight) / 2;
+
+
+    const maxX = currentX * 2,
+      maxY = currentY * 2,
+      parent = this.element.parentElement;
 
     let dragSub !: Subscription;
 
-    const getClientX = (event: MouseEvent|TouchEvent) => {
-      if (event instanceof TouchEvent) {
-        return event.touches[0].clientX;
+    const getClientX = (event: any) => {
+      if (event instanceof MouseEvent) {
+        return event.clientX;
       }
-      return event.clientX;
+      return event.touches[0].clientX;
     }
 
-    const getClientY = (event: MouseEvent|TouchEvent) => {
-      if (event instanceof TouchEvent) {
-        return event.touches[0].clientY;
+    const getClientY = (event: any) => {
+      if (event instanceof MouseEvent) {
+        return event.clientY;
+
       }
-      return event.clientY;
+      return event.touches[0].clientY;
+
     }
 
-    const dragStartSub = dragStart$.subscribe((event: MouseEvent|TouchEvent) => {
+    const dragStartSub = dragStart$.subscribe((event: MouseEvent) => {
 
       initialX = getClientX(event) - currentX;
       initialY = getClientY(event) - currentY;
-      this.element.classList.add("dragging");
- 
+
+      this.renderer.addClass(this.element, "dragging");
+
       dragSub = drag$.subscribe((event: any) => {
 
-        if (this.element.hasAttribute("real-size")) {
+        if (parent?.hasAttribute("real-size") || !parent?.hasAttribute("show")) {
           return;
         }
-        const x = getClientX(event);
-        const y = getClientY(event);
-        // console.log(x, y);
 
-        // currentX = Math.min(0, Math.max(x, (this.element.clientWidth - this.element.clientHeight * 2)));
-        // currentY = Math.min(0, Math.max(y, -this.element.clientHeight));
+        if (isScrollX) {
+          const x = Math.min(0, Math.max(getClientX(event) - initialX, maxX));
+          return this.renderer.setStyle(this.element, "object-position", `${x}px center`);
+        }
 
-        this.element.scroll(x, y);
-
+        if (isScrollY) {
+          const y = Math.min(0, Math.max(getClientY(event) - initialY, maxY));
+          return this.renderer.setStyle(this.element, "object-position", `center ${y}px`);
+        }
+        return;
       });
     });
 
     const dragEndSub = dragEnd$.subscribe(() => {
       initialX = currentX;
       initialY = currentY;
-      this.element.classList.remove("dragging");
+      this.renderer.removeClass(this.element, "dragging");
       if (dragSub) {
         dragSub.unsubscribe();
       }

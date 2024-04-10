@@ -60,15 +60,15 @@ export class GeneratedComponent implements OnInit {
         switch (entity.status) {
           case STATUS.GENERATED:
             this.setMode(ViewMode.GENERATED);
-            this.setBackground(this.dataSubject.value?.image.raw_src || "");
+            // this.setBackground(this.dataSubject.value?.image.raw_src || "");
             break;
           case STATUS.ERROR:
             this.setMode(ViewMode.SOURCE);
-            this.setBackground(this.dataSubject.value?.source.raw_src || "");
+            // this.setBackground(this.dataSubject.value?.source.raw_src || "");
             break;
           default:
             this.setMode(ViewMode.SOURCE);
-            this.setBackground(this.dataSubject.value?.source.raw_src || "");
+            // this.setBackground(this.dataSubject.value?.source.raw_src || "");
             this.listen(entity.uid, entity.slug);
         }
       },
@@ -81,27 +81,16 @@ export class GeneratedComponent implements OnInit {
     });
   }
 
-  private setBackground(src: string): void {
-    this.elementRef.nativeElement.style.backgroundImage = `url('${src}')`;
-  }
-
   onMode(ev: MouseEvent) {
-    ev.preventDefault();
     ev.stopPropagation();
     this.setMode(this.mode == ViewMode.GENERATED ? ViewMode.SOURCE : ViewMode.GENERATED);
     return false;
   }
 
   onScreen(ev: MouseEvent) {
-    ev.preventDefault();
     ev.stopPropagation();
     this.setScreenFit(this.screen == ScreenFit.FIT_SCREEN ? ScreenFit.FULLSCREEN : ScreenFit.FIT_SCREEN);
     return false;
-  }
-
-  toggleFit(ev: MouseEvent) {
-    ev.stopPropagation();
-    this.setScreenFit(this.screen == ScreenFit.FIT_SCREEN ? ScreenFit.FULLSCREEN : ScreenFit.FIT_SCREEN);
   }
 
   setMode(mode: ViewMode) {
@@ -110,14 +99,14 @@ export class GeneratedComponent implements OnInit {
 
   setScreenFit(mode: ScreenFit) {
     this.screen = mode;
-    switch (mode) {
-      case ScreenFit.FIT_SCREEN:
-        this.elementRef.nativeElement.toggleAttribute("real-size", true);
-        break;
-      case ScreenFit.FULLSCREEN:
-        this.elementRef.nativeElement.toggleAttribute("real-size", false);
-        break;
-    }
+    // switch (mode) {
+    //   case ScreenFit.FIT_SCREEN:
+    //     this.elementRef.nativeElement.toggleAttribute("real-size", true);
+    //     break;
+    //   case ScreenFit.FULLSCREEN:
+    //     this.elementRef.nativeElement.toggleAttribute("real-size", false);
+    //     break;
+    // }
   }
 
   onDelete(ev: any) {
@@ -170,7 +159,7 @@ export class GeneratedComponent implements OnInit {
         this.dataSubject.next(entity);
         switch (entity.status) {
           case STATUS.GENERATED:
-            this.setBackground(entity.image.raw_src || "");
+            // this.setBackground(entity.image.raw_src || "");
             this.setMode(ViewMode.GENERATED);
             break;
           default:

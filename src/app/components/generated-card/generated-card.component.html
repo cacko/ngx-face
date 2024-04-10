@@ -8,6 +8,10 @@
             [src]="data.source.raw_src"
             [attr.show]="mode == modes.SOURCE ? '1' : null"
         ></app-overlay>
+        <app-overlay
+            [src]="data.image.raw_src"
+            [attr.show]="mode == modes.GENERATED ? '1' : null"
+        ></app-overlay>
         <div class="spacer toggle"></div>
         <div info>
             <div>{{data.last_modified | amTimeAgo}}</div>
@@ -39,11 +43,13 @@
         </div>
     </ng-template>
     <ng-template [ngSwitchCase]="statuses.IN_PROGRESS">
+        <app-overlay [src]="data.source.raw_src" show></app-overlay>
         <div class="spacer"></div>
         <app-loading>In Progress</app-loading>
         <div class="spacer"></div>
     </ng-template>
     <ng-template [ngSwitchCase]="statuses.ERROR">
+        <app-overlay [src]="data.source.raw_src" show></app-overlay>
         <div class="spacer"></div>
         <div card-status>
             <div
@@ -69,6 +75,7 @@
         </div>
     </ng-template>
     <ng-template [ngSwitchDefault]>
+        <app-overlay [src]="data.source.raw_src" show></app-overlay>
         <div class="spacer"></div>
         <div card-status>
             <div

@@ -1,1 +1,2 @@
-<div image [ngStyle]="getImageStyle(src)"></div>
+<img [ngSrc]="src" fill priority appDragScroll draggable="false" *ngIf="drag" [reset]="reset">
+<img [ngSrc]="src" fill priority  draggable="false" *ngIf="!drag">
