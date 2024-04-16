@@ -27,6 +27,7 @@ export interface PromptEntity {
     height?: number;
     width?: number;
     seed ?: number;
+    auto_prompt ?: boolean;
 }
 
 export interface ChangeEntity {

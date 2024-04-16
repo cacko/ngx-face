@@ -47,7 +47,7 @@ export class DragScrollDirective implements AfterViewInit, OnDestroy {
     this.initDrag();
   }
 
-  @Input() set reset(realSize: boolean) {
+  @Input() set reset(realSize: boolean|null) {
     if (!this.element) {
       return;
     }

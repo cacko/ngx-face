@@ -2,6 +2,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, Renderer2, SimpleChange, SimpleChanges } from '@angular/core';
 import { DragScrollDirective } from '../../drag-scroll.directive';
 import { ScreenFit } from '../../entity/view.entity';
+import { BehaviorSubject } from 'rxjs';
 
 
 
@@ -22,7 +23,8 @@ interface ImageStyle {
 })
 export class OverlayComponent implements OnChanges {
 
-  public reset = false;
+  private resetSubject = new BehaviorSubject<boolean>(false);
+  public $reset = this.resetSubject.asObservable();
 
   @Input() src !: string;
   @Input() drag = false;
@@ -31,10 +33,11 @@ export class OverlayComponent implements OnChanges {
     switch(mode) {
       case ScreenFit.FIT_SCREEN:
         this.renderer.setAttribute(this.el.nativeElement, "real-size", "");
-        this.reset = true;
+        this.resetSubject.next(true);
         break;
       default:
         this.renderer.removeAttribute(this.el.nativeElement, "real-size");
+        this.resetSubject.next(false);
     }
   }
 

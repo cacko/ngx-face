@@ -12,10 +12,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { PromptEntity } from '../../entity/view.entity';
 import { DatabaseService } from '../../service/database.service';
 import { NgPipesModule, TrimPipe } from 'ngx-pipes';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 @Component({
   selector: 'app-options',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule, StartCasePipe, NgPipesModule ,MatExpansionModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule, StartCasePipe, NgPipesModule, MatExpansionModule, MatSlideToggleModule, MatCheckboxModule],
   templateUrl: './options.component.html',
   styleUrl: './options.component.scss'
 })
@@ -43,7 +46,7 @@ export class OptionsComponent implements OnInit {
       clip_skip: [null],
       seed: [null],
       width: [null],
-      height: [null]
+      height: [null],
     });
   }
 
