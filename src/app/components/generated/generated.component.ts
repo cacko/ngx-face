@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { GeneratedEntitty, STATUS } from '../../entity/upload.entity';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -41,6 +41,8 @@ export class GeneratedComponent implements OnInit {
   screens = ScreenFit;
   prompt?: PromptEntity | null = null;
   private overlay: any;
+  previousId: string|null = null;
+  nextId: string|null = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -56,6 +58,8 @@ export class GeneratedComponent implements OnInit {
     this.activatedRoute.data.subscribe({
       next: (data: RouteDataEntity) => {
         const entity = data.data as GeneratedEntitty;
+        this.previousId = this.api.getPreviousId(entity);
+        this.nextId = this.api.getNextId(entity);
         this.dataSubject.next(entity);
         switch (entity.status) {
           case STATUS.GENERATED:
@@ -169,5 +173,39 @@ export class GeneratedComponent implements OnInit {
       }
     })
   }
+
+
+  onNext(ev: MouseEvent) {
+    ev.stopPropagation();
+    return this.next();
+  }
+
+  onPrevious(ev: MouseEvent) {
+    ev.stopPropagation();
+    return this.previous();
+  }
+
+  private next() {
+    return this.nextId && this.router.navigate(['/g', this.nextId], {state: {animation: "next"}});
+  }
+
+  private previous() {
+    return this.previousId && this.router.navigate(['/g', this.previousId], {state: {animation: "previous"}});
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  keyNavigation(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowLeft':
+        event.preventDefault();
+        return this.previous();
+      case 'ArrowRight':
+        event.preventDefault();
+        return this.next();
+      default:
+        return event;
+    }
+  }
+
 
 }

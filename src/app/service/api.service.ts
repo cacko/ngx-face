@@ -5,7 +5,7 @@ import { API, GeneratedEntitty } from '../entity/upload.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
-import { concat, findIndex } from 'lodash-es';
+import { concat, findIndex, findLastIndex } from 'lodash-es';
 import { LocalStorageService } from 'ngx-localstorage';
 import moment, { Moment } from 'moment';
 import { LoaderService } from './loader.service';
@@ -110,6 +110,16 @@ export class ApiService {
 
   private set entities(value: GeneratedEntitty[]) {
     this.storage.set("entities", value);
+  }
+
+  getPreviousId(itm: GeneratedEntitty): string|null {
+    let idx =  findIndex(this.entities, ['slug', itm.slug]);
+    return --idx < 0 ? null : this.entities[idx].slug;
+  }
+
+  getNextId(itm: GeneratedEntitty): string|null {
+    let idx =  findIndex(this.entities, ['slug', itm.slug]);
+    return ++idx >= this.entities.length ? null : this.entities[idx].slug;
   }
 
   getGenerated(id: string, useCache: boolean = true): any {

@@ -33,6 +33,41 @@
           cursor: pointer;
         }
       }
+
+      .navigate {
+        position: absolute;
+        height: 100vh;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        width: 3rem;
+        z-index: 2;
+        &.navigate-back {
+          top: 0;
+          left: 0;
+          justify-content: start;
+          &:hover {
+            cursor: w-resize;
+          }
+        }
+        &.navigate-forward {
+          top: 0;
+          right: 0;
+          justify-content: end;
+          &:hover {
+            cursor: e-resize;
+          }
+        }
+        &.navigate-home {
+          top: 0;
+          left: 0;
+          height: 3rem;
+          width: 100vh;
+          &:hover {
+            cursor: n-resize;
+          }
+        }
+      }
       app-prompt {
         z-index: 1;
         background-color: rgba(255,255,255,0.5);

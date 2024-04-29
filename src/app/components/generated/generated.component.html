@@ -3,6 +3,32 @@
     [ngSwitch]="data.status"
     content
 >
+    <div
+        class="navigate navigate-back"
+        *ngIf="previousId"
+        (click)="onPrevious($event)"
+    >
+        <button
+            *ngIf="previousId"
+            mat-icon-button
+            (click)="onPrevious($event)"
+        >
+            <mat-icon>navigate_before</mat-icon>
+        </button>
+    </div>
+    <div
+        class="navigate navigate-forward"
+        *ngIf="nextId"
+        (click)="onNext($event)"
+    >
+        <button
+            *ngIf="nextId"
+            mat-icon-button
+            (click)="onNext($event)"
+        >
+            <mat-icon>navigate_next</mat-icon>
+        </button>
+    </div>
     <ng-template [ngSwitchCase]="status.GENERATED">
         <app-overlay
             [src]="data.source.raw_src"
@@ -94,7 +120,6 @@
             show
             [drag]="true"
             (doubleClick)="onScreen($event)"
-
         ></app-overlay>
         <app-loading [entity]="data">In Progress</app-loading>
     </ng-template>
