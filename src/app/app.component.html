@@ -4,6 +4,7 @@
         mat-icon-button
         aria-label="Home"
         routerLink="/"
+        color="accent"
     >
         <mat-icon>photo_library</mat-icon>
     </button>
@@ -11,6 +12,7 @@
         mat-icon-button
         routerLink="/camera"
         *ngIf="url != '/camera'"
+        color="warn"
     >
         <mat-icon>photo_camera</mat-icon>
     </button>
@@ -18,6 +20,7 @@
         mat-icon-button
         routerLink="/file"
         *ngIf="url != '/file'"
+        color="primary"
     >
         <mat-icon>upload</mat-icon>
     </button>

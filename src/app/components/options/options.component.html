@@ -9,7 +9,6 @@
                formControlName="template"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option>-None-</mat-option>
           @for (template of filteredTemplates | async | orderBy; track template) {
             <mat-option [value]="template | trim: '*'">{{template | startCase}}</mat-option>
           }
@@ -36,7 +35,6 @@
           formControlName="model"
           [matAutocomplete]="auto">
    <mat-autocomplete #auto="matAutocomplete">
-     <mat-option>-None-</mat-option>
      @for (model of filteredModels | async | orderBy; track model) {
       <mat-option [value]="model | trim: '*'">{{model | startCase}}</mat-option>
     }
