@@ -14,11 +14,13 @@ import { DatabaseService } from '../../service/database.service';
 import { NgPipesModule, TrimPipe } from 'ngx-pipes';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { Observable, filter, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-options',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule, StartCasePipe, NgPipesModule, MatExpansionModule, MatSlideToggleModule, MatCheckboxModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatSelectModule, MatInputModule, MatButtonModule, StartCasePipe, NgPipesModule, MatExpansionModule, MatSlideToggleModule, MatCheckboxModule, MatAutocompleteModule],
   templateUrl: './options.component.html',
   styleUrl: './options.component.scss'
 })
@@ -29,6 +31,12 @@ export class OptionsComponent implements OnInit {
   @Input() prompt?: PromptEntity | null = null;
 
   $options = this.db.options;
+
+  templates: string[] = [];
+  models: string[] = [];
+  filteredTemplates !: Observable<string[]>;
+  filteredModels !: Observable<string[]>;
+
 
   constructor(
     private fb: FormBuilder,
@@ -51,23 +59,45 @@ export class OptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.$options.subscribe((options) => {
+      this.templates = options.templates;
+      this.models = options.models;
+    });
     if (this.prompt) {
       this.form.patchValue(this.prompt);
     }
-    this.form.get("template")?.valueChanges.subscribe((value: any) => {
-      value && this.form.patchValue({
-        prompt: null,
-        model: null,
-        guidance_scale: null,
-        scale: null,
-        negative_prompt: null,
-        clip_skip: null,
-        seed: null,
-        num_inference_steps: null,
-        width: null,
-        height: null,
-      });
-    })
+    this.filteredTemplates =  this.form.get("template")?.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        value && this.form.patchValue({
+          prompt: null,
+          model: null,
+          guidance_scale: null,
+          scale: null,
+          negative_prompt: null,
+          clip_skip: null,
+          seed: null,
+          num_inference_steps: null,
+          width: null,
+          height: null,
+        });
+        return this._filterTemplates(value || '');
+      }),
+    ) as Observable<string[]>;
+    this.filteredModels = this.form.get("model")?.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterModels(value || '')),
+    ) as Observable<string[]>;
+  }
+
+  private _filterTemplates(value: string): string[] {
+    const flt = value.toLowerCase();
+    return this.templates.filter(tpl => tpl.toLowerCase().includes(flt));
+  }
+
+  private _filterModels(value: string): string[] {
+    const flt = value.toLowerCase();
+    return this.models.filter(mdl => mdl.toLowerCase().includes(flt));
   }
 
   onClear(ev: MouseEvent) {
