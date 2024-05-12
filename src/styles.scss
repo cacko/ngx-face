@@ -6,8 +6,6 @@
 @use "./scss/components/overlay" as myOverlay;
 @use "./scss/components/preview" as myPreview;
 
-mat.$theme-ignore-duplication-warnings: true;
-
 @include mat.core();
 
 $theme-primary: mat.define-palette(mat.$lime-palette);
