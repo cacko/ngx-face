@@ -122,8 +122,12 @@ export class GeneratedComponent implements OnInit {
     this.prompt = prompt;
   }
 
-  onDownload(ev: MouseEvent, src: string, name: string) {
+  onDownload(ev: MouseEvent) {
     ev.stopPropagation();
+    const data = this.dataSubject.value as GeneratedEntitty;
+    const suffix = this.mode == ViewMode.GENERATED ? 'generated' : 'source';
+    const name = `${data.slug}-${suffix}`;
+    const src = this.mode == ViewMode.GENERATED ? data.image.raw_src : data.source.raw_src;
     saveAs(src, `${name}.png`);
   }
 
