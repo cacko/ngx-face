@@ -14,13 +14,11 @@ tasks:
   build:
     desc: build
     cmds:
-      - rm -rf dist
       - ng build --configuration production --progress --service-worker
 
   deploy:
     desc: deploy to firebase
     cmds:
-      - rm -rf dist
       - ng deploy
 
   push:
