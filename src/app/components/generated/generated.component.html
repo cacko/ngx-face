@@ -3,33 +3,33 @@
     [ngSwitch]="data.status"
     content
 >
-    <div
-        class="navigate navigate-back"
-        *ngIf="previousId"
-        (click)="onPrevious($event)"
-    >
-        <button
+    <ng-template [ngSwitchCase]="status.GENERATED">
+        <div
+            class="navigate navigate-back"
             *ngIf="previousId"
-            mat-icon-button
             (click)="onPrevious($event)"
         >
-            <mat-icon>navigate_before</mat-icon>
-        </button>
-    </div>
-    <div
-        class="navigate navigate-forward"
-        *ngIf="nextId"
-        (click)="onNext($event)"
-    >
-        <button
+            <button
+                *ngIf="previousId"
+                mat-icon-button
+                (click)="onPrevious($event)"
+            >
+                <mat-icon>navigate_before</mat-icon>
+            </button>
+        </div>
+        <div
+            class="navigate navigate-forward"
             *ngIf="nextId"
-            mat-icon-button
             (click)="onNext($event)"
         >
-            <mat-icon>navigate_next</mat-icon>
-        </button>
-    </div>
-    <ng-template [ngSwitchCase]="status.GENERATED">
+            <button
+                *ngIf="nextId"
+                mat-icon-button
+                (click)="onNext($event)"
+            >
+                <mat-icon>navigate_next</mat-icon>
+            </button>
+        </div>
         <app-overlay
             [src]="data.source.raw_src"
             [screenFit]="this.screen"
@@ -110,7 +110,21 @@
         <div class="spacer"></div>
         <div info>
             <div timestamp>{{data.last_modified | amTimeAgo}}</div>
+            <button
+                mat-icon-button
+                (click)="onReplay($event, data.slug)"
+            >
+                <mat-icon>replay</mat-icon>
+            </button>
             <div class="spacer"></div>
+            <div>
+                <button
+                    mat-icon-button
+                    (click)="onDelete($event, data.slug)"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
         </div>
     </ng-template>
     <ng-template [ngSwitchCase]="status.IN_PROGRESS">
@@ -141,6 +155,7 @@
         <div class="spacer"></div>
         <div info>
             <div timestamp>{{data.last_modified | amTimeAgo}}</div>
+
         </div>
     </ng-template>
 </div>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { GeneratedEntitty, STATUS } from '../../entity/upload.entity';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -48,7 +48,6 @@ export class GeneratedComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private api: ApiService,
     private db: DatabaseService,
-    private elementRef: ElementRef,
     private router: Router,
     private snackBar: MatSnackBar
   ) { }
@@ -113,10 +112,6 @@ export class GeneratedComponent implements OnInit {
     // }
   }
 
-  onDelete(ev: any) {
-
-  }
-
   onPrompt(ev: MouseEvent) {
     ev.stopPropagation();
     if (this.prompt) {
@@ -135,6 +130,19 @@ export class GeneratedComponent implements OnInit {
   onReplay(ev: MouseEvent, slug: string) {
     ev.stopPropagation();
     this.router.navigateByUrl(`re/${slug}`);
+  }
+
+  onDelete(ev: MouseEvent, slug: string) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    this.api.delete(slug).subscribe({
+      next: (data) => {
+        this.home();
+      }, error: (err: any) => {
+        console.error(err);
+      },
+      complete: () => { }
+    });
   }
 
   private listen(uid: string, slug: string) {
@@ -183,6 +191,10 @@ export class GeneratedComponent implements OnInit {
   onPrevious(ev: MouseEvent) {
     ev.stopPropagation();
     return this.previous();
+  }
+
+  private home() {
+    return this.router.navigateByUrl("/");
   }
 
   private next() {

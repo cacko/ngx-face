@@ -31,7 +31,7 @@ $my-theme: mat.define-dark-theme(
 
 @include mat.core-theme($my-theme);
 @include mat.all-component-bases($my-theme);
-@include mat.all-component-themes($my-theme);
+// @include mat.all-component-themes($my-theme);
 @include mat.all-component-colors(
   (
     color: (
