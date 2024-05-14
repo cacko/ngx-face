@@ -12,6 +12,7 @@ import { ApiService } from '../../service/api.service';
 import { MatCardModule } from '@angular/material/card';
 import { OverlayComponent } from '../overlay/overlay.component';
 import moment, { Moment } from 'moment';
+import { ConfirmDirective } from '../../confirm.directive';
 
 @Component({
   selector: 'app-generated-card',
@@ -24,7 +25,8 @@ import moment, { Moment } from 'moment';
     MatIconModule,
     MatCardModule,
     LoadingComponent,
-    OverlayComponent
+    OverlayComponent,
+    ConfirmDirective
   ],
   templateUrl: './generated-card.component.html',
   styleUrl: './generated-card.component.scss'
@@ -122,9 +124,7 @@ export class GeneratedCardComponent implements OnInit {
   }
 
 
-  onDelete(ev: MouseEvent) {
-    ev.preventDefault();
-    ev.stopPropagation();
+  onDelete() {
     this.api.delete(this.data.slug).subscribe({
       next: (data) => {
         this.deleted.emit(this.data.slug);

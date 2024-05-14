@@ -16,6 +16,7 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 
 import { OverlayComponent } from '../overlay/overlay.component';
 import moment, { Moment } from 'moment';
+import { ConfirmDirective } from '../../confirm.directive';
 
 interface RouteDataEntity {
   data?: GeneratedEntitty;
@@ -24,7 +25,7 @@ interface RouteDataEntity {
 @Component({
   selector: 'app-generated',
   standalone: true,
-  imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent, OverlayComponent, MatSnackBarModule],
+  imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent, OverlayComponent, MatSnackBarModule, ConfirmDirective],
   templateUrl: './generated.component.html',
   styleUrl: './generated.component.scss'
 })
@@ -41,8 +42,8 @@ export class GeneratedComponent implements OnInit {
   screens = ScreenFit;
   prompt?: PromptEntity | null = null;
   private overlay: any;
-  previousId: string|null = null;
-  nextId: string|null = null;
+  previousId: string | null = null;
+  nextId: string | null = null;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -102,14 +103,6 @@ export class GeneratedComponent implements OnInit {
 
   setScreenFit(mode: ScreenFit) {
     this.screen = mode;
-    // switch (mode) {
-    //   case ScreenFit.FIT_SCREEN:
-    //     this.elementRef.nativeElement.toggleAttribute("real-size", true);
-    //     break;
-    //   case ScreenFit.FULLSCREEN:
-    //     this.elementRef.nativeElement.toggleAttribute("real-size", false);
-    //     break;
-    // }
   }
 
   onPrompt(ev: MouseEvent) {
@@ -136,9 +129,8 @@ export class GeneratedComponent implements OnInit {
     this.router.navigateByUrl(`re/${slug}`);
   }
 
-  onDelete(ev: MouseEvent, slug: string) {
-    ev.preventDefault();
-    ev.stopPropagation();
+  onDelete() {
+    const slug = this.dataSubject.value?.slug || "";
     this.api.delete(slug).subscribe({
       next: (data) => {
         this.home();
@@ -202,11 +194,11 @@ export class GeneratedComponent implements OnInit {
   }
 
   private next() {
-    return this.nextId && this.router.navigate(['/g', this.nextId], {state: {animation: "next"}});
+    return this.nextId && this.router.navigate(['/g', this.nextId], { state: { animation: "next" } });
   }
 
   private previous() {
-    return this.previousId && this.router.navigate(['/g', this.previousId], {state: {animation: "previous"}});
+    return this.previousId && this.router.navigate(['/g', this.previousId], { state: { animation: "previous" } });
   }
 
   @HostListener('window:keydown', ['$event'])
