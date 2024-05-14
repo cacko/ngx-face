@@ -19,9 +19,15 @@ export interface DialogData {
 @Component({
   selector: 'app-dialog-confirm',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatDialogClose, MatDialogActions, MatDialogTitle, MatDialogContent],
+  imports: [
+    CommonModule, 
+    MatButtonModule, 
+    MatDialogClose, 
+    MatDialogActions, 
+    MatDialogTitle, 
+    MatDialogContent
+  ],
   templateUrl: './dialog-confirm.component.html',
-  styleUrl: './dialog-confirm.component.scss'
 })
 export class DialogConfirmComponent {
 

@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogConfirmComponent } from './components/dialog-confirm/dialog-confirm.component';
 
@@ -8,6 +8,8 @@ import { DialogConfirmComponent } from './components/dialog-confirm/dialog-confi
 })
 export class ConfirmDirective {
 
+  @Input() confirmTitle = "Delete?";
+  @Input() confirmContent = "Are you sure?";
 
   @Output() confirm = new EventEmitter<boolean>();
 
@@ -21,8 +23,8 @@ export class ConfirmDirective {
     $event.stopPropagation();
     const dialogRef = this.dialog.open(DialogConfirmComponent, {
       data: {
-        title: "Delete?",
-        content: "Are you sure?"
+        title: this.confirmTitle,
+        content: this.confirmContent
       }
     });
     dialogRef.afterClosed().subscribe((res) => {
