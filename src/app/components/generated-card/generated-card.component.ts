@@ -52,19 +52,16 @@ export class GeneratedCardComponent implements OnInit {
   ngOnInit(): void {
     switch (this.data.status) {
       case STATUS.GENERATED:
-        // this.setBackground(this.data.image.raw_src);
         this.setMode(ViewMode.GENERATED);
         break;
       case STATUS.ERROR:
       case STATUS.IDLE:
-        // this.setBackground(this.data.source.raw_src);
         this.setMode(ViewMode.SOURCE);
         break;
       case STATUS.IN_PROGRESS:
       case STATUS.PENDING:
       case STATUS.STARTED:
         this.listen(this.data.uid, this.data.slug);
-        // this.setBackground(this.data.source.raw_src);
         this.setMode(ViewMode.SOURCE);
         break;
     }

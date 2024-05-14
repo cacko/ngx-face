@@ -1,4 +1,4 @@
-import { Component, OnInit, isDevMode } from '@angular/core';
+import { Component, OnInit, inject, isDevMode } from '@angular/core';
 import { Event, EventType, Router, RouterModule, RouterOutlet } from '@angular/router';
 import { CameraComponent } from './components/camera/camera.component';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,7 @@ import { DatabaseService } from './service/database.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { AvatarComponent } from './components/avatar/avatar.component';
+import { Analytics, setAnalyticsCollectionEnabled } from '@angular/fire/analytics';
 
 @Component({
   selector: 'app-root',
@@ -50,9 +51,11 @@ export class AppComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private iconRegister: MatIconRegistry,
-    private db: DatabaseService
+    private db: DatabaseService,
+    private analytics: Analytics = inject(Analytics)
   ) {
     this.iconRegister.setDefaultFontSetClass('material-symbols-sharp');
+    setAnalyticsCollectionEnabled(this.analytics, true);
 
     this.userService.user.subscribe((res) => {
       if (res?.uid) {

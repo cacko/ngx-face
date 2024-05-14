@@ -64,15 +64,12 @@ export class GeneratedComponent implements OnInit {
         switch (entity.status) {
           case STATUS.GENERATED:
             this.setMode(ViewMode.GENERATED);
-            // this.setBackground(this.dataSubject.value?.image.raw_src || "");
             break;
           case STATUS.ERROR:
             this.setMode(ViewMode.SOURCE);
-            // this.setBackground(this.dataSubject.value?.source.raw_src || "");
             break;
           default:
             this.setMode(ViewMode.SOURCE);
-            // this.setBackground(this.dataSubject.value?.source.raw_src || "");
             this.listen(entity.uid, entity.slug);
         }
       },
@@ -167,7 +164,6 @@ export class GeneratedComponent implements OnInit {
         this.dataSubject.next(entity);
         switch (entity.status) {
           case STATUS.GENERATED:
-            // this.setBackground(entity.image.raw_src || "");
             this.setMode(ViewMode.GENERATED);
             break;
           default:
