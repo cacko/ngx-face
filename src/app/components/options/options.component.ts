@@ -11,11 +11,11 @@ import { StartCasePipe } from '../../pipes/start-case.pipe';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PromptEntity } from '../../entity/view.entity';
 import { DatabaseService } from '../../service/database.service';
-import { NgPipesModule, TrimPipe } from 'ngx-pipes';
+import { NgPipesModule } from 'ngx-pipes';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { Observable, filter, map, startWith } from 'rxjs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Observable, map, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-options',
@@ -53,6 +53,7 @@ export class OptionsComponent implements OnInit {
       negative_prompt: [null],
       clip_skip: [null],
       seed: [null],
+      strength: [null],
       width: [null],
       height: [null],
     });
@@ -66,7 +67,7 @@ export class OptionsComponent implements OnInit {
     if (this.prompt) {
       this.form.patchValue(this.prompt);
     }
-    this.filteredTemplates =  this.form.get("template")?.valueChanges.pipe(
+    this.filteredTemplates = this.form.get("template")?.valueChanges.pipe(
       startWith(''),
       map(value => {
         value && this.form.patchValue({
@@ -78,6 +79,7 @@ export class OptionsComponent implements OnInit {
           clip_skip: null,
           seed: null,
           num_inference_steps: null,
+          strength: null,
           width: null,
           height: null,
         });

@@ -70,6 +70,7 @@ export class GeneratedComponent implements OnInit {
             break;
           default:
             this.setMode(ViewMode.SOURCE);
+            this.setScreenFit(ScreenFit.FIT_SCREEN);
             this.listen(entity.uid, entity.slug);
         }
       },
