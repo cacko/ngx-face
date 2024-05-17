@@ -7,6 +7,7 @@ import { OptionsComponent } from '../options/options.component';
 import { LoaderService } from '../../service/loader.service';
 import { ApiService } from '../../service/api.service';
 import { Observable, Observer } from 'rxjs';
+import { now } from 'lodash-es';
 
 
 
@@ -82,7 +83,7 @@ export class ReplayComponent implements OnInit {
       img.onerror = (err) => {
         observer.error(err);
       };
-      img.src = url;
+      img.src = url + `?${now()}`;
 
     });
   }

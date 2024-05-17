@@ -20,10 +20,10 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    importProvidersFrom(provideFirebaseApp(() => initializeApp({ "projectId": "facision", "appId": "1:987420655172:web:034b56fad9a19d52180611", "storageBucket": "facision.appspot.com", "apiKey": "AIzaSyDPhJq5i3kpX5PeE3NQbMCoKHuj1VOC1Yo", "authDomain": "facision.firebaseapp.com", "messagingSenderId": "987420655172", "measurementId": "G-9JD2CLZF26", "databaseURL": "https://facision-default-rtdb.europe-west1.firebasedatabase.app/" }))),
-    importProvidersFrom(provideAuth(() => getAuth())),
-    importProvidersFrom(provideDatabase(() => getDatabase())),
-    importProvidersFrom(provideAnalytics(() => getAnalytics())),
+    (provideFirebaseApp(() => initializeApp({ "projectId": "facision", "appId": "1:987420655172:web:034b56fad9a19d52180611", "storageBucket": "facision.appspot.com", "apiKey": "AIzaSyDPhJq5i3kpX5PeE3NQbMCoKHuj1VOC1Yo", "authDomain": "facision.firebaseapp.com", "messagingSenderId": "987420655172", "measurementId": "G-9JD2CLZF26", "databaseURL": "https://facision-default-rtdb.europe-west1.firebasedatabase.app/" }))),
+    provideAuth(() => getAuth()),
+    (provideDatabase(() => getDatabase())),
+    (provideAnalytics(() => getAnalytics())),
     provideNgxLocalstorage({
       prefix: 'face',
     }),

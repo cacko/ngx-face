@@ -13,6 +13,14 @@
               "value": "no-cache"
             }
           ]
+        }, {
+          "source": "https://cdn.cacko.net/face/**",
+          "headers": [
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ]
         }
       ]
     }
