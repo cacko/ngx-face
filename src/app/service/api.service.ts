@@ -84,6 +84,15 @@ export class ApiService {
     });
   }
 
+  reUpload(data: object = {}): Observable<Object> {
+    const formData: FormData = new FormData();
+    formData.append('data', JSON.stringify(data));
+    return this.http.post(`${API.URL}/${API.ACTION_GENERATE}`, formData, {
+      headers: this.headers,
+      withCredentials: true,
+    });
+  }
+
   delete(id: string): Observable<Object> {
     return this.http.delete(`${API.URL}/${API.ACTION_GENERATED}/${id}`, {
       headers: this.headers,

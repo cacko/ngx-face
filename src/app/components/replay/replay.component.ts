@@ -53,49 +53,22 @@ export class ReplayComponent implements OnInit {
 
   onSubmit(data: any) {
     this.loader.show();
-    this.getBase64ImageFromURL(this.data?.source.raw_src || "").subscribe(
-      (dataUrl: string) => {
-        this.api.upload(dataUrl, data).subscribe({
-          next: (resp: any) => {
-            const response = resp as GeneratedEntitty;
-            this.router.navigateByUrl(`/g/${response.slug}`).then(() => {
-              this.loader.hide();
-            });
-          },
-          error: (err: any) => {
-            console.error(err);
-            this.loader.hide();
-          }
-        })
+    const image_url = this.data?.source.raw_src || "";
+    this.api.reUpload(Object.assign(data, { image_url })).subscribe({
+      next: (resp: any) => {
+        const response = resp as GeneratedEntitty;
+        this.router.navigateByUrl(`/g/${response.slug}`).then(() => {
+          this.loader.hide();
+        });
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.loader.hide();
       }
-    )
+    })
 
-  }
 
-  private getBase64ImageFromURL(url: string): Observable<string> {
-    return Observable.create((observer: Observer<string>) => {
-      let img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        observer.next(this.getBase64Image(img));
-        observer.complete();
-      };
-      img.onerror = (err) => {
-        observer.error(err);
-      };
-      img.src = url + `?${now()}`;
 
-    });
-  }
-
-  private getBase64Image(img: HTMLImageElement) {
-    const canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext("2d");
-    ctx?.drawImage(img, 0, 0);
-    const dataURL: string = canvas.toDataURL("image/png");
-    return dataURL;
   }
 
 
