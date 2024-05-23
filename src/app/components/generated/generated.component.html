@@ -102,7 +102,7 @@
     <ng-template [ngSwitchCase]="status.ERROR">
         <app-overlay
             [src]="data.source.raw_src"
-            [attr.real-size]="screen == screens.FIT_SCREEN ? '1' : null"
+            [screenFit]="this.screen"
             show
             [drag]="true"
             (doubleClick)="onScreen($event)"

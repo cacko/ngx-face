@@ -61,7 +61,6 @@ export class GeneratedComponent implements OnInit {
         this.previousId = this.api.getPreviousId(entity);
         this.nextId = this.api.getNextId(entity);
         this.dataSubject.next(entity);
-        console.log(entity);
         switch (entity.status) {
           case STATUS.GENERATED:
             this.setMode(ViewMode.GENERATED);

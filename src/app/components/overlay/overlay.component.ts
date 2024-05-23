@@ -53,6 +53,7 @@ export class OverlayComponent implements OnChanges {
       switch (prop) {
         case "src":
           this.src = (ch as SimpleChange).currentValue;
+          this.renderer.setStyle(this.el.nativeElement, "background-image", `url(${this.src})`)
           break;          
       }
     })

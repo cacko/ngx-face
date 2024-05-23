@@ -21,20 +21,23 @@
     transition: opacity 0.5s ease-in;
     overflow: auto;
     z-index: -1;
+    background-size:cover;
+    background-position: center;
+    background-blend-mode: darken;
     img {
       width: auto;
       object-fit: cover;
-      object-position: top;
+      object-position: center center;
       transition: object-position 100ms linear;
       &.dragging {
         cursor: grabbing;
       }
     }
-    background-color: mat.get-color-from-palette($background-palette, app-bar);
+    background-color: mat.get-color-from-palette($background-palette, background);
     &[real-size] {
       img {
         object-fit: contain;
-        object-position: top;
+        object-position: center center;
       }
     }
 
