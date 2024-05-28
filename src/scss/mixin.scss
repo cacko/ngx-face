@@ -4,16 +4,9 @@
 
 
 @function status-colors($theme) {
-    $color-config: mat.get-color-config($theme);
-    $palette: map.get($color-config, primary);
-    $accent: map.get($color-config, accent);
-    $warn: map.get($color-config, warn);
-    $theme-orange: mat.define-palette(mat.$orange-palette, 800);
-  
-    $error: mat.get-color-from-palette($warn);
-    $in-progress: mat.get-color-from-palette($theme-orange);
-    $pending: mat.get-color-from-palette($palette);
-    $response: darken(mat.get-color-from-palette($accent), 10%);
+    $error: mat.get-theme-color($theme, error);
+    $in-progress: mat.get-theme-color($theme, error, 80);
+    $pending: mat.get-theme-color($theme, primary);
   
     $statuses: (
       in-progress: $in-progress,

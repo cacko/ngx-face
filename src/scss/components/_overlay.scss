@@ -2,14 +2,6 @@
 @use "@angular/material" as mat;
 
 @mixin apply-theme($theme) {
-  $color-config: mat.get-color-config($theme);
-  $palette: map.get($color-config, primary);
-  $accent: map.get($color-config, accent);
-  $warn: map.get($color-config, warn);
-  $background-palette: map-get(
-    $map: $color-config,
-    $key: background,
-  );
 
   app-overlay {
     position: absolute;
@@ -33,7 +25,7 @@
         cursor: grabbing;
       }
     }
-    background-color: mat.get-color-from-palette($background-palette, background);
+    background-color: mat.get-theme-color($theme, surface);
     &[real-size] {
       img {
         object-fit: contain;

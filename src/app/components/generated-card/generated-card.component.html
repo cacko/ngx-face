@@ -5,11 +5,11 @@
 >
     <ng-template [ngSwitchCase]="statuses.GENERATED">
         <app-overlay
-            [src]="data.source.raw_src"
+            [src]="data.source.thumb_src"
             [attr.show]="mode == modes.SOURCE ? '1' : null"
         ></app-overlay>
         <app-overlay
-            [src]="data.image.raw_src"
+            [src]="data.image.thumb_src"
             [attr.show]="mode == modes.GENERATED ? '1' : null"
         ></app-overlay>
         <div class="spacer toggle"></div>
@@ -45,7 +45,7 @@
     </ng-template>
     <ng-template [ngSwitchCase]="statuses.IN_PROGRESS">
         <app-overlay
-            [src]="data.source.raw_src"
+            [src]="data.source.thumb_src"
             show
         ></app-overlay>
         <div class="spacer"></div>
@@ -54,7 +54,7 @@
     </ng-template>
     <ng-template [ngSwitchCase]="statuses.ERROR">
         <app-overlay
-            [src]="data.source.raw_src"
+            [src]="data.source.thumb_src"
             show
         ></app-overlay>
         <div class="spacer"></div>
@@ -84,7 +84,7 @@
     </ng-template>
     <ng-template [ngSwitchDefault]>
         <app-overlay
-            [src]="data.source.raw_src"
+            [src]="data.source.thumb_src"
             show
         ></app-overlay>
         <div class="spacer"></div>

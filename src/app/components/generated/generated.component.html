@@ -1,130 +1,98 @@
 <div
     *ngIf="($data | async) as data"
-    [ngSwitch]="data.status"
     content
 >
-    <ng-template [ngSwitchCase]="status.GENERATED">
-        <div
-            class="navigate navigate-back"
-            *ngIf="previousId"
-            (click)="onPrevious($event)"
-        >
-            <button
+    <ng-container
+        *ngIf="($status | async) as status"
+        [ngSwitch]="status"
+    >
+        <ng-template [ngSwitchCase]="statuses.GENERATED">
+            <div
+                class="navigate navigate-back"
                 *ngIf="previousId"
-                mat-icon-button
                 (click)="onPrevious($event)"
             >
-                <mat-icon>navigate_before</mat-icon>
-            </button>
-        </div>
-        <div
-            class="navigate navigate-forward"
-            *ngIf="nextId"
-            (click)="onNext($event)"
-        >
-            <button
+                <button
+                    *ngIf="previousId"
+                    mat-icon-button
+                    (click)="onPrevious($event)"
+                >
+                    <mat-icon>navigate_before</mat-icon>
+                </button>
+            </div>
+            <div
+                class="navigate navigate-forward"
                 *ngIf="nextId"
-                mat-icon-button
                 (click)="onNext($event)"
             >
-                <mat-icon>navigate_next</mat-icon>
-            </button>
-        </div>
-        <app-overlay
-            [src]="data.source.raw_src"
-            [screenFit]="this.screen"
-            [attr.show]="mode == modes.SOURCE ? '1' : null"
-            [drag]="true"
-            (doubleClick)="onScreen($event)"
-        ></app-overlay>
-        <app-overlay
-            [src]="data.image.raw_src"
-            [screenFit]="this.screen"
-            [attr.show]="mode == modes.GENERATED ? '1' : null"
-            [drag]="true"
-            (doubleClick)="onScreen($event)"
-        ></app-overlay>
-        <div
-            class="spacer toggle"
-            (click)="onScreen($event)"
-        ></div>
-        <app-prompt
-            *ngIf="prompt"
-            [data]="prompt"
-        ></app-prompt>
-        <div info>
-            <div timestamp>{{data.last_modified | amTimeAgo}}</div>
-            <button
-                mat-icon-button
-                (click)="onReplay($event, data.slug)"
-            >
-                <mat-icon>replay</mat-icon>
-            </button>
-            <div class="spacer"></div>
-            <button
-                mat-icon-button
-                (click)="onDownload($event)"
-            >
-                <mat-icon>download</mat-icon>
-            </button>
-            <button
-                mat-icon-button
-                (click)="onPrompt($event)"
-            >
-                <mat-icon>data_object</mat-icon>
-            </button>
-            <button
-                mat-icon-button
-                (click)="onMode($event)"
-            >
-                <mat-icon>
-                    {{mode == modes.SOURCE ? 'image' : 'person'}}
-                </mat-icon>
-            </button>
-            <button
-                type="button"
-                mat-icon-button
+                <button
+                    *ngIf="nextId"
+                    mat-icon-button
+                    (click)="onNext($event)"
+                >
+                    <mat-icon>navigate_next</mat-icon>
+                </button>
+            </div>
+            <app-overlay
+                [src]="data.source.raw_src"
+                [screenFit]="this.screen"
+                [attr.show]="mode == modes.SOURCE ? '1' : null"
+                [drag]="true"
+                (doubleClick)="onScreen($event)"
+            ></app-overlay>
+            <app-overlay
+                [src]="data.image.raw_src"
+                [screenFit]="this.screen"
+                [attr.show]="mode == modes.GENERATED ? '1' : null"
+                [drag]="true"
+                (doubleClick)="onScreen($event)"
+            ></app-overlay>
+            <div
+                class="spacer toggle"
                 (click)="onScreen($event)"
-            >
-                <mat-icon>
-                    {{ screen == screens.FIT_SCREEN ? 'fullscreen' : 'fit_screen' }}
-                </mat-icon>
-            </button>
-            <button
-                mat-icon-button
-                appConfirm
-                (confirm)="onDelete()"
-            >
-                <mat-icon>delete</mat-icon>
-            </button>
-        </div>
-    </ng-template>
-    <ng-template [ngSwitchCase]="status.ERROR">
-        <app-overlay
-            [src]="data.source.raw_src"
-            [screenFit]="this.screen"
-            show
-            [drag]="true"
-            (doubleClick)="onScreen($event)"
-        ></app-overlay>
-        <div class="spacer"></div>
-        <div
-            [attr.status]="data.status"
-            status-line
-        >
-            <div label>{{data.status}}</div>
-        </div>
-        <div class="spacer"></div>
-        <div info>
-            <div timestamp>{{data.last_modified | amTimeAgo}}</div>
-            <button
-                mat-icon-button
-                (click)="onReplay($event, data.slug)"
-            >
-                <mat-icon>replay</mat-icon>
-            </button>
-            <div class="spacer"></div>
-            <div>
+            ></div>
+            <app-prompt
+                *ngIf="prompt"
+                [data]="prompt"
+            ></app-prompt>
+            <div info>
+                <div timestamp>{{data.last_modified | amTimeAgo}}</div>
+                <button
+                    mat-icon-button
+                    (click)="onReplay($event, data.slug)"
+                >
+                    <mat-icon>replay</mat-icon>
+                </button>
+                <div class="spacer"></div>
+                <button
+                    mat-icon-button
+                    (click)="onDownload($event)"
+                >
+                    <mat-icon>download</mat-icon>
+                </button>
+                <button
+                    mat-icon-button
+                    (click)="onPrompt($event)"
+                >
+                    <mat-icon>data_object</mat-icon>
+                </button>
+                <button
+                    mat-icon-button
+                    (click)="onMode($event)"
+                >
+                    <mat-icon>
+                        {{mode == modes.SOURCE ? 'image' : 'person'}}
+                    </mat-icon>
+                </button>
+                <button
+                    type="button"
+                    mat-icon-button
+                    (click)="onScreen($event)"
+                >
+                    <mat-icon>
+                        {{ screen == screens.FIT_SCREEN ? 'fullscreen' : 'fit_screen' }}
+                    </mat-icon>
+                </button>
                 <button
                     mat-icon-button
                     appConfirm
@@ -133,37 +101,74 @@
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>
-        </div>
-    </ng-template>
-    <ng-template [ngSwitchCase]="status.IN_PROGRESS">
-        <app-overlay
-            [src]="data.source.raw_src"
-            [screenFit]="this.screen"
-            show
-            [drag]="true"
-            (doubleClick)="onScreen($event)"
-        ></app-overlay>
-        <app-loading [entity]="data">In Progress</app-loading>
-    </ng-template>
+        </ng-template>
+        <ng-template [ngSwitchCase]="statuses.ERROR">
+            <app-overlay
+                [src]="data.source.raw_src"
+                [screenFit]="this.screen"
+                show
+                [drag]="true"
+                (doubleClick)="onScreen($event)"
+            ></app-overlay>
+            <div class="spacer"></div>
+            <div
+                [attr.status]="status"
+                status-line
+            >
+                <div label>{{status}}</div>
+            </div>
+            <div class="spacer"></div>
+            <div info>
+                <div timestamp>{{data.last_modified | amTimeAgo}}</div>
+                <button
+                    mat-icon-button
+                    (click)="onReplay($event, data.slug)"
+                >
+                    <mat-icon>replay</mat-icon>
+                </button>
+                <div class="spacer"></div>
+                <div>
+                    <button
+                        mat-icon-button
+                        appConfirm
+                        (confirm)="onDelete()"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template [ngSwitchCase]="statuses.IN_PROGRESS">
+            <app-overlay
+                [src]="data.source.raw_src"
+                [screenFit]="this.screen"
+                show
+                [drag]="true"
+                (doubleClick)="onScreen($event)"
+            ></app-overlay>
+            <app-loading [entity]="data">In Progress</app-loading>
+        </ng-template>
 
-    <ng-template [ngSwitchDefault]>
-        <app-overlay
-            [src]="data.source.raw_src"
-            [screenFit]="this.screen"
-            show
-            [drag]="true"
-        ></app-overlay>
-        <div class="spacer"></div>
-        <div
-            [attr.status]="data.status"
-            status-line
-        >
-            <div label>{{data.status}}</div>
-        </div>
-        <div class="spacer"></div>
-        <div info>
-            <div timestamp>{{data.last_modified | amTimeAgo}}</div>
+        <ng-template [ngSwitchDefault]>
+            <app-overlay
+                [src]="data.source.raw_src"
+                [screenFit]="this.screen"
+                show
+                [drag]="true"
+            ></app-overlay>
+            <div class="spacer"></div>
+            <div
+                [attr.status]="status"
+                status-line
+            >
+                <div label>{{status}}</div>
+            </div>
+            <div class="spacer"></div>
+            <div info>
+                <div timestamp>{{data.last_modified | amTimeAgo}}</div>
 
-        </div>
-    </ng-template>
+            </div>
+        </ng-template>
+    </ng-container>
+
 </div>

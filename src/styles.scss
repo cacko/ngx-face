@@ -8,42 +8,38 @@
 
 @include mat.core();
 
-$theme-primary: mat.define-palette(mat.$lime-palette);
-$theme-accent: mat.define-palette(mat.$orange-palette);
-$theme-warn: mat.define-palette(mat.$red-palette);
-$custom-typography: mat.define-typography-config(
-  $font-family: "Anta",
-);
 
-$my-theme: mat.define-dark-theme(
-  (
-    color: (
-      primary: $theme-primary,
-      accent: $theme-accent,
-      warn: $theme-warn,
-      foreground: mat.$dark-theme-foreground-palette,
-      background: mat.$dark-theme-background-palette,
-    ),
-    typography: $custom-typography,
-    density: 0,
-  )
-);
 
-@include mat.core-theme($my-theme);
-@include mat.all-component-bases($my-theme);
-// @include mat.all-component-themes($my-theme);
-@include mat.all-component-colors(
-  (
-    color: (
-      primary: $theme-primary,
-      accent: $theme-accent,
-      warn: $theme-warn,
-      foreground: mat.$dark-theme-foreground-palette,
-      background: mat.$dark-theme-background-palette,
-      is-dark: true,
-    ),
+$my-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$violet-palette,
+  ),
+  typography: (
+    brand-family: 'Anta',
+    bold-weight: 900
+  ),
+  density: (
+    scale: -1
   )
-);
+));
+
+
+
+// @include mat.core-theme($my-theme);
+// @include mat.all-component-bases($my-theme);
+// @include mat.all-component-colors(
+//   (
+//     color: (
+//       primary: $theme-primary,
+//       accent: $theme-accent,
+//       warn: $theme-warn,
+//       foreground: mat.$m2-dark-theme-foreground-palette,
+//       background: mat.$m2-dark-theme-background-palette,
+//       is-dark: true,
+//     ),
+//   )
+// );
 @include myGeneratedCard.apply-theme($my-theme);
 @include myGenerated.apply-theme($my-theme);
 @include myLogin.apply-theme($my-theme);
@@ -59,6 +55,7 @@ $my-theme: mat.define-dark-theme(
 @import "./scss/components/avatar";
 
 html {
+  @include mat.all-component-themes($my-theme);
   box-sizing: border-box;
   padding: 0;
   margin: 0;

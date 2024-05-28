@@ -4,14 +4,6 @@
 @import 'animate.css';
 
 @mixin apply-theme($theme) {
-  $color-config: mat.get-color-config($theme);
-  $palette: map.get($color-config, primary);
-  $accent: map.get($color-config, accent);
-  $warn: map.get($color-config, warn);
-  $background-palette: map-get(
-    $map: $color-config,
-    $key: background,
-  );
 
   app-login {
     width: 100%;
@@ -39,7 +31,7 @@
           align-items: center;
           justify-content: center;
           border-radius: 50%;
-          border: 0.3rem solid  mat.get-color-from-palette($background-palette, tooltip);
+          border: 0.3rem solid  mat.get-theme-color($theme, tertiary);
           width: 30vh !important;
           height: 30vh !important;
           background-image: url(/assets/logo.webp);
@@ -48,7 +40,7 @@
           background-position: center;
           [click-to-login] {
             position: absolute;
-            background-color: adjust-color(mat.get-color-from-palette($background-palette, tooltip)
+            background-color: adjust-color(mat.get_theme-color($theme, tertiary)
             , $alpha: -0.5 );
             font-variant: small-caps;
             text-transform: lowercase;

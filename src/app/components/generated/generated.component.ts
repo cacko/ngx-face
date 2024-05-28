@@ -34,8 +34,12 @@ export class GeneratedComponent implements OnInit {
 
   private dataSubject = new BehaviorSubject<GeneratedEntitty | null>(null);
   $data = this.dataSubject.asObservable();
+
+  private statusSubject = new BehaviorSubject<STATUS|null>(null);
+  $status = this.statusSubject.asObservable();
+
   loading = false;
-  status = STATUS;
+  statuses = STATUS;
   mode: ViewMode = ViewMode.GENERATED;
   modes = ViewMode;
   screen: ScreenFit = ScreenFit.FULLSCREEN;
@@ -61,6 +65,7 @@ export class GeneratedComponent implements OnInit {
         this.previousId = this.api.getPreviousId(entity);
         this.nextId = this.api.getNextId(entity);
         this.dataSubject.next(entity);
+        this.statusSubject.next(entity.status);
         switch (entity.status) {
           case STATUS.GENERATED:
             this.setMode(ViewMode.GENERATED);

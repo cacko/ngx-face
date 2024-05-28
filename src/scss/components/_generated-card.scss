@@ -2,15 +2,6 @@
 @use "@angular/material" as mat;
 
 @mixin apply-theme($theme) {
-  $color-config: mat.get-color-config($theme);
-  $palette: map.get($color-config, primary);
-  $accent: map.get($color-config, accent);
-  $warn: map.get($color-config, warn);
-  $background-palette: map-get(
-    $map: $color-config,
-    $key: background,
-  );
-
   app-generated-card {
     width: 100%;
     aspect-ratio: 1;
@@ -44,7 +35,7 @@
         z-index: 1;
         @media screen and (max-width: 700px) {
           border-bottom: 0.3rem solid
-            mat.get-color-from-palette($background-palette, status-bar);
+            mat.get-theme-color($theme, surface);
         }
         padding: 0 0.5rem;
         display: flex;
