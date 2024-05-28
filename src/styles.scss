@@ -5,7 +5,7 @@
 @use "./scss/components/login" as myLogin;
 @use "./scss/components/overlay" as myOverlay;
 @use "./scss/components/preview" as myPreview;
-
+@use "./scss/components/prompt" as myPrompt;
 @include mat.core();
 
 
@@ -13,7 +13,6 @@
 $my-theme: mat.define-theme((
   color: (
     theme-type: dark,
-    primary: mat.$violet-palette,
   ),
   typography: (
     brand-family: 'Anta',
@@ -24,35 +23,20 @@ $my-theme: mat.define-theme((
   )
 ));
 
-
-
-// @include mat.core-theme($my-theme);
-// @include mat.all-component-bases($my-theme);
-// @include mat.all-component-colors(
-//   (
-//     color: (
-//       primary: $theme-primary,
-//       accent: $theme-accent,
-//       warn: $theme-warn,
-//       foreground: mat.$m2-dark-theme-foreground-palette,
-//       background: mat.$m2-dark-theme-background-palette,
-//       is-dark: true,
-//     ),
-//   )
-// );
 @include myGeneratedCard.apply-theme($my-theme);
 @include myGenerated.apply-theme($my-theme);
 @include myLogin.apply-theme($my-theme);
 @include myPreview.apply-theme($my-theme);
 @include myOverlay.apply-theme($my-theme);
+@include myPrompt.apply-theme($my-theme);
 @import "./scss/components/spacer";
 @import "./scss/components/camera";
 @import "./scss/components/home";
 @import "./scss/components/loading";
 @import "./scss/components/file";
 @import "./scss/components/replay";
-@import "./scss/components/prompt";
 @import "./scss/components/avatar";
+@import "./scss/components/loader";
 
 html {
   @include mat.all-component-themes($my-theme);

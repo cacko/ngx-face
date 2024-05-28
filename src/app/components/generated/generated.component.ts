@@ -35,7 +35,7 @@ export class GeneratedComponent implements OnInit {
   private dataSubject = new BehaviorSubject<GeneratedEntitty | null>(null);
   $data = this.dataSubject.asObservable();
 
-  private statusSubject = new BehaviorSubject<STATUS|null>(null);
+  private statusSubject = new BehaviorSubject<STATUS | null>(null);
   $status = this.statusSubject.asObservable();
 
   loading = false;
@@ -144,7 +144,7 @@ export class GeneratedComponent implements OnInit {
     });
   }
 
-  private listen(uid: string, slug: string) {
+  listen(uid: string, slug: string) {
     const lst = this.db.listen(uid, slug).subscribe((obs) => {
       if (obs === null) {
         return;
@@ -152,21 +152,20 @@ export class GeneratedComponent implements OnInit {
       switch (obs.status) {
         case STATUS.GENERATED:
         case STATUS.ERROR:
-          setTimeout(() => {
-            this.reload(slug, obs.last_modified);
-            lst.unsubscribe();
-          });
+          this.reload(slug, obs.last_modified);
+          lst.unsubscribe();
           break;
         default:
-          setTimeout(() => this.reload(slug, obs.last_modified));
+          this.reload(slug, obs.last_modified);
       }
     })
   }
 
-  private reload(slug: string, last_modified: string) {
+  async reload(slug: string, last_modified: string) {
     this.api.getGenerated(slug, moment(last_modified).isSame(moment(this.dataSubject.value?.last_modified))).subscribe({
       next: (data: any) => {
         const entity = data as GeneratedEntitty;
+        this.statusSubject.next(entity.status);
         this.dataSubject.next(entity);
         switch (entity.status) {
           case STATUS.GENERATED:

@@ -1,27 +1,30 @@
 @use "@angular/material" as mat;
 
-app-prompt {
+@mixin apply-theme($theme) {
+  app-prompt {
     transition: all 500ms ease-in-out;
     display: flex;
     flex-direction: column;
     padding: 0.5rem;
     z-index: 1;
+    background-color: mat.get-theme-color($theme, tertiary);
     [grid] {
-        display: block;
-        [label] {
-            display: inline;
-            text-align: right;
-            font-weight: bold;
-            font-size: 120%;
-            font-variant: small-caps;
-            text-transform: lowercase;
-        }
-        [value] {
-            display: inline;
-            font-family: 'Share Tech Mono';
-            button {
-                @include mat.button-density(-5);
-            }
-        }
+      display: block;
+      [label] {
+        display: inline;
+        text-align: right;
+        font-weight: bold;
+        font-size: 120%;
+        font-variant: small-caps;
+        text-transform: lowercase;
+        color: mat.get-theme-color($theme, on-primary-fixed);
+      }
+      [value] {
+        display: inline;
+        font-family: "Share Tech Mono";
+        color: mat.get-theme-color($theme, inverse-on-surface);
+        user-select: text;
+      }
     }
+  }
 }
