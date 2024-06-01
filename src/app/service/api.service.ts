@@ -90,7 +90,15 @@ export class ApiService {
     return this.http.post(`${API.URL}/${API.ACTION_GENERATE}`, formData, {
       headers: this.headers,
       withCredentials: true,
-    });
+    }).pipe(tap((data: any) => {
+      const entity = data as GeneratedEntitty;
+      const entities = this.entities;
+      const idx = findIndex(entities, { slug: entity.slug });
+      if (idx > -1) {
+        entities[idx] = entity;
+        this.entities = entities;
+      }
+    }));
   }
 
   delete(id: string): Observable<Object> {
