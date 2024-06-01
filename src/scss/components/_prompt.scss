@@ -26,5 +26,16 @@
         user-select: text;
       }
     }
+    &.loading {
+      background-color: unset !important;
+      [grid] {
+        [label] {
+          color: mat.get-theme-color($theme, primary-fixed);
+        }
+        [value] {
+          color: mat.get-theme-color($theme, on-surface);
+        }
+      }
+    }
   }
 }

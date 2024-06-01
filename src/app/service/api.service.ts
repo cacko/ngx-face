@@ -97,6 +97,9 @@ export class ApiService {
       if (idx > -1) {
         entities[idx] = entity;
         this.entities = entities;
+      } else {
+        entities.unshift(entity);
+        this.entities = entities;
       }
     }));
   }
