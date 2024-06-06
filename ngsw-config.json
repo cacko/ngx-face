@@ -34,11 +34,11 @@
       "urls": [
         "https://face-api.cacko.net/**"
       ],
-      "version": 2,
       "cacheConfig": {
-        "strategy": "performance",
-        "maxSize": 0,
-        "maxAge": "1s"
+        "strategy": "freshness",
+        "maxSize": 100,
+        "maxAge": "1d",
+        "timeout": "10s"
       }
     }
   ]

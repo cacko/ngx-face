@@ -53,7 +53,8 @@
               "serviceWorker": "ngsw-config.json",
               "allowedCommonJsDependencies": [
                 "moment",
-                "file-saver"
+                "file-saver",
+                "node-fetch"
               ]
             },
             "development": {
