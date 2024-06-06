@@ -11,7 +11,8 @@
           "/manifest.webmanifest",
           "/*.css",
           "/*.js",
-          "/styles.scss"
+          "/styles.scss",
+          "/assets/models/**"
         ]
       }
     },

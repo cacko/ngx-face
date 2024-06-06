@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import { OptionsComponent } from '../options/options.component';
 import { NgPipesModule } from 'ngx-pipes';
 import { MatIconModule } from '@angular/material/icon';
+import { FaceService } from '../../service/face.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 interface Cameras {
   user: string[];
@@ -20,7 +22,7 @@ interface Cameras {
 @Component({
   selector: 'app-camera',
   standalone: true,
-  imports: [FormsModule, CommonModule, WebcamModule, MatButtonModule, OptionsComponent, NgPipesModule, MatIconModule],
+  imports: [FormsModule, CommonModule, WebcamModule, MatButtonModule, OptionsComponent, NgPipesModule, MatIconModule, MatSnackBarModule],
   templateUrl: './camera.component.html',
   styleUrl: './camera.component.scss'
 })
@@ -49,7 +51,9 @@ export class CameraComponent implements OnInit {
     private api: ApiService,
     private loader: LoaderService,
     private router: Router,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private faceService: FaceService,
+    private snackbar: MatSnackBar
   ) {
 
   }
@@ -118,11 +122,17 @@ export class CameraComponent implements OnInit {
     this.showWebcam = false;
   }
 
-  onSubmit(data: any) {
+  async onSubmit(data: any) {
     if (!this.captured) {
       return;
     }
     const webcamImage = this.captured;
+    const det = await this.faceService.detectFaces(webcamImage.imageAsDataUrl)
+    if (!det.length) {
+      this.snackbar
+        .open('No faces are detected', 'Ok', { duration: 5000, politeness: "assertive" });
+      return;
+    }
     this.loader.show();
     this.api.upload(webcamImage.imageAsDataUrl, data).subscribe({
       next: (resp: any) => {

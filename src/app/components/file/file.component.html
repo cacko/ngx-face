@@ -1,5 +1,5 @@
 <div *ngIf="($file | async) as file" preview>
-    <img [src]="file">
+    <img [src]="file" #fileImage>
 </div>
 <form [formGroup]="form">
     <mat-form-field>
@@ -18,6 +18,7 @@
             <mat-icon>close</mat-icon>
         </button>
         <mat-icon matSuffix>upload</mat-icon>
+        <mat-error *ngIf="fileControl.getError('face') as error">{{error}}</mat-error>
     </mat-form-field>
 </form>
 <app-options (submit)="onSubmit($event)"></app-options>

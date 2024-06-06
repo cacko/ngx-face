@@ -3,7 +3,7 @@
     content
 >
     <ng-container
-        *ngIf="($status | async) as status"
+        *ngIf="data.status as status"
         [ngSwitch]="status"
     >
         <ng-template [ngSwitchCase]="statuses.GENERATED">

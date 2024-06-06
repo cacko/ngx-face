@@ -34,10 +34,6 @@ export class GeneratedComponent implements OnInit {
 
   private dataSubject = new BehaviorSubject<GeneratedEntitty | null>(null);
   $data = this.dataSubject.asObservable();
-
-  private statusSubject = new BehaviorSubject<STATUS | null>(null);
-  $status = this.statusSubject.asObservable();
-
   loading = false;
   statuses = STATUS;
   mode: ViewMode = ViewMode.GENERATED;
@@ -65,7 +61,6 @@ export class GeneratedComponent implements OnInit {
         this.previousId = this.api.getPreviousId(entity);
         this.nextId = this.api.getNextId(entity);
         this.dataSubject.next(entity);
-        this.statusSubject.next(entity.status);
         switch (entity.status) {
           case STATUS.GENERATED:
             this.setMode(ViewMode.GENERATED);
@@ -162,13 +157,9 @@ export class GeneratedComponent implements OnInit {
   }
 
   async reload(slug: string, last_modified: string) {
-    console.log(moment(last_modified));
-    console.log(moment(this.dataSubject.value?.last_modified));
-    console.log(moment(last_modified).isSame(moment(this.dataSubject.value?.last_modified)));
     this.api.getGenerated(slug, moment(last_modified).isSame(moment(this.dataSubject.value?.last_modified))).subscribe({
       next: (data: any) => {
         const entity = data as GeneratedEntitty;
-        this.statusSubject.next(entity.status);
         this.dataSubject.next(entity);
         switch (entity.status) {
           case STATUS.GENERATED:

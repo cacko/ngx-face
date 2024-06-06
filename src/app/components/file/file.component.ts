@@ -1,7 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, Injectable, ViewChild } from '@angular/core';
 import { FileValidator, MaterialFileInputModule, FileInputComponent } from 'ngx-custom-material-file-input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidator, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ApiService } from '../../service/api.service';
 import { LoaderService } from '../../service/loader.service';
 import { CommonModule } from '@angular/common';
@@ -9,8 +9,11 @@ import { Router, RouterModule } from '@angular/router';
 import { GeneratedEntitty } from '../../entity/upload.entity';
 import { MatIconModule } from '@angular/material/icon';
 import { OptionsComponent } from '../options/options.component';
-import { Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
+import { FaceService } from '../../service/face.service';
+
+
 
 
 @Component({
@@ -23,6 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class FileComponent {
 
   form: FormGroup;
+  fileControl: FormControl;
   accept = '.jpg,.png,.webp';
 
   private fileSubject = new Subject<string | null>();
@@ -30,17 +34,26 @@ export class FileComponent {
 
 
   @ViewChild('fileInput', { static: false }) fileInput: FileInputComponent | undefined;
+  @ViewChild('fileImage', { static: false }) fileImage : ElementRef | undefined;
 
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
     private router: Router,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private faceService: FaceService
   ) {
-    this.form = this.fb.group({
-      file: [null,
-        [Validators.required, FileValidator.maxContentSize(30 * 1024 * 1024)]
+    this.fileControl = new FormControl('', {
+      validators: [
+        Validators.required, 
+        FileValidator.maxContentSize(30 * 1024 * 1024)
+      ],
+      asyncValidators: [
+        this.faceService.detectFacesValidator
       ]
+    })
+    this.form = this.fb.group({
+      file: this.fileControl
     });
     this.form.get("file")?.valueChanges.subscribe((val) => {
       if (val) {
@@ -49,8 +62,10 @@ export class FileComponent {
       }
       return this.fileSubject.next(null);
     });
-
   }
+
+
+
   onSubmit(data: any) {
     if (!this.form.valid) {
       return;
