@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { GeneratedEntitty, STATUS } from '../../entity/upload.entity';
+import { DbChangeEntity, GeneratedEntitty, STATUS } from '../../entity/upload.entity';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -141,9 +141,7 @@ export class GeneratedComponent implements OnInit {
 
   listen(uid: string, slug: string) {
     const lst = this.db.listen(uid, slug).subscribe((obs) => {
-      if (obs === null) {
-        return;
-      }
+      obs = obs as DbChangeEntity;
       switch (obs.status) {
         case STATUS.GENERATED:
         case STATUS.ERROR:
