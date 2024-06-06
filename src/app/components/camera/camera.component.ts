@@ -13,6 +13,7 @@ import { NgPipesModule } from 'ngx-pipes';
 import { MatIconModule } from '@angular/material/icon';
 import { FaceService } from '../../service/face.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatError } from '@angular/material/form-field';
 
 interface Cameras {
   user: string[];
@@ -22,7 +23,7 @@ interface Cameras {
 @Component({
   selector: 'app-camera',
   standalone: true,
-  imports: [FormsModule, CommonModule, WebcamModule, MatButtonModule, OptionsComponent, NgPipesModule, MatIconModule, MatSnackBarModule],
+  imports: [FormsModule, CommonModule, WebcamModule, MatButtonModule, OptionsComponent, NgPipesModule, MatIconModule, MatSnackBarModule, MatError],
   templateUrl: './camera.component.html',
   styleUrl: './camera.component.scss'
 })
@@ -96,6 +97,7 @@ export class CameraComponent implements OnInit {
   public startCamera(): void {
     this.captured = null;
     this.showWebcam = true;
+    this.errors = [];
   }
 
   public handleInitError(error: WebcamInitError): void {
@@ -117,22 +119,24 @@ export class CameraComponent implements OnInit {
     this.hasFaceCamera && this.switchFacingMode(ev) || this.nextWebcam.next(true);
   }
 
-  public handleImage(webcamImage: WebcamImage): void {
+  public handleImage(webcamImage: WebcamImage) {
     this.captured = webcamImage;
+    this.faceService.detectFaces(this.captured.imageAsDataUrl).then((det) => {
+      if (!det.length) {
+        this.errors.push({
+          message: "No faces on this photo",
+          mediaStreamError: (new DOMException())
+        })
+      }
+    })
     this.showWebcam = false;
   }
 
   async onSubmit(data: any) {
-    if (!this.captured) {
+    if (!this.captured || this.errors.length) {
       return;
     }
     const webcamImage = this.captured;
-    const det = await this.faceService.detectFaces(webcamImage.imageAsDataUrl)
-    if (!det.length) {
-      this.snackbar
-        .open('No faces are detected', 'Ok', { duration: 5000, politeness: "assertive" });
-      return;
-    }
     this.loader.show();
     this.api.upload(webcamImage.imageAsDataUrl, data).subscribe({
       next: (resp: any) => {

@@ -36,11 +36,15 @@ export class FaceService {
   }
 
 
-  async detectFaces(image: string) {
-    if (!faceapi.nets.ssdMobilenetv1.isLoaded) {
-      await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models');
-    }
-    return await faceapi.detectAllFaces(await faceapi.bufferToImage(this.dataURLtoBlob(image)))
+  detectFaces(image: string) {
+    return (async () => {
+      if (!faceapi.nets.ssdMobilenetv1.isLoaded) {
+        await faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models');
+      }
+      const input = await faceapi.bufferToImage(this.dataURLtoBlob(image));
+      return faceapi.detectAllFaces(input).run();
+    })();
+
   }
 
 }

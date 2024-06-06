@@ -21,13 +21,15 @@
     (click)="showNextCamera($event);"
     *ngIf="multipleWebcamsAvailable && showWebcam "
 >
-    <mat-icon>{{hasFaceCamera ? 'switch_camera' : 'video_call'}}</mat-icon>
+    <mat-icon>
+        {{hasFaceCamera ? 'switch_camera' : 'video_call'}}
+    </mat-icon>
 </button>
-<div captured (click)="startCamera()">
+<div
+    captured
+    (click)="startCamera()"
+>
     <img [src]="this.captured?.imageAsDataUrl">
 </div>
+<mat-error *ngFor="let error of errors">{{error.message}}</mat-error>
 <app-options (submit)="onSubmit($event)"></app-options>
-<h4 *ngIf="errors.length > 0">Messages:</h4>
-<ul *ngFor="let error of errors">
-    <li>{{error | json}}</li>
-</ul>
