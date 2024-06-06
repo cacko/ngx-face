@@ -1,10 +1,12 @@
-import { ApplicationConfig, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Database, ref, stateChanges, DataSnapshot, objectVal } from '@angular/fire/database';
-import { BehaviorSubject, Observable, Subject, Subscription, endWith } from 'rxjs';
-import { DbChangeEntity, STATUS } from '../entity/upload.entity';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { DbChangeEntity } from '../entity/upload.entity';
 import { QueryChange, ListenEvent } from 'rxfire/database';
 import { ChangeEntity, Options } from '../entity/view.entity';
 import { concat } from 'lodash-es';
+import { StorageService } from './storage.service';
+
 
 interface Listeners {
   [key: string]: BehaviorSubject<DbChangeEntity | null>;
@@ -40,7 +42,8 @@ export class DatabaseService {
   options = this.optionsSubject.asObservable();
 
   constructor(
-    private db: Database
+    private db: Database,
+    private storage: StorageService
   ) { }
 
   init(uid: string) {
@@ -52,6 +55,7 @@ export class DatabaseService {
       switch (change.event) {
         case ListenEvent.added:
         case ListenEvent.removed:
+        case ListenEvent.changed:
           this.changeSubject.next({
             event: change.event,
             slug: key

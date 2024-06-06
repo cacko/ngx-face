@@ -5,10 +5,10 @@ import { API, GeneratedEntitty } from '../entity/upload.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
-import { concat, findIndex, findLastIndex } from 'lodash-es';
-import { LocalStorageService } from 'ngx-localstorage';
+import { concat, findIndex } from 'lodash-es';
 import moment, { Moment } from 'moment';
 import { LoaderService } from './loader.service';
+import { StorageService } from './storage.service';
 
 
 // const URL = 'https://api.punkapi.com/v2/beers';@Injectable({
@@ -34,16 +34,15 @@ export class ApiService {
 
   private readySubject = new Subject<boolean>();
   ready = this.readySubject.asObservable();
-  protected readonly storage = inject(LocalStorageService);
 
   userToken = '';
 
   constructor(
     private http: HttpClient,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private storage: StorageService
   ) {
-    this.storage.remove("last_modified");
-    this.storage.remove("entities");
+    this.storage.clear();
   }
 
   private dataURLtoBlob(dataurl: string) {
@@ -81,7 +80,7 @@ export class ApiService {
     return this.http.post(`${API.URL}/${API.ACTION_GENERATE}`, formData, {
       headers: this.headers,
       withCredentials: true,
-    });
+    }).pipe(tap((data: any) => this.storage.cacheEntity(data as GeneratedEntitty)));
   }
 
   reUpload(data: object = {}): Observable<Object> {
@@ -90,18 +89,7 @@ export class ApiService {
     return this.http.post(`${API.URL}/${API.ACTION_GENERATE}`, formData, {
       headers: this.headers,
       withCredentials: true,
-    }).pipe(tap((data: any) => {
-      const entity = data as GeneratedEntitty;
-      const entities = this.entities;
-      const idx = findIndex(entities, { slug: entity.slug });
-      if (idx > -1) {
-        entities[idx] = entity;
-        this.entities = entities;
-      } else {
-        entities.unshift(entity);
-        this.entities = entities;
-      }
-    }));
+    }).pipe(tap((data: any) => this.storage.cacheEntity(data as GeneratedEntitty)));
   }
 
   delete(id: string): Observable<Object> {
@@ -109,42 +97,30 @@ export class ApiService {
       headers: this.headers,
       withCredentials: true,
     }).pipe(tap(() => {
-      const entities = this.entities;
-      const idx = findIndex(entities, { slug: id });
-      entities.splice(idx, 1);
-      this.entities = entities;
+      this.storage.deleteEntity(id);
     }));
   }
 
-  private get lastModified(): Moment | null {
-    return this.storage.get("last_modified");
+
+
+
+
+
+  getPreviousId(itm: GeneratedEntitty): string | null {
+    const entities = this.storage.entities;
+    let idx = findIndex(entities, ['slug', itm.slug]);
+    return --idx < 0 ? null : entities[idx].slug;
   }
 
-  private set lastModified(value: Moment) {
-    this.storage.set("last_modified", value);
-  }
-
-  private get entities(): GeneratedEntitty[] {
-    return this.storage.get("entities") || [];
-  }
-
-  private set entities(value: GeneratedEntitty[]) {
-    this.storage.set("entities", value);
-  }
-
-  getPreviousId(itm: GeneratedEntitty): string|null {
-    let idx =  findIndex(this.entities, ['slug', itm.slug]);
-    return --idx < 0 ? null : this.entities[idx].slug;
-  }
-
-  getNextId(itm: GeneratedEntitty): string|null {
-    let idx =  findIndex(this.entities, ['slug', itm.slug]);
-    return ++idx >= this.entities.length ? null : this.entities[idx].slug;
+  getNextId(itm: GeneratedEntitty): string | null {
+    const entities = this.storage.entities;
+    let idx = findIndex(entities, ['slug', itm.slug]);
+    return ++idx >= entities.length ? null : entities[idx].slug;
   }
 
   getGenerated(id: string, useCache: boolean = true): any {
     return new Observable((subscriber: any) => {
-      const entities = this.entities;
+      const entities = this.storage.entities;
       const idx = findIndex(entities, { slug: id });
       if (idx > -1 && useCache) {
         subscriber.next(entities[idx]);
@@ -156,13 +132,9 @@ export class ApiService {
         withCredentials: true,
       }).subscribe({
         next: (data: any) => {
-          if (idx === -1) {
-            entities.unshift(data);
-          } else {
-            entities[idx] = data;
-          }
-          this.entities = entities;
-          subscriber.next(data);
+          const entity = data as GeneratedEntitty;
+          this.storage.cacheEntity(entity);
+          subscriber.next(entity);
         },
         error: (error: any) => console.debug(error),
         complete: () => {
@@ -174,9 +146,9 @@ export class ApiService {
 
   getGenerations(): any {
     return new Observable((subscriber: any) => {
-      let lastModified = this.lastModified;
+      let lastModified = this.storage.lastModified;
       if (lastModified) {
-        subscriber.next(this.entities);
+        subscriber.next(this.storage.entities);
         return;
       }
       lastModified = moment.unix(0).utc();
@@ -202,8 +174,8 @@ export class ApiService {
           return concat(acc, data);
         }, []),
         tap((res) => {
-          this.entities = res;
-          this.lastModified = moment().utc();
+          this.storage.entities = res;
+          this.storage.lastModified = moment().utc();
         })).subscribe({
           next: (data: any) => {
             subscriber.next(data);

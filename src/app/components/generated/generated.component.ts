@@ -162,6 +162,9 @@ export class GeneratedComponent implements OnInit {
   }
 
   async reload(slug: string, last_modified: string) {
+    console.log(moment(last_modified));
+    console.log(moment(this.dataSubject.value?.last_modified));
+    console.log(moment(last_modified).isSame(moment(this.dataSubject.value?.last_modified)));
     this.api.getGenerated(slug, moment(last_modified).isSame(moment(this.dataSubject.value?.last_modified))).subscribe({
       next: (data: any) => {
         const entity = data as GeneratedEntitty;
