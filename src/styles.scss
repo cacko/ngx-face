@@ -1,49 +1,38 @@
 @use "@angular/material" as mat;
 @use "sass:map";
-@use "./scss/components/generated-card" as myGeneratedCard;
-@use "./scss/components/generated" as myGenerated;
-@use "./scss/components/login" as myLogin;
-@use "./scss/components/overlay" as myOverlay;
-@use "./scss/components/preview" as myPreview;
-@use "./scss/components/prompt" as myPrompt;
+@use "./scss/components/generated-card" as GeneratedCard;
+@use "./scss/components/generated" as Generated;
+@use "./scss/components/login" as Login;
+@use "./scss/components/overlay" as Overlay;
+@use "./scss/components/preview" as Preview;
+@use "./scss/components/prompt" as Prompt;
+@use "./scss/theme" as Theme;
 @include mat.core();
 
 
 
-$my-theme: mat.define-theme((
-  color: (
-    theme-type: dark,
-  ),
-  typography: (
-    brand-family: 'Anta',
-    bold-weight: 900
-  ),
-  density: (
-    scale: -1
-  )
-));
-
-@include myGeneratedCard.apply-theme($my-theme);
-@include myGenerated.apply-theme($my-theme);
-@include myLogin.apply-theme($my-theme);
-@include myPreview.apply-theme($my-theme);
-@include myOverlay.apply-theme($my-theme);
-@include myPrompt.apply-theme($my-theme);
-@import "./scss/components/spacer";
-@import "./scss/components/camera";
-@import "./scss/components/home";
-@import "./scss/components/loading";
-@import "./scss/components/file";
-@import "./scss/components/replay";
-@import "./scss/components/avatar";
-@import "./scss/components/loader";
-
 html {
-  @include mat.all-component-themes($my-theme);
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   user-select: none;
+  @include mat.core-theme(Theme.$theme);
+  @include mat.all-component-themes(Theme.$theme);
+  @include mat.typography-hierarchy(Theme.$typography);
+  @include GeneratedCard.apply-theme(Theme.$theme);
+  @include Generated.apply-theme(Theme.$theme);
+  @include Login.apply-theme(Theme.$theme);
+  @include Preview.apply-theme(Theme.$theme);
+  @include Overlay.apply-theme(Theme.$theme);
+  @include Prompt.apply-theme(Theme.$theme);
+  @import "./scss/components/spacer";
+  @import "./scss/components/camera";
+  @import "./scss/components/home";
+  @import "./scss/components/loading";
+  @import "./scss/components/file";
+  @import "./scss/components/replay";
+  @import "./scss/components/avatar";
+  @import "./scss/components/loader";
 }
 
 *,

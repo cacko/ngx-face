@@ -62,4 +62,5 @@ export enum API {
   export interface DbChangeEntity {
     status: STATUS;
     last_modified: string;
+    error ?: string;
   }

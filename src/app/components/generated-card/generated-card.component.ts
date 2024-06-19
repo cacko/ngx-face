@@ -67,11 +67,6 @@ export class GeneratedCardComponent implements OnInit {
     }
   }
 
-  private setBackground(src: string): void {
-    this.elementRef.nativeElement.style.backgroundImage = `url('${src}')`;
-  }
-
-
   onMode(ev: MouseEvent, mode: ViewMode) {
     ev.preventDefault();
     ev.stopPropagation();

@@ -94,6 +94,8 @@ export class HomeComponent implements OnInit {
               break;
           }
         });
+      }, error: (err: any) => {
+        console.error(err);
       },
     });
   }
