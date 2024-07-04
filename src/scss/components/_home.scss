@@ -1,31 +1,44 @@
-app-home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-y: scroll;
-  position: relative;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  [grid] {
-    width: 100%;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    grid-auto-flow: row dense;
-    grid-template-rows: masonry;
-    grid-template-columns: repeat(auto-fill, minmax(min(350px, 45vh), 1fr));
-  }
+@use "@angular/material" as mat;
 
-  [home-status] {
-    font-size: 2rem;
-    font-variant: small-caps;
-    text-transform: uppercase;
-    font-family: Anta;
+@mixin apply-theme($theme) {
+  app-home {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    row-gap: 1rem;
     align-items: center;
-    height: 40vh;
+    overflow-y: scroll;
+    position: relative;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    [grid] {
+      width: 100%;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      grid-auto-flow: row dense;
+      grid-template-rows: masonry;
+      grid-template-columns: repeat(auto-fill, minmax(min(350px, 45vh), 1fr));
+    }
+
+    [home-status] {
+      @include mat.progress-bar-color($theme, $color-variant: tertiary);
+
+
+      font-size: 2rem;
+      font-variant: small-caps;
+      text-transform: uppercase;
+      font-family: Anta;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      row-gap: 1rem;
+      align-items: center;
+      height: 40vh;
+      [buttons] {
+        @include mat.button-color($theme, $color-variant: error);
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+      }
+    }
   }
 }

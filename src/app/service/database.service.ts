@@ -1,11 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { Database, ref, stateChanges, DataSnapshot, objectVal } from '@angular/fire/database';
+import { Database, ref, stateChanges, DataSnapshot, objectVal} from '@angular/fire/database';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DbChangeEntity } from '../entity/upload.entity';
 import { QueryChange, ListenEvent } from 'rxfire/database';
 import { ChangeEntity, Options } from '../entity/view.entity';
 import { concat } from 'lodash-es';
-import { StorageService } from './storage.service';
 
 
 interface Listeners {
@@ -42,14 +41,13 @@ export class DatabaseService {
   options = this.optionsSubject.asObservable();
 
   constructor(
-    private db: Database,
-    private storage: StorageService
+    private db: Database = inject(Database)
   ) { }
 
   init(uid: string) {
     const path = `generation/${uid}`;
-    const list = ref(this.db, path);
-    this.listLst = stateChanges(list).subscribe((change: QueryChange) => {
+    const listRef = ref(this.db, path);
+    this.listLst = stateChanges(listRef).subscribe((change: QueryChange) => {
       const snapshot: DataSnapshot = change.snapshot;
       const key = snapshot.key as string;
       switch (change.event) {

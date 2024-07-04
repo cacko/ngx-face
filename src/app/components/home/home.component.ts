@@ -4,7 +4,6 @@ import { GeneratedEntitty } from '../../entity/upload.entity';
 import { CommonModule } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-
 import { MatButtonModule } from '@angular/material/button';
 import { GeneratedCardComponent } from '../generated-card/generated-card.component';
 import {
@@ -14,8 +13,7 @@ import {
   animate,
   transition
 } from '@angular/animations';
-import moment from 'moment';
-import { findIndex, indexOf } from 'lodash-es';
+import { findIndex } from 'lodash-es';
 import { MatIconModule } from '@angular/material/icon';
 import { DatabaseService } from '../../service/database.service';
 import { ChangeEntity } from '../../entity/view.entity';
@@ -41,7 +39,6 @@ interface RouteDataEntity {
     NgArrayPipesModule
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
   animations: [
     // the fade-in/fade-out animation.
     trigger('simpleFadeAnimation', [
@@ -65,6 +62,7 @@ export class HomeComponent implements OnInit {
 
   private dataSubject = new BehaviorSubject<GeneratedEntitty[] | null>(null);
   $data = this.dataSubject.asObservable();
+
 
   constructor(
     private activatedRoute: ActivatedRoute,

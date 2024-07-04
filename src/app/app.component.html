@@ -4,26 +4,29 @@
         mat-icon-button
         aria-label="Home"
         routerLink="/"
+        *ngIf="url != ''"
         color="accent"
     >
         <mat-icon>photo_library</mat-icon>
     </button>
-    <button
-        mat-icon-button
-        routerLink="/camera"
-        *ngIf="url != '/camera'"
-        color="warn"
-    >
-        <mat-icon>photo_camera</mat-icon>
-    </button>
-    <button
-        mat-icon-button
-        routerLink="/file"
-        *ngIf="url != '/file'"
-        color="primary"
-    >
-        <mat-icon>upload</mat-icon>
-    </button>
+    <ng-container *ngIf="($size | async) as size">
+        <button
+            mat-icon-button
+            routerLink="/camera"
+            *ngIf="url != '/camera'"
+            color="warn"
+        >
+            <mat-icon>photo_camera</mat-icon>
+        </button>
+        <button
+            mat-icon-button
+            routerLink="/file"
+            *ngIf="url != '/file'"
+            color="primary"
+        >
+            <mat-icon>upload</mat-icon>
+        </button>
+    </ng-container>
     <span class="spacer"></span>
     <button
         mat-icon-button
@@ -33,12 +36,10 @@
         <app-avatar [user]="user"></app-avatar>
     </button>
     <mat-menu #usermenu="matMenu">
-        <button
-        mat-menu-item="mat-menu-item"
-    >
-        <mat-icon>person</mat-icon>
-        <span>{{user.displayName}}</span>
-    </button>
+        <button mat-menu-item="mat-menu-item">
+            <mat-icon>person</mat-icon>
+            <span>{{user.displayName}}</span>
+        </button>
         <mat-divider></mat-divider>
         <button
             mat-menu-item="mat-menu-item"

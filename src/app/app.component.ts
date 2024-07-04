@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { Analytics, setAnalyticsCollectionEnabled } from '@angular/fire/analytics';
+import { StorageService } from './service/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit {
   // user: User | null = null;
   url: string = "/";
   $user = this.userService.user;
+  $size = this.storage.$size;
 
   constructor(
     public loader: LoaderService,
@@ -51,13 +53,15 @@ export class AppComponent implements OnInit {
     private router: Router,
     private iconRegister: MatIconRegistry,
     private db: DatabaseService,
-    private analytics: Analytics = inject(Analytics)
+    private analytics: Analytics = inject(Analytics),
+    private storage: StorageService
   ) {
     this.iconRegister.setDefaultFontSetClass('material-symbols-sharp');
     setAnalyticsCollectionEnabled(this.analytics, true);
-
+    this.storage.clear();
     this.userService.user.subscribe((res) => {
       if (res?.uid) {
+        this.storage.init(res?.uid);
         this.db.init(res?.uid);
       } else {
         this.db.deInit();

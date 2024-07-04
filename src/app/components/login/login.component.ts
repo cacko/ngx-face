@@ -19,7 +19,6 @@ enum LOGIN_MODE {
   standalone: true,
   templateUrl: './login.component.html',
   imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule, MatRippleModule],
-  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   private redirectTo: string = '/';

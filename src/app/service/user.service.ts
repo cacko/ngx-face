@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Auth,
   GoogleAuthProvider,
@@ -11,6 +11,7 @@ import {
 import { EMPTY, Observable, Subscription, timer } from 'rxjs';
 import { ApiService } from './api.service';
 import moment from 'moment';
+import { StorageService } from './storage.service';
 
 
 @Injectable({
@@ -18,9 +19,12 @@ import moment from 'moment';
 })
 export class UserService {
   public readonly user: Observable<User | null> = EMPTY;
-  private refreshSub ?: Subscription;
+  private refreshSub?: Subscription;
 
-  constructor(private auth: Auth, private api: ApiService) {
+  constructor(
+    private auth: Auth = inject(Auth),
+    private api: ApiService
+  ) {
     this.user = authState(this.auth);
   }
 

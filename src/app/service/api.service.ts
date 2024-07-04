@@ -38,7 +38,7 @@ export class ApiService {
   userToken = '';
 
   constructor(
-    private http: HttpClient,
+    private http: HttpClient = inject(HttpClient),
     private loader: LoaderService,
     private storage: StorageService
   ) {
@@ -100,11 +100,6 @@ export class ApiService {
       this.storage.deleteEntity(id);
     }));
   }
-
-
-
-
-
 
   getPreviousId(itm: GeneratedEntitty): string | null {
     const entities = this.storage.entities;

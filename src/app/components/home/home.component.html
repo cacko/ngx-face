@@ -16,21 +16,23 @@
     home-status
 >
     <div>No History</div>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    <div>
+    <mat-progress-bar mode="indeterminate" color="tertiary"></mat-progress-bar>
+    <div buttons>
         <button
-            mat-icon-button
+            mat-stroked-button
             aria-label="New Photo"
             routerLink="/camera"
         >
             <mat-icon>photo_camera</mat-icon>
+            Camera
         </button>
         <button
-            mat-icon-button
+            mat-stroked-button
             aria-label="New Photo"
             routerLink="/file"
         >
             <mat-icon>upload</mat-icon>
+            photo
         </button>
     </div>
 </div>

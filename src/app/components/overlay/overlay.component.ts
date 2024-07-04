@@ -19,7 +19,6 @@ interface ImageStyle {
     DragScrollDirective
   ],
   templateUrl: './overlay.component.html',
-  styleUrl: './overlay.component.scss'
 })
 export class OverlayComponent implements OnChanges {
 

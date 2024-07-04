@@ -6,6 +6,7 @@
 @use "./scss/components/overlay" as Overlay;
 @use "./scss/components/preview" as Preview;
 @use "./scss/components/prompt" as Prompt;
+@use "./scss/components/home" as Home;
 @use "./scss/theme" as Theme;
 @include mat.core();
 
@@ -25,9 +26,9 @@ html {
   @include Preview.apply-theme(Theme.$theme);
   @include Overlay.apply-theme(Theme.$theme);
   @include Prompt.apply-theme(Theme.$theme);
+  @include Home.apply-theme(Theme.$theme);
   @import "./scss/components/spacer";
   @import "./scss/components/camera";
-  @import "./scss/components/home";
   @import "./scss/components/loading";
   @import "./scss/components/file";
   @import "./scss/components/replay";
