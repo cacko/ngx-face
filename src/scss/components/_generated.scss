@@ -14,7 +14,7 @@
     background-color: mat.get-theme-color($theme, primary);
     width: 100vw;
     align-self: center;
-    height: 100vh;
+    height: 100%;
     [content] {
       display: flex;
       flex-direction: column;
