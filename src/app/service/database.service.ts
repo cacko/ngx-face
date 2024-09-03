@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Database, ref, stateChanges, DataSnapshot, objectVal} from '@angular/fire/database';
+import { Database, ref, stateChanges, DataSnapshot, objectVal } from '@angular/fire/database';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { DbChangeEntity } from '../entity/upload.entity';
 import { QueryChange, ListenEvent } from 'rxfire/database';

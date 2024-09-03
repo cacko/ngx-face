@@ -1,4 +1,7 @@
-app-loader {
+@use "@angular/material" as mat;
+
+@mixin apply-theme($theme) {
+  app-loader {
     display: flex;
     position: fixed;
     width: 100vw;
@@ -14,5 +17,6 @@ app-loader {
     &[hidden] {
       display: none;
     }
+    @include mat.progress-bar-color($theme, $color-variant: secondary);
   }
-  
+}

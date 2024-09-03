@@ -7,6 +7,8 @@
 @use "./scss/components/preview" as Preview;
 @use "./scss/components/prompt" as Prompt;
 @use "./scss/components/home" as Home;
+@use "./scss/components/loader" as Loader;
+@use "./scss/components/loading" as Loading;
 @use "./scss/theme" as Theme;
 @include mat.core();
 
@@ -27,13 +29,13 @@ html {
   @include Overlay.apply-theme(Theme.$theme);
   @include Prompt.apply-theme(Theme.$theme);
   @include Home.apply-theme(Theme.$theme);
+  @include Loader.apply-theme(Theme.$theme);
+  @include Loading.apply-theme(Theme.$theme);
   @import "./scss/components/spacer";
   @import "./scss/components/camera";
-  @import "./scss/components/loading";
   @import "./scss/components/file";
   @import "./scss/components/replay";
   @import "./scss/components/avatar";
-  @import "./scss/components/loader";
 }
 
 *,

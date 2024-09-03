@@ -1,8 +1,11 @@
-app-loading {
+@use "@angular/material" as mat;
+
+@mixin apply-theme($theme) {
+  app-loading {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
@@ -10,13 +13,14 @@ app-loading {
     justify-content: center;
     z-index: 1;
     [loading-status] {
-        font-size: 2rem;
-        font-variant: small-caps;
-        text-transform: uppercase;
-        font-family: Anta;
+      font-size: 2rem;
+      font-variant: small-caps;
+      text-transform: uppercase;
+      font-family: Anta;
     }
-    >app-prompt {
-        max-width: 80vw;
+    > app-prompt {
+      max-width: 80vw;
     }
-
+    @include mat.progress-bar-color($theme, $color-variant: tertiary);
+  }
 }

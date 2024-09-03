@@ -9,7 +9,6 @@ import { GeneratedEntitty } from '../../entity/upload.entity';
   standalone: true,
   imports: [CommonModule, MatProgressBarModule, PromptComponent],
   templateUrl: './loading.component.html',
-  styleUrl: './loading.component.scss'
 })
 export class LoadingComponent implements OnInit {
 
