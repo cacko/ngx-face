@@ -2,13 +2,13 @@
       <mat-form-field *ngIf="($options | async) as options">
         <mat-icon matSuffix>grid_guides</mat-icon>
         <mat-label>Template</mat-label>
-        <input type="text"
+        <input 
                placeholder="Pick one"
                aria-label="Templates"
                matInput
                formControlName="template"
-               [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
+               [matAutocomplete]="autot">
+        <mat-autocomplete autoActiveFirstOption #autot="matAutocomplete">
           @for (template of filteredTemplates | async | orderBy; track template) {
             <mat-option [value]="template | trim: '*'">{{template | startCase}}</mat-option>
           }
@@ -33,8 +33,8 @@
           aria-label="Model"
           matInput
           formControlName="model"
-          [matAutocomplete]="auto">
-   <mat-autocomplete #auto="matAutocomplete">
+          [matAutocomplete]="autom">
+   <mat-autocomplete #autom="matAutocomplete">
      @for (model of filteredModels | async | orderBy; track model) {
       <mat-option [value]="model | trim: '*'">{{model | startCase}}</mat-option>
     }

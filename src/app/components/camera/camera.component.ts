@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { WebcamImage, WebcamInitError, WebcamUtil, WebcamModule } from 'ngx-webcam';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../service/api.service';
@@ -29,12 +29,17 @@ interface Cameras {
 })
 export class CameraComponent implements OnInit {
 
+
+  private hasCamerasSubject = new BehaviorSubject<boolean>(false);
+  $hasCameras = this.hasCamerasSubject.asObservable();
+
   // toggle webcam on/off
   public mirrorImage = "never";
   public showWebcam = true;
   public allowCameraSwitch = false;
   public multipleWebcamsAvailable = false;
   public hasFaceCamera = false;
+  public hasCameras = false;
   public deviceId: string = "";
   public videoOptions: MediaTrackConstraints = {};
   public errors: WebcamInitError[] = [];
@@ -53,8 +58,7 @@ export class CameraComponent implements OnInit {
     private loader: LoaderService,
     private router: Router,
     private elementRef: ElementRef,
-    private faceService: FaceService,
-    private snackbar: MatSnackBar
+    private faceService: FaceService
   ) {
 
   }
@@ -62,25 +66,35 @@ export class CameraComponent implements OnInit {
   public ngOnInit(): void {
     const screenWidth = this.elementRef.nativeElement.clientWidth;
     this.width = screenWidth < 640 ? screenWidth : 640;
-    WebcamUtil.getAvailableVideoInputs()
-      .then((mediaDevices: MediaDeviceInfo[]) => {
-        this.cameras = mediaDevices.reduce((res: Cameras, camera) => {
-          if (/front/i.test(camera.label)) {
-            res.user.push(camera.deviceId);
-          } else {
-            res.environment.push(camera.deviceId);
-          }
-          return res;
-        }, { user: [], environment: [] });
-        if (this.cameras.user.length) {
-          this.videoOptions.facingMode = "user";
-          this.hasFaceCamera = true;
+    this.loadCameras();
+  }
+
+  loadCameras(): void {
+    WebcamUtil.getAvailableVideoInputs().then((mediaDevices: MediaDeviceInfo[]) => {
+      this.cameras = mediaDevices.reduce((res: Cameras, camera) => {
+        if (/front/i.test(camera.label)) {
+          res.user.push(camera.deviceId);
+        } else {
+          res.environment.push(camera.deviceId);
         }
-        this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
-      });
+        return res;
+      }, { user: [], environment: [] });
+      if (this.cameras.user.length) {
+        this.videoOptions.facingMode = "user";
+        this.hasFaceCamera = true;
+      }
+      this.hasCamerasSubject.next(mediaDevices && mediaDevices.length > 0);
+      this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
+    }).finally(() => {
+      this.loader.hide();
+    });
   }
 
 
+  public reload(): void {
+    this.loader.show();
+    this.loadCameras();
+  }
 
   public triggerSnapshot(): void {
     this.trigger.next();
@@ -121,6 +135,7 @@ export class CameraComponent implements OnInit {
 
   public handleImage(webcamImage: WebcamImage) {
     this.captured = webcamImage;
+    this.loader.show();
     this.faceService.detectFaces(this.captured.imageAsDataUrl).then((det) => {
       if (!det.length) {
         this.errors.push({
@@ -128,7 +143,9 @@ export class CameraComponent implements OnInit {
           mediaStreamError: (new DOMException())
         })
       }
-    })
+    }).finally(() => {
+      this.loader.hide();
+    });
     this.showWebcam = false;
   }
 

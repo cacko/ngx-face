@@ -15,7 +15,7 @@ import { NgPipesModule } from 'ngx-pipes';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, map, of, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-options',
@@ -34,8 +34,8 @@ export class OptionsComponent implements OnInit {
 
   templates: string[] = [];
   models: string[] = [];
-  filteredTemplates !: Observable<string[]>;
-  filteredModels !: Observable<string[]>;
+  filteredTemplates : Observable<string[]> = of([]);
+  filteredModels : Observable<string[]> = of([]);
 
 
   constructor(
@@ -63,6 +63,8 @@ export class OptionsComponent implements OnInit {
     this.$options.subscribe((options) => {
       this.templates = options.templates;
       this.models = options.models;
+      this.form.get("template")?.patchValue('');
+      this.form.get("model")?.patchValue('');
     });
     if (this.prompt) {
       this.form.patchValue(this.prompt);

@@ -1,35 +1,43 @@
-<webcam
-    #webcam
-    [trigger]="triggerObservable"
-    [imageType]="'image/png'"
-    [width]="width"
-    (imageCapture)="handleImage($event)"
-    *ngIf="showWebcam"
-    [allowCameraSwitch]="allowCameraSwitch"
-    [switchCamera]="nextWebcamObservable"
-    [mirrorImage]="mirrorImage"
-    [videoOptions]="videoOptions"
-    [imageQuality]="1"
-    (cameraSwitched)="cameraWasSwitched($event)"
-    (initError)="handleInitError($event)"
-    (imageClick)="triggerSnapshot()"
->
-</webcam>
-<button
-    switch-button
-    mat-icon-button
-    (click)="showNextCamera($event);"
-    *ngIf="multipleWebcamsAvailable && showWebcam "
->
-    <mat-icon>
-        {{hasFaceCamera ? 'switch_camera' : 'video_call'}}
-    </mat-icon>
-</button>
-<div
-    captured
-    (click)="startCamera()"
->
-    <img [src]="this.captured?.imageAsDataUrl">
+<div  *ngIf="$hasCameras | async; else noCamera">
+    <webcam
+        #webcam
+        [trigger]="triggerObservable"
+        [imageType]="'image/png'"
+        [width]="width"
+        (imageCapture)="handleImage($event)"
+        *ngIf="showWebcam"
+        [allowCameraSwitch]="allowCameraSwitch"
+        [switchCamera]="nextWebcamObservable"
+        [mirrorImage]="mirrorImage"
+        [videoOptions]="videoOptions"
+        [imageQuality]="1"
+        (cameraSwitched)="cameraWasSwitched($event)"
+        (initError)="handleInitError($event)"
+        (imageClick)="triggerSnapshot()"
+    >
+    </webcam>
+    <button
+        switch-button
+        mat-icon-button
+        (click)="showNextCamera($event);"
+        *ngIf="multipleWebcamsAvailable && showWebcam "
+    >
+        <mat-icon>
+            {{hasFaceCamera ? 'switch_camera' : 'video_call'}}
+        </mat-icon>
+    </button>
+    <div
+        captured
+        (click)="startCamera()"
+    >
+        <img [src]="this.captured?.imageAsDataUrl">
+    </div>
+    <mat-error *ngFor="let error of errors">{{error.message}}</mat-error>
+    <app-options (submit)="onSubmit($event)"></app-options>
 </div>
-<mat-error *ngFor="let error of errors">{{error.message}}</mat-error>
-<app-options (submit)="onSubmit($event)"></app-options>
+<ng-template #noCamera>
+    <mat-error>no cameras available</mat-error>
+    <button mat-icon-button (click)="reload()">
+        <mat-icon>cached</mat-icon>
+    </button>
+</ng-template>

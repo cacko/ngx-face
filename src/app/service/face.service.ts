@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, } from '@angular/forms';
 import * as faceapi from 'face-api.js';
 import { FileInput } from 'ngx-custom-material-file-input';
+import { LoaderService } from './loader.service';
 
 
 
@@ -11,7 +12,11 @@ import { FileInput } from 'ngx-custom-material-file-input';
 export class FaceService {
 
   constructor(
-  ) { }
+  ) { 
+    faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models');
+  }
+
+
 
   async detectFacesValidator(control: AbstractControl): Promise<ValidationErrors|null> {
     const input = control.value as FileInput;
