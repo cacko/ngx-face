@@ -1,0 +1,24 @@
+<div *ngIf="($file | async) as file" preview>
+    <img [src]="file" #fileImage>
+</div>
+<form [formGroup]="form">
+    <mat-form-field>
+        <ngx-mat-file-input
+            #fileInput
+            formControlName="file"
+            [accept]="accept"
+            valuePlaceholder="Select image"
+        ></ngx-mat-file-input>
+        <button
+            mat-icon-button
+            matSuffix
+            *ngIf="!fileInput.empty"
+            (click)="fileInput.clear($event)"
+        >
+            <mat-icon>close</mat-icon>
+        </button>
+        <mat-icon matSuffix>upload</mat-icon>
+        <mat-error *ngIf="fileControl.getError('face') as error">{{error}}</mat-error>
+    </mat-form-field>
+</form>
+<app-options (submit)="onSubmit($event)"></app-options>

@@ -16,7 +16,16 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), provideAnimationsAsync(),
-    (provideFirebaseApp(() => initializeApp({ "projectId": "facision", "appId": "1:987420655172:web:034b56fad9a19d52180611", "storageBucket": "facision.appspot.com", "apiKey": "AIzaSyDPhJq5i3kpX5PeE3NQbMCoKHuj1VOC1Yo", "authDomain": "facision.firebaseapp.com", "messagingSenderId": "987420655172", "measurementId": "G-9JD2CLZF26", "databaseURL": "https://facision-default-rtdb.europe-west1.firebasedatabase.app/" }))),
+    (provideFirebaseApp(() => initializeApp({
+      apiKey: "AIzaSyDPhJq5i3kpX5PeE3NQbMCoKHuj1VOC1Yo",
+      authDomain: "facision.firebaseapp.com",
+      databaseURL: "https://facision-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "facision",
+      storageBucket: "facision.firebasestorage.app",   
+      messagingSenderId: "987420655172",
+      appId: "1:987420655172:web:034b56fad9a19d52180611",
+      measurementId: "G-9JD2CLZF26"
+    }))),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()),
     ScreenTrackingService, UserTrackingService,
