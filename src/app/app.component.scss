@@ -1,8 +1,22 @@
+@use "@angular/material" as mat;
+
 :host {
-    .mat-toolbar-single-row {
-        padding: 0.5rem
-    }
-    [username] {
-        text-transform: lowercase;
-    }
+  .mat-toolbar-single-row {
+    padding: 0.5rem;
+  }
+  [username] {
+    text-transform: lowercase;
+  }
+  span {
+    display: flex;
+    height: 100%;
+    align-items: center;
+  }
+
+  @include mat.toolbar-overrides(
+    (
+      title-text-font: Syncopate,
+      title-text-weight: 700,
+    )
+  );
 }

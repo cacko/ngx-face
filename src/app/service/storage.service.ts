@@ -1,4 +1,4 @@
-import { Injectable , inject} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { LocalStorageService } from 'ngx-localstorage';
 import { GeneratedEntitty } from '../entity/upload.entity';
 import moment, { Moment } from 'moment';
@@ -17,6 +17,7 @@ export class StorageService {
 
   private LAST_MODIFIED_KEY = "";
   private ENTITIES_KEY = "";
+  private storedEntities: GeneratedEntitty[] = [];
 
   constructor() { }
 
@@ -60,11 +61,12 @@ export class StorageService {
 
 
   get entities(): GeneratedEntitty[] {
-    return this.storage.get(this.ENTITIES_KEY) || [];
+    return this.storedEntities || this.storage.get(this.ENTITIES_KEY) || [];
   }
 
   set entities(value: GeneratedEntitty[]) {
     this.storage.set(this.ENTITIES_KEY, value);
+    this.storedEntities = value;
     this.sizeSubject.next(value.length);
   }
 }

@@ -12,8 +12,6 @@
 @use "./scss/theme" as Theme;
 @include mat.core();
 
-
-
 html {
   box-sizing: border-box;
   padding: 0;
@@ -83,5 +81,9 @@ body {
   /* Firefox */
   input[type="number"] {
     -moz-appearance: textfield;
+  }
+
+  p.cryptic-text {
+    margin: unset;
   }
 }

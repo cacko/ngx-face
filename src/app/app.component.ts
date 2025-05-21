@@ -18,12 +18,14 @@ import { MatDividerModule } from '@angular/material/divider';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { Analytics, setAnalyticsCollectionEnabled } from '@angular/fire/analytics';
 import { StorageService } from './service/storage.service';
+import { NgxShinyTextComponent } from '@omnedia/ngx-shiny-text';
+    import { NgxCrypticTextComponent } from '@omnedia/ngx-cryptic-text';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,
-    CameraComponent,
+  imports: [
+    RouterOutlet,
     CommonModule,
     LoaderComponent,
     MatToolbarModule,
@@ -34,7 +36,8 @@ import { StorageService } from './service/storage.service';
     MatSnackBarModule,
     MatMenuModule,
     MatDividerModule,
-    AvatarComponent
+    AvatarComponent,
+    NgxShinyTextComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

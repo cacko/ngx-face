@@ -1,5 +1,14 @@
 <app-loader hidden></app-loader>
 <mat-toolbar *ngIf="($user | async) as user">
+    <span>
+        <om-shiny-text
+            [text]="'faces'"
+            styleClass="cryptic-text"
+            [textColor]="'hsla(0, 0%, 87.5%, 0.8)'"
+            [shimmerColor]="'#ff897d'"
+        ></om-shiny-text>
+    </span>
+
     <button
         mat-icon-button
         aria-label="Home"
