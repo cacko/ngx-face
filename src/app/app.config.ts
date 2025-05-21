@@ -17,14 +17,15 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), provideAnimationsAsync(),
     (provideFirebaseApp(() => initializeApp({
-      apiKey: "AIzaSyDPhJq5i3kpX5PeE3NQbMCoKHuj1VOC1Yo",
+      apiKey: "AIzaSyDzYmIQxwh0UzzdO4GFJxCAKYq1oxpkapk",
       authDomain: "facision.firebaseapp.com",
       databaseURL: "https://facision-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "facision",
-      storageBucket: "facision.firebasestorage.app",   
+      storageBucket: "facision.firebasestorage.app",
       messagingSenderId: "987420655172",
-      appId: "1:987420655172:web:034b56fad9a19d52180611",
-      measurementId: "G-9JD2CLZF26"
+      appId: "1:987420655172:web:a5837be67f3f5906180611",
+      measurementId: "G-T65VV6P5QV"
+    
     }))),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()),
