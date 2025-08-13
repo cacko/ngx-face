@@ -95,13 +95,15 @@ export class OptionsComponent implements OnInit {
   }
 
   private _filterTemplates(value: string): string[] {
-    const flt = value.toLowerCase();
-    return this.templates.filter(tpl => tpl.toLowerCase().includes(flt));
+    return this.templates;
+    // const flt = value.toLowerCase();
+    // return this.templates.filter(tpl => tpl.toLowerCase().includes(flt));
   }
 
   private _filterModels(value: string): string[] {
-    const flt = value.toLowerCase();
-    return this.models.filter(mdl => mdl.toLowerCase().includes(flt));
+    return this.models;
+    // const flt = value.toLowerCase();
+    // return this.models.filter(mdl => mdl.toLowerCase().includes(flt));
   }
 
   onClear(ev: MouseEvent) {

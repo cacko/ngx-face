@@ -7,7 +7,6 @@ import {
 import { LoginComponent } from './components/login/login.component';
 import { CameraComponent } from './components/camera/camera.component';
 import { GeneratedComponent } from './components/generated/generated.component';
-import { generatedResolver, generationsResolver } from './service/api.service';
 import { HomeComponent } from './components/home/home.component';
 import { FileComponent } from './components/file/file.component';
 import { ReplayComponent } from './components/replay/replay.component';
@@ -36,9 +35,6 @@ export const routes: Routes = [
         path: '',
         component: HomeComponent,
         pathMatch: 'full',
-        resolve: {
-            data: generationsResolver,
-        },
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },
     },
@@ -67,9 +63,6 @@ export const routes: Routes = [
         path: 'g/:id',
         component: GeneratedComponent,
         pathMatch: 'full',
-        resolve: {
-            data: generatedResolver,
-        },
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },
     },
@@ -77,9 +70,6 @@ export const routes: Routes = [
         path: 're/:id',
         component: ReplayComponent,
         pathMatch: 'full',
-        resolve: {
-            data: generatedResolver,
-        },
         canActivate: [AuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },
     },

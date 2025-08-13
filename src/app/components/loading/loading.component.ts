@@ -5,9 +5,10 @@ import { PromptEntity } from '../../entity/view.entity';
 import { PromptComponent } from '../prompt/prompt.component';
 import { GeneratedEntitty } from '../../entity/upload.entity';
 @Component({
-    selector: 'app-loading',
-    imports: [CommonModule, MatProgressBarModule, PromptComponent],
-    templateUrl: './loading.component.html'
+  selector: 'app-loading',
+  standalone: true,
+  imports: [CommonModule, MatProgressBarModule, PromptComponent],
+  templateUrl: './loading.component.html'
 })
 export class LoadingComponent implements OnInit {
 

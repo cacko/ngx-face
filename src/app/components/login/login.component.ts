@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import {MatRippleModule} from '@angular/material/core'; 
+import { MatRippleModule } from '@angular/material/core';
 import { timer } from 'rxjs';
 enum LOGIN_MODE {
   PASSWORD = 'password',
@@ -15,9 +15,10 @@ enum LOGIN_MODE {
 }
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule, MatRippleModule]
+  selector: 'app-login',
+  standalone: true,
+  templateUrl: './login.component.html',
+  imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule, MatRippleModule]
 })
 export class LoginComponent implements OnInit {
   private redirectTo: string = '/';

@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { DbChangeEntity, GeneratedEntitty, STATUS } from '../../entity/upload.entity';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, concatMap, mergeMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../service/api.service';
 import { LoadingComponent } from '../loading/loading.component';
@@ -18,15 +18,12 @@ import { OverlayComponent } from '../overlay/overlay.component';
 import moment, { Moment } from 'moment';
 import { ConfirmDirective } from '../../confirm.directive';
 
-interface RouteDataEntity {
-  data?: GeneratedEntitty;
-}
-
 @Component({
-    selector: 'app-generated',
-    imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent, OverlayComponent, MatSnackBarModule, ConfirmDirective],
-    templateUrl: './generated.component.html',
-    styleUrl: './generated.component.scss'
+  selector: 'app-generated',
+  standalone: true,
+  imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent, OverlayComponent, MatSnackBarModule, ConfirmDirective],
+  templateUrl: './generated.component.html',
+  styleUrl: './generated.component.scss'
 })
 
 export class GeneratedComponent implements OnInit {
@@ -54,9 +51,13 @@ export class GeneratedComponent implements OnInit {
 
 
   ngOnInit() {
-    this.activatedRoute.data.subscribe({
-      next: (data: RouteDataEntity) => {
-        const entity = data.data as GeneratedEntitty;
+    this.activatedRoute.paramMap.pipe(
+      concatMap(
+        (params) =>  this.api.getGenerated(params.get("id") || "")
+      )
+    ).subscribe({
+      next: (data: GeneratedEntitty) => {
+        const entity = data as GeneratedEntitty;
         this.previousId = this.api.getPreviousId(entity);
         this.nextId = this.api.getNextId(entity);
         this.dataSubject.next(entity);

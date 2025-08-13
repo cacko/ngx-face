@@ -10,6 +10,7 @@
 @use "./scss/components/loader" as Loader;
 @use "./scss/components/loading" as Loading;
 @use "./scss/theme" as Theme;
+@use "./scss/components/avatar";
 @include mat.elevation-classes();
 @include mat.app-background();
 
@@ -35,7 +36,7 @@ html {
   @import "./scss/components/camera";
   @import "./scss/components/file";
   @import "./scss/components/replay";
-  @import "./scss/components/avatar";
+
 }
 
 *,

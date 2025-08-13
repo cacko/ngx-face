@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GeneratedEntitty } from '../../entity/upload.entity';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, concatMap } from 'rxjs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { GeneratedCardComponent } from '../generated-card/generated-card.component';
@@ -20,38 +20,37 @@ import { ChangeEntity } from '../../entity/view.entity';
 import { ListenEvent } from '@angular/fire/database';
 import { ApiService } from '../../service/api.service';
 import { NgArrayPipesModule } from 'ngx-pipes';
-
-interface RouteDataEntity {
-  data?: GeneratedEntitty[];
-}
+import { UserService } from '../../service/user.service';
 
 
 @Component({
-    selector: 'app-home',
-    imports: [CommonModule,
-        MatButtonModule,
-        RouterModule,
-        GeneratedCardComponent,
-        MatProgressBarModule,
-        MatButtonModule,
-        MatIconModule,
-        NgArrayPipesModule
-    ],
-    templateUrl: './home.component.html',
-    animations: [
-        // the fade-in/fade-out animation.
-        trigger('simpleFadeAnimation', [
-            // the "in" style determines the "resting" state of the element when it is visible.
-            state('in', style({ opacity: 1 })),
-            // fade in when created. this could also be written as transition('void => *')
-            transition(':enter', [
-                style({ opacity: 0 }),
-                animate(200)
-            ]),
-            // fade out when destroyed. this could also be written as transition('void => *')
-            transition(':leave', animate(400, style({ opacity: 0 })))
-        ])
-    ]
+  selector: 'app-home',
+  standalone: true,
+
+  imports: [CommonModule,
+    MatButtonModule,
+    RouterModule,
+    GeneratedCardComponent,
+    MatProgressBarModule,
+    MatButtonModule,
+    MatIconModule,
+    NgArrayPipesModule
+  ],
+  templateUrl: './home.component.html',
+  animations: [
+    // the fade-in/fade-out animation.
+    trigger('simpleFadeAnimation', [
+      // the "in" style determines the "resting" state of the element when it is visible.
+      state('in', style({ opacity: 1 })),
+      // fade in when created. this could also be written as transition('void => *')
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate(200)
+      ]),
+      // fade out when destroyed. this could also be written as transition('void => *')
+      transition(':leave', animate(400, style({ opacity: 0 })))
+    ])
+  ]
 })
 export class HomeComponent implements OnInit {
 
@@ -62,7 +61,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private db: DatabaseService,
-    private api: ApiService
+    private api: ApiService,
   ) {
 
   }
@@ -73,9 +72,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.data.subscribe({
-      next: (data: RouteDataEntity) => {
-        const items = data.data as GeneratedEntitty[];
+    this.activatedRoute.paramMap.pipe(
+      concatMap(
+        (params) => this.api.getGenerations(),
+      )
+    ).subscribe({
+      next: (data: GeneratedEntitty[]) => {
+        const items = data as GeneratedEntitty[];
         this.dataSubject.next(items);
         this.db.$change.subscribe((change: ChangeEntity | null) => {
           switch (change?.event) {

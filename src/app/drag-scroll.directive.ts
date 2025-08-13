@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import {
   AfterViewInit,
   Directive,
@@ -9,6 +9,7 @@ import {
   Input,
   OnDestroy,
   Renderer2,
+  DOCUMENT
 } from "@angular/core";
 import { fromEvent, Subscription } from "rxjs";
 import { takeUntil } from "rxjs/operators";

@@ -15,20 +15,21 @@ import moment, { Moment } from 'moment';
 import { ConfirmDirective } from '../../confirm.directive';
 
 @Component({
-    selector: 'app-generated-card',
-    imports: [
-        CommonModule,
-        RouterModule,
-        MomentModule,
-        MatButtonModule,
-        MatIconModule,
-        MatCardModule,
-        LoadingComponent,
-        OverlayComponent,
-        ConfirmDirective
-    ],
-    templateUrl: './generated-card.component.html',
-    styleUrl: './generated-card.component.scss'
+  selector: 'app-generated-card',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    MomentModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    LoadingComponent,
+    OverlayComponent,
+    ConfirmDirective
+  ],
+  templateUrl: './generated-card.component.html',
+  styleUrl: './generated-card.component.scss'
 })
 export class GeneratedCardComponent implements OnInit {
 

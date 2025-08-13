@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, tap, delay, EMPTY, expand, reduce } from 'rxjs';
 import { API, GeneratedEntitty } from '../entity/upload.entity';
 import { v4 as uuidv4 } from 'uuid';
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { inject } from '@angular/core';
 import { concat, findIndex } from 'lodash-es';
 import moment, { Moment } from 'moment';
@@ -35,14 +34,11 @@ export class ApiService {
   private readySubject = new Subject<boolean>();
   ready = this.readySubject.asObservable();
 
-  userToken = '';
-
   constructor(
     private http: HttpClient = inject(HttpClient),
     private loader: LoaderService,
     private storage: StorageService
   ) {
-    this.storage.clear();
   }
 
   private dataURLtoBlob(dataurl: string) {
@@ -57,7 +53,7 @@ export class ApiService {
 
   get headers(): HttpHeaders {
     return new HttpHeaders({
-      "X-User-Token": this.userToken
+      "X-User-Token": this.storage.token || ""
     });
   }
 
@@ -113,7 +109,7 @@ export class ApiService {
     return ++idx >= entities.length ? null : entities[idx].slug;
   }
 
-  getGenerated(id: string, useCache: boolean = true): any {
+  getGenerated(id: string, useCache: boolean = true): Observable<GeneratedEntitty> {
     return new Observable((subscriber: any) => {
       const entities = this.storage.entities;
       const idx = findIndex(entities, { slug: id });
@@ -139,7 +135,7 @@ export class ApiService {
     });
   }
 
-  getGenerations(): any {
+  getGenerations(): Observable<GeneratedEntitty[]> {
     return new Observable((subscriber: any) => {
       let lastModified = this.storage.lastModified;
       if (lastModified) {
@@ -147,6 +143,7 @@ export class ApiService {
         return;
       }
       lastModified = moment.unix(0).utc();
+      
       this.http.get(`${API.URL}/${API.ACTION_GENERATED}`, {
         headers: this.headers,
         withCredentials: true,
@@ -158,7 +155,7 @@ export class ApiService {
           const pageNo = parseInt(String(res.headers.get('x-pagination-page')));
           return nextPage
             ? this.http.get(nextPage, {
-              headers: { 'X-User-Token': this.userToken },
+              headers: { 'X-User-Token': this.storage.token || "" },
               observe: 'response',
             }).pipe(delay(100))
             : EMPTY;
@@ -180,20 +177,3 @@ export class ApiService {
     });
   }
 }
-
-
-export const generatedResolver: ResolveFn<GeneratedEntitty> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-) => {
-  const id = route.paramMap.get('id')!;
-  return inject(ApiService).getGenerated(id);
-};
-
-export const generationsResolver: ResolveFn<GeneratedEntitty[]> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-) => {
-  return inject(ApiService).getGenerations();
-};
-

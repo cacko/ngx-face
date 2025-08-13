@@ -11,13 +11,14 @@ interface ImageStyle {
 }
 
 @Component({
-    selector: 'app-overlay',
-    imports: [
-        CommonModule,
-        NgOptimizedImage,
-        DragScrollDirective
-    ],
-    templateUrl: './overlay.component.html'
+  selector: 'app-overlay',
+  standalone: true,
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    DragScrollDirective
+  ],
+  templateUrl: './overlay.component.html'
 })
 export class OverlayComponent implements OnChanges {
 
@@ -28,7 +29,7 @@ export class OverlayComponent implements OnChanges {
   @Input() drag = false;
   @Output() doubleClick = new EventEmitter<MouseEvent>();
   @Input() set screenFit(mode: ScreenFit) {
-    switch(mode) {
+    switch (mode) {
       case ScreenFit.FIT_SCREEN:
         this.renderer.setAttribute(this.el.nativeElement, "real-size", "");
         this.resetSubject.next(true);
@@ -52,7 +53,7 @@ export class OverlayComponent implements OnChanges {
         case "src":
           this.src = (ch as SimpleChange).currentValue;
           this.renderer.setStyle(this.el.nativeElement, "background-image", `url(${this.src})`)
-          break;          
+          break;
       }
     })
   }

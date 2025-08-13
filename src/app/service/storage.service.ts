@@ -17,6 +17,7 @@ export class StorageService {
 
   private LAST_MODIFIED_KEY = "";
   private ENTITIES_KEY = "";
+  private TOKEN_KEY = "";
   private storedEntities: GeneratedEntitty[] = [];
 
   constructor() { }
@@ -30,6 +31,13 @@ export class StorageService {
     this.ENTITIES_KEY = `${uid}_entities`;
   }
 
+  get token(): string | null {
+    return this.storage.get(this.TOKEN_KEY);
+  }
+
+  set token(value: string) {
+    this.storage.set(this.TOKEN_KEY, value);
+  }
 
   deleteEntity(id: string) {
     const entities = this.entities;

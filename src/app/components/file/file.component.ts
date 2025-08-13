@@ -17,10 +17,11 @@ import { FaceService } from '../../service/face.service';
 
 
 @Component({
-    selector: 'app-file',
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialFileInputModule, RouterModule, MatFormFieldModule, MatIconModule, OptionsComponent, MatButtonModule],
-    templateUrl: './file.component.html',
-    styleUrl: './file.component.scss'
+  selector: 'app-file',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialFileInputModule, RouterModule, MatFormFieldModule, MatIconModule, OptionsComponent, MatButtonModule],
+  templateUrl: './file.component.html',
+  styleUrl: './file.component.scss'
 })
 export class FileComponent {
 
@@ -33,7 +34,7 @@ export class FileComponent {
 
 
   @ViewChild('fileInput', { static: false }) fileInput: FileInputComponent | undefined;
-  @ViewChild('fileImage', { static: false }) fileImage : ElementRef | undefined;
+  @ViewChild('fileImage', { static: false }) fileImage: ElementRef | undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -44,7 +45,7 @@ export class FileComponent {
   ) {
     this.fileControl = new FormControl('', {
       validators: [
-        Validators.required, 
+        Validators.required,
         FileValidator.maxContentSize(30 * 1024 * 1024)
       ],
       asyncValidators: [
