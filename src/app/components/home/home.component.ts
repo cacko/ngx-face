@@ -27,36 +27,31 @@ interface RouteDataEntity {
 
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule,
-    MatButtonModule,
-    RouterModule,
-    GeneratedCardComponent,
-    MatProgressBarModule,
-    MatButtonModule,
-    MatIconModule,
-    NgArrayPipesModule
-  ],
-  templateUrl: './home.component.html',
-  animations: [
-    // the fade-in/fade-out animation.
-    trigger('simpleFadeAnimation', [
-
-      // the "in" style determines the "resting" state of the element when it is visible.
-      state('in', style({ opacity: 1 })),
-
-      // fade in when created. this could also be written as transition('void => *')
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate(200)
-      ]),
-
-      // fade out when destroyed. this could also be written as transition('void => *')
-      transition(':leave',
-        animate(400, style({ opacity: 0 })))
-    ])
-  ]
+    selector: 'app-home',
+    imports: [CommonModule,
+        MatButtonModule,
+        RouterModule,
+        GeneratedCardComponent,
+        MatProgressBarModule,
+        MatButtonModule,
+        MatIconModule,
+        NgArrayPipesModule
+    ],
+    templateUrl: './home.component.html',
+    animations: [
+        // the fade-in/fade-out animation.
+        trigger('simpleFadeAnimation', [
+            // the "in" style determines the "resting" state of the element when it is visible.
+            state('in', style({ opacity: 1 })),
+            // fade in when created. this could also be written as transition('void => *')
+            transition(':enter', [
+                style({ opacity: 0 }),
+                animate(200)
+            ]),
+            // fade out when destroyed. this could also be written as transition('void => *')
+            transition(':leave', animate(400, style({ opacity: 0 })))
+        ])
+    ]
 })
 export class HomeComponent implements OnInit {
 

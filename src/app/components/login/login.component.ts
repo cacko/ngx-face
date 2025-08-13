@@ -15,10 +15,9 @@ enum LOGIN_MODE {
 }
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  templateUrl: './login.component.html',
-  imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule, MatRippleModule],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    imports: [CommonModule, MatIconModule, MatCardModule, MatButtonModule, MatRippleModule]
 })
 export class LoginComponent implements OnInit {
   private redirectTo: string = '/';

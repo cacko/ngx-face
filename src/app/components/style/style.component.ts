@@ -17,11 +17,10 @@ import { FaceService } from '../../service/face.service';
 
 
 @Component({
-  selector: 'app-style',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialFileInputModule, RouterModule, MatFormFieldModule, MatIconModule, OptionsComponent, MatButtonModule],
-  templateUrl: './style.component.html',
-  styleUrl: './style.component.scss'
+    selector: 'app-style',
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialFileInputModule, RouterModule, MatFormFieldModule, MatIconModule, OptionsComponent, MatButtonModule],
+    templateUrl: './style.component.html',
+    styleUrl: './style.component.scss'
 })
 export class StyleComponent {
 

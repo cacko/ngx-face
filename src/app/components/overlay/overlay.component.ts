@@ -11,14 +11,13 @@ interface ImageStyle {
 }
 
 @Component({
-  selector: 'app-overlay',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgOptimizedImage,
-    DragScrollDirective
-  ],
-  templateUrl: './overlay.component.html',
+    selector: 'app-overlay',
+    imports: [
+        CommonModule,
+        NgOptimizedImage,
+        DragScrollDirective
+    ],
+    templateUrl: './overlay.component.html'
 })
 export class OverlayComponent implements OnChanges {
 

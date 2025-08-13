@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, inject } from '@angular/core';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { WebcamImage, WebcamInitError, WebcamUtil, WebcamModule } from 'ngx-webcam';
 import { FormsModule } from '@angular/forms';
@@ -50,14 +50,14 @@ export class CameraComponent implements OnInit {
 
   private trigger: Subject<void> = new Subject<void>();
   private nextWebcam: Subject<boolean | string> = new Subject<boolean | string>();
-
+  private elementRef = inject(ElementRef);
   captured: WebcamImage | null = null;
 
   public constructor(
     private api: ApiService,
     private loader: LoaderService,
     private router: Router,
-    private elementRef: ElementRef,
+
     private faceService: FaceService
   ) {
 

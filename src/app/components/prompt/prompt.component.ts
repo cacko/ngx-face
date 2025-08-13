@@ -8,19 +8,18 @@ import { ToOneLinePipe } from '../../pipes/to-one-line.pipe';
 import { StartCasePipe } from '../../pipes/start-case.pipe';
 
 @Component({
-  selector: 'app-prompt',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NgObjectPipesModule,
-    NgStringPipesModule,
-    MatIconModule,
-    MatButtonModule,
-    ToOneLinePipe,
-    StartCasePipe
-  ],
-  templateUrl: './prompt.component.html',
-  styleUrl: './prompt.component.scss'
+    selector: 'app-prompt',
+    imports: [
+        CommonModule,
+        NgObjectPipesModule,
+        NgStringPipesModule,
+        MatIconModule,
+        MatButtonModule,
+        ToOneLinePipe,
+        StartCasePipe
+    ],
+    templateUrl: './prompt.component.html',
+    styleUrl: './prompt.component.scss'
 })
 export class PromptComponent {
 

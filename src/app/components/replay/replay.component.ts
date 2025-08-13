@@ -16,17 +16,16 @@ interface RouteDataEntity {
 }
 
 @Component({
-  selector: 'app-replay',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    OptionsComponent,
-  ],
-  templateUrl: './replay.component.html',
-  styleUrl: './replay.component.scss'
+    selector: 'app-replay',
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        OptionsComponent,
+    ],
+    templateUrl: './replay.component.html',
+    styleUrl: './replay.component.scss'
 })
 export class ReplayComponent implements OnInit {
 

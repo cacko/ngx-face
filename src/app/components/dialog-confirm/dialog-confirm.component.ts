@@ -17,17 +17,16 @@ export interface DialogData {
 
 
 @Component({
-  selector: 'app-dialog-confirm',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    MatButtonModule, 
-    MatDialogClose, 
-    MatDialogActions, 
-    MatDialogTitle, 
-    MatDialogContent
-  ],
-  templateUrl: './dialog-confirm.component.html',
+    selector: 'app-dialog-confirm',
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatDialogClose,
+        MatDialogActions,
+        MatDialogTitle,
+        MatDialogContent
+    ],
+    templateUrl: './dialog-confirm.component.html'
 })
 export class DialogConfirmComponent {
 

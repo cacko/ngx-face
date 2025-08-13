@@ -23,11 +23,10 @@ interface RouteDataEntity {
 }
 
 @Component({
-  selector: 'app-generated',
-  standalone: true,
-  imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent, OverlayComponent, MatSnackBarModule, ConfirmDirective],
-  templateUrl: './generated.component.html',
-  styleUrl: './generated.component.scss'
+    selector: 'app-generated',
+    imports: [CommonModule, RouterModule, LoadingComponent, MomentModule, MatIconModule, MatButtonModule, PromptComponent, OverlayComponent, MatSnackBarModule, ConfirmDirective],
+    templateUrl: './generated.component.html',
+    styleUrl: './generated.component.scss'
 })
 
 export class GeneratedComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { User } from '@angular/fire/auth';
 
 @Component({
@@ -11,9 +11,9 @@ import { User } from '@angular/fire/auth';
 export class AvatarComponent implements OnInit {
 
   @Input() user !: User;
+  private elementRef = inject(ElementRef);
 
   constructor(
-    private elementRef: ElementRef
   ) {
 
   }

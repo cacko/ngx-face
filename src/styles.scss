@@ -10,14 +10,16 @@
 @use "./scss/components/loader" as Loader;
 @use "./scss/components/loading" as Loading;
 @use "./scss/theme" as Theme;
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 html {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   user-select: none;
-  @include mat.core-theme(Theme.$theme);
+  @include mat.elevation-classes();
+  @include mat.app-background();
   @include mat.all-component-themes(Theme.$theme);
   @include mat.typography-hierarchy(Theme.$typography);
   @include GeneratedCard.apply-theme(Theme.$theme);

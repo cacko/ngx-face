@@ -34,8 +34,8 @@ export class OptionsComponent implements OnInit {
 
   templates: string[] = [];
   models: string[] = [];
-  filteredTemplates : Observable<string[]> = of([]);
-  filteredModels : Observable<string[]> = of([]);
+  filteredTemplates: Observable<string[]> = of([]);
+  filteredModels: Observable<string[]> = of([]);
 
 
   constructor(
