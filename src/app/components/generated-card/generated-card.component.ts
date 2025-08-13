@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DbChangeEntity, GeneratedEntitty, STATUS } from '../../entity/upload.entity';
+import { GeneratedEntitty, STATUS } from '../../entity/upload.entity';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MomentModule } from 'ngx-moment';

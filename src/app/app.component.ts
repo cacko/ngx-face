@@ -1,6 +1,5 @@
 import { Component, OnInit, inject, isDevMode } from '@angular/core';
 import { Event, EventType, Router, RouterModule, RouterOutlet } from '@angular/router';
-import { CameraComponent } from './components/camera/camera.component';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from './components/loader/loader.component';
 import { LoaderService } from './service/loader.service';
@@ -19,7 +18,6 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { Analytics, setAnalyticsCollectionEnabled } from '@angular/fire/analytics';
 import { StorageService } from './service/storage.service';
 import { NgxShinyTextComponent } from '@omnedia/ngx-shiny-text';
-    import { NgxCrypticTextComponent } from '@omnedia/ngx-cryptic-text';
 
 @Component({
   selector: 'app-root',
