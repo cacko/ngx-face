@@ -28,7 +28,7 @@ export class DatabaseService {
   statuses: Statuses = {};
   private listLst?: Subscription | null = null;
   private optSafeLst?: Subscription | null = null;
-  private optNSFWLst?: Subscription | null = null;
+  // private optNSFWLst?: Subscription | null = null;
 
 
   private changeSubject = new BehaviorSubject<ChangeEntity | null>(null);
@@ -74,23 +74,23 @@ export class DatabaseService {
         });
       }
     });
-    const nsfw_options = ref(this.db, "app/options/nsfw");
-    this.optNSFWLst = objectVal(nsfw_options).subscribe({
-      next: (value: any) => {
-        const data = value as Options;
-        this.optionsSubject.next({
-          models: concat(this.optionsSubject.value.models.filter(v => !v.endsWith("*")), data.models.map(v => `${v}*`)),
-          templates: concat(this.optionsSubject.value.templates.filter(v => !v.endsWith("*")), data.templates.map(v => `${v}*`))
-        });
-      },
-      error: (err: any) => { }
-    });
+    // const nsfw_options = ref(this.db, "app/options/nsfw");
+    // this.optNSFWLst = objectVal(nsfw_options).subscribe({
+    //   next: (value: any) => {
+    //     const data = value as Options;
+    //     this.optionsSubject.next({
+    //       models: concat(this.optionsSubject.value.models.filter(v => !v.endsWith("*")), data.models.map(v => `${v}*`)),
+    //       templates: concat(this.optionsSubject.value.templates.filter(v => !v.endsWith("*")), data.templates.map(v => `${v}*`))
+    //     });
+    //   },
+    //   error: (err: any) => { }
+    // });
   }
 
   deInit() {
     this.listLst?.unsubscribe();
     this.optSafeLst?.unsubscribe();
-    this.optNSFWLst?.unsubscribe();
+    // this.optNSFWLst?.unsubscribe();
     this.subs = {};
     this.statuses = {};
   }

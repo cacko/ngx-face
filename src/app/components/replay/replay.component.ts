@@ -6,14 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OptionsComponent } from '../options/options.component';
 import { LoaderService } from '../../service/loader.service';
 import { ApiService } from '../../service/api.service';
-import { Observable, Observer } from 'rxjs';
-import { now } from 'lodash-es';
-
-
-
-interface RouteDataEntity {
-  data?: GeneratedEntitty;
-}
+import { concatMap } from 'rxjs';
 
 @Component({
   selector: 'app-replay',
@@ -26,10 +19,9 @@ interface RouteDataEntity {
     OptionsComponent,
   ],
   templateUrl: './replay.component.html',
-  styleUrl: './replay.component.scss'
+  styleUrl: './replay.component.scss',
 })
 export class ReplayComponent implements OnInit {
-
   data?: GeneratedEntitty | null = null;
 
   constructor(
@@ -37,23 +29,24 @@ export class ReplayComponent implements OnInit {
     private loader: LoaderService,
     private api: ApiService,
     private router: Router
-  ) {
-
-  }
-
+  ) {}
 
   ngOnInit() {
-    this.activatedRoute.data.subscribe({
-      next: (data: RouteDataEntity) => {
-        const entity = data.data as GeneratedEntitty;
-        this.data = entity;
-      },
-    });
+    this.activatedRoute.paramMap
+      .pipe(
+        concatMap((params) => this.api.getGenerated(params.get('id') || ''))
+      )
+      .subscribe({
+        next: (data: GeneratedEntitty) => {
+          const entity = data as GeneratedEntitty;
+          this.data = entity;
+        },
+      });
   }
 
   onSubmit(data: any) {
     this.loader.show();
-    const image_url = this.data?.source.raw_src || "";
+    const image_url = this.data?.source.raw_src || '';
     this.api.reUpload(Object.assign(data, { image_url })).subscribe({
       next: (resp: any) => {
         const response = resp as GeneratedEntitty;
@@ -64,12 +57,7 @@ export class ReplayComponent implements OnInit {
       error: (err: any) => {
         console.error(err);
         this.loader.hide();
-      }
-    })
-
-
-
+      },
+    });
   }
-
-
 }
