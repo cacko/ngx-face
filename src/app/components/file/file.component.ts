@@ -1,7 +1,18 @@
 import { Component, ElementRef, Injectable, ViewChild } from '@angular/core';
-import { FileValidator, MaterialFileInputModule, FileInputComponent } from 'ngx-custom-material-file-input';
+import {
+  FileValidator,
+  FileInputComponent,
+} from 'ngx-custom-material-file-input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AbstractControl, AsyncValidator, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { ApiService } from '../../service/api.service';
 import { LoaderService } from '../../service/loader.service';
 import { CommonModule } from '@angular/common';
@@ -9,22 +20,28 @@ import { Router, RouterModule } from '@angular/router';
 import { GeneratedEntitty } from '../../entity/upload.entity';
 import { MatIconModule } from '@angular/material/icon';
 import { OptionsComponent } from '../options/options.component';
-import { Observable, Subject, of } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { FaceService } from '../../service/face.service';
-
-
-
 
 @Component({
   selector: 'app-file',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MaterialFileInputModule, RouterModule, MatFormFieldModule, MatIconModule, OptionsComponent, MatButtonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FileInputComponent,
+    RouterModule,
+    MatFormFieldModule,
+    MatIconModule,
+    OptionsComponent,
+    MatButtonModule,
+  ],
   templateUrl: './file.component.html',
-  styleUrl: './file.component.scss'
+  styleUrl: './file.component.scss',
 })
 export class FileComponent {
-
   form: FormGroup;
   fileControl: FormControl;
   accept = '.jpg,.png,.webp';
@@ -32,8 +49,9 @@ export class FileComponent {
   private fileSubject = new Subject<string | null>();
   $file = this.fileSubject.asObservable();
 
-
-  @ViewChild('fileInput', { static: false }) fileInput: FileInputComponent | undefined;
+  @ViewChild('fileInput', { static: false }) fileInput:
+    | FileInputComponent
+    | undefined;
   @ViewChild('fileImage', { static: false }) fileImage: ElementRef | undefined;
 
   constructor(
@@ -41,21 +59,19 @@ export class FileComponent {
     private api: ApiService,
     private router: Router,
     private loader: LoaderService,
-    private faceService: FaceService
+    private faceService: FaceService,
   ) {
     this.fileControl = new FormControl('', {
       validators: [
         Validators.required,
-        FileValidator.maxContentSize(30 * 1024 * 1024)
+        FileValidator.maxContentSize(30 * 1024 * 1024),
       ],
-      asyncValidators: [
-        this.faceService.detectFacesValidator
-      ]
-    })
-    this.form = this.fb.group({
-      file: this.fileControl
+      asyncValidators: [this.faceService.detectFacesValidator],
     });
-    this.form.get("file")?.valueChanges.subscribe((val) => {
+    this.form = this.fb.group({
+      file: this.fileControl,
+    });
+    this.form.get('file')?.valueChanges.subscribe((val) => {
       if (val) {
         const file = val.files[0];
         return this.fileSubject.next(URL.createObjectURL(file));
@@ -64,13 +80,11 @@ export class FileComponent {
     });
   }
 
-
-
   onSubmit(data: any) {
     if (!this.form.valid) {
       return;
     }
-    const fileInput = this.form.get("file");
+    const fileInput = this.form.get('file');
     const file = fileInput?.value.files[0];
     this.loader.show();
     this.api.uploadForm(file, data).subscribe({
@@ -82,8 +96,7 @@ export class FileComponent {
       error: (err: any) => {
         console.error(err);
         this.loader.hide();
-      }
-    })
+      },
+    });
   }
-
 }

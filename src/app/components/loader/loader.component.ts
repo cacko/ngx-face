@@ -1,5 +1,5 @@
 
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoaderService } from '../../service/loader.service';
 
