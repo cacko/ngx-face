@@ -10,18 +10,18 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^20.2.1",
+    "@angular/animations": "^21.2.10",
     "@angular/cdk": "^20.2.0",
-    "@angular/common": "^20.2.1",
-    "@angular/compiler": "^20.2.1",
-    "@angular/core": "^20.2.1",
+    "@angular/common": "^21.2.10",
+    "@angular/compiler": "^21.2.10",
+    "@angular/core": "^21.2.10",
     "@angular/fire": "^20.0.1",
     "@angular/forms": "^20.2.1",
     "@angular/material": "^20.2.0",
-    "@angular/platform-browser": "^20.2.1",
+    "@angular/platform-browser": "^21.2.10",
     "@angular/platform-browser-dynamic": "^20.2.1",
     "@angular/router": "^20.2.1",
-    "@angular/service-worker": "^20.2.1",
+    "@angular/service-worker": "^21.2.10",
     "@omnedia/ngx-cryptic-text": "^3.0.0",
     "@omnedia/ngx-gradient-text": "^3.0.0",
     "@omnedia/ngx-shiny-text": "^3.0.0",
@@ -41,9 +41,9 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular/build": "^20.2.0",
-    "@angular/cli": "^20.2.0",
-    "@angular/compiler-cli": "^20.2.1",
+    "@angular/build": "^21.2.8",
+    "@angular/cli": "^21.2.8",
+    "@angular/compiler-cli": "^21.2.10",
     "@types/file-saver": "^2.0.7",
     "@types/jasmine": "~5.1.0",
     "@types/lodash-es": "^4.17.12",
@@ -57,6 +57,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.8.3"
+    "typescript": "~5.9.3"
   }
 }

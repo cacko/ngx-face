@@ -1,6 +1,8 @@
-<div *ngFor="let p of data | omit: 'hash' | pairs" grid>
+@for (p of data | omit: 'hash' | pairs; track p) {
+  <div grid>
     <div label>{{p[0]|startCase}}</div>
     <div value>
-        {{p[1]|toOneLine}}
+      {{p[1]|toOneLine}}
     </div>
-</div>
+  </div>
+}

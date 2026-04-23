@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneratedEntitty } from '../../entity/upload.entity';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OptionsComponent } from '../options/options.component';
@@ -12,12 +12,11 @@ import { concatMap } from 'rxjs';
   selector: 'app-replay',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    OptionsComponent,
-  ],
+    OptionsComponent
+],
   templateUrl: './replay.component.html',
   styleUrl: './replay.component.scss',
 })

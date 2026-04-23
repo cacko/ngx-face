@@ -1,70 +1,74 @@
 <app-loader hidden></app-loader>
-<mat-toolbar *ngIf="($user | async) as user">
+@if (($user | async); as user) {
+  <mat-toolbar>
     <span>
-        <om-shiny-text
-            [text]="'faces'"
-            styleClass="cryptic-text"
-            [textColor]="'hsla(0, 0%, 87.5%, 0.8)'"
-            [shimmerColor]="'#ff897d'"
-        ></om-shiny-text>
+      <om-shiny-text
+        [text]="'faces'"
+        styleClass="cryptic-text"
+        [textColor]="'hsla(0, 0%, 87.5%, 0.8)'"
+        [shimmerColor]="'#ff897d'"
+      ></om-shiny-text>
     </span>
-
-    <button
+    @if (url != '') {
+      <button
         mat-icon-button
         aria-label="Home"
         routerLink="/"
-        *ngIf="url != ''"
         color="accent"
-    >
+        >
         <mat-icon>photo_library</mat-icon>
-    </button>
-    <ng-container *ngIf="($size | async) as size">
+      </button>
+    }
+    @if (($size | async); as size) {
+      @if (url != '/camera') {
         <button
-            mat-icon-button
-            routerLink="/camera"
-            *ngIf="url != '/camera'"
-            color="warn"
-        >
-            <mat-icon>photo_camera</mat-icon>
+          mat-icon-button
+          routerLink="/camera"
+          color="warn"
+          >
+          <mat-icon>photo_camera</mat-icon>
         </button>
+      }
+      @if (url != '/file') {
         <button
-            mat-icon-button
-            routerLink="/file"
-            *ngIf="url != '/file'"
-            color="primary"
-        >
-            <mat-icon>upload</mat-icon>
+          mat-icon-button
+          routerLink="/file"
+          color="primary"
+          >
+          <mat-icon>upload</mat-icon>
         </button>
-        <!-- <button
-            mat-icon-button
-            routerLink="/style"
-            *ngIf="url != '/style'"
-            color="primary"
-        >
-            <mat-icon>wb_incandescent</mat-icon>
-        </button> -->
-    </ng-container>
-    <span class="spacer"></span>
-    <button
-        mat-icon-button
-        mat-icon-avatar
-        [matMenuTriggerFor]="usermenu"
+      }
+      <!-- <button
+      mat-icon-button
+      routerLink="/style"
+      *ngIf="url != '/style'"
+      color="primary"
+      >
+      <mat-icon>wb_incandescent</mat-icon>
+    </button> -->
+  }
+  <span class="spacer"></span>
+  <button
+    mat-icon-button
+    mat-icon-avatar
+    [matMenuTriggerFor]="usermenu"
     >
-        <app-avatar [user]="user"></app-avatar>
+    <app-avatar [user]="user"></app-avatar>
+  </button>
+  <mat-menu #usermenu="matMenu">
+    <button mat-menu-item="mat-menu-item">
+      <mat-icon>person</mat-icon>
+      <span>{{user.displayName}}</span>
     </button>
-    <mat-menu #usermenu="matMenu">
-        <button mat-menu-item="mat-menu-item">
-            <mat-icon>person</mat-icon>
-            <span>{{user.displayName}}</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button
-            mat-menu-item="mat-menu-item"
-            (click)="logout()"
-        >
-            <mat-icon>logout</mat-icon>
-            <span>Logout</span>
-        </button>
-    </mat-menu>
+    <mat-divider></mat-divider>
+    <button
+      mat-menu-item="mat-menu-item"
+      (click)="logout()"
+      >
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
 </mat-toolbar>
+}
 <router-outlet></router-outlet>

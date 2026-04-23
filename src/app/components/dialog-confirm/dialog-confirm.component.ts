@@ -8,7 +8,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+
 
 export interface DialogData {
   title: string;
@@ -20,13 +20,12 @@ export interface DialogData {
   selector: 'app-dialog-confirm',
   standalone: true,
   imports: [
-    CommonModule,
     MatButtonModule,
     MatDialogClose,
     MatDialogActions,
     MatDialogTitle,
     MatDialogContent
-  ],
+],
   templateUrl: './dialog-confirm.component.html'
 })
 export class DialogConfirmComponent {

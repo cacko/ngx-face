@@ -1,38 +1,40 @@
-<div
-    *ngIf="($data | async) as items"
+@if (($data | async); as items) {
+  <div
     grid
->
-    <app-generated-card
-        *ngFor="let item of items | orderBy: '-last_modified'"
+    >
+    @for (item of items | orderBy: '-last_modified'; track item) {
+      <app-generated-card
         [@simpleFadeAnimation]="'in'"
         grid-item
         [data]="item"
         (deleted)="onDelete($event)"
-    >
-    </app-generated-card>
-</div>
-<div
-    *ngIf="($data | async)?.length === 0"
+        >
+      </app-generated-card>
+    }
+  </div>
+}
+@if (($data | async)?.length === 0) {
+  <div
     home-status
->
+    >
     <div>No History</div>
-
     <div buttons>
-        <button
-            mat-stroked-button
-            aria-label="New Photo"
-            routerLink="/camera"
+      <button
+        mat-stroked-button
+        aria-label="New Photo"
+        routerLink="/camera"
         >
-            <mat-icon>photo_camera</mat-icon>
-            Camera
-        </button>
-        <button
-            mat-stroked-button
-            aria-label="New Photo"
-            routerLink="/file"
+        <mat-icon>photo_camera</mat-icon>
+        Camera
+      </button>
+      <button
+        mat-stroked-button
+        aria-label="New Photo"
+        routerLink="/file"
         >
-            <mat-icon>upload</mat-icon>
-            photo
-        </button>
+        <mat-icon>upload</mat-icon>
+        photo
+      </button>
     </div>
-</div>
+  </div>
+}

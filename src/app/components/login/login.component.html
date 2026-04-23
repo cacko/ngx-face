@@ -1,42 +1,46 @@
-<div *ngIf="user.user | async as user; else showLogin">
+@if (user.user | async; as user) {
+  <div>
     <h1>Hello {{ user.displayName }}!</h1>
     <div>
-        <button
-            mat-flat-button
-            color="primary"
-            (click)="logout()"
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="logout()"
         >
-            <mat-icon>logout</mat-icon>
-            Logout
-        </button>
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
     </div>
-</div>
-<ng-template #showLogin>
-    <mat-card appearance="raised">
-        <mat-card-content>
-            <button
-                login
-                mat-icon-button
-                (click)="login($event)"
-                matRipple
-                [matRippleCentered]="true"
-                [matRippleDisabled]="false"
-                [matRippleUnbounded]="false"
-                aria-level="Click to login"
+  </div>
+} @else {
+  <mat-card appearance="raised">
+    <mat-card-content>
+      <button
+        login
+        mat-icon-button
+        (click)="login($event)"
+        matRipple
+        [matRippleCentered]="true"
+        [matRippleDisabled]="false"
+        [matRippleUnbounded]="false"
+        aria-level="Click to login"
+        >
+        @if (show_login) {
+          <div
+            click-to-login
+            class="animate__animated animate__heartBeat animate__slower animate__infinite"
             >
-                <div
-                    *ngIf="show_login"
-                    click-to-login
-                    class="animate__animated animate__heartBeat animate__slower animate__infinite"
-                >
-                    click to login
-                </div>
-            </button>
-            <div buttons>
-                <div *ngIf="errorMessage">
-                    <p errors>{{ errorMessage }}</p>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
-</ng-template>
+            click to login
+          </div>
+        }
+      </button>
+      <div buttons>
+        @if (errorMessage) {
+          <div>
+            <p errors>{{ errorMessage }}</p>
+          </div>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+}

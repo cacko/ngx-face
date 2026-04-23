@@ -1,2 +1,6 @@
-<img [ngSrc]="src" fill priority appDragScroll draggable="false" *ngIf="drag" [reset]="$reset | async">
-<img [ngSrc]="src" fill priority  draggable="false" *ngIf="!drag">
+@if (drag) {
+  <img [ngSrc]="src" fill priority appDragScroll draggable="false" [reset]="$reset | async">
+}
+@if (!drag) {
+  <img [ngSrc]="src" fill priority  draggable="false">
+}

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { PromptEntity } from '../../entity/view.entity';
@@ -7,7 +7,7 @@ import { GeneratedEntitty } from '../../entity/upload.entity';
 @Component({
   selector: 'app-loading',
   standalone: true,
-  imports: [CommonModule, MatProgressBarModule, PromptComponent],
+  imports: [MatProgressBarModule, PromptComponent],
   templateUrl: './loading.component.html'
 })
 export class LoadingComponent implements OnInit {

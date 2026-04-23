@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoaderService } from '../../service/loader.service';
@@ -6,7 +6,7 @@ import { LoaderService } from '../../service/loader.service';
 @Component({
   selector: 'app-loader',
   standalone: true,
-  imports: [CommonModule, MatProgressBarModule],
+  imports: [MatProgressBarModule],
   templateUrl: './loader.component.html',
   styleUrl: './loader.component.scss'
 })
