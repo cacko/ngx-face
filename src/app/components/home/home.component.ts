@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GeneratedEntitty } from '../../entity/upload.entity';
 import { CommonModule } from '@angular/common';
-import { BehaviorSubject, concatMap } from 'rxjs';
+import { BehaviorSubject, concatMap, switchMap } from 'rxjs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { GeneratedCardComponent } from '../generated-card/generated-card.component';
@@ -20,7 +20,6 @@ import { ChangeEntity } from '../../entity/view.entity';
 import { ListenEvent } from '@angular/fire/database';
 import { ApiService } from '../../service/api.service';
 import { NgArrayPipesModule } from 'ngx-pipes';
-import { UserService } from '../../service/user.service';
 
 
 @Component({
@@ -73,13 +72,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.paramMap.pipe(
-      concatMap(
-        (params) => this.api.getGenerations(),
+      switchMap(
+        () => this.api.getGenerations(),
       )
     ).subscribe({
       next: (data: GeneratedEntitty[]) => {
         const items = data as GeneratedEntitty[];
         this.dataSubject.next(items);
+        console.log(items);
         this.db.$change.subscribe((change: ChangeEntity | null) => {
           switch (change?.event) {
             case ListenEvent.added:

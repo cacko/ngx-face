@@ -14,7 +14,7 @@ tasks:
   build:
     desc: build
     cmds:
-      - ng build --configuration production --progress --service-worker
+      - ng build --configuration production --progress
 
   deploy:
     desc: deploy to firebase

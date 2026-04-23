@@ -152,7 +152,6 @@ export class ApiService {
       }).pipe(
         expand((res) => {
           const nextPage = res.headers.get('x-pagination-next');
-          const pageNo = parseInt(String(res.headers.get('x-pagination-page')));
           return nextPage
             ? this.http.get(nextPage, {
               headers: { 'X-User-Token': this.storage.token || "" },
@@ -162,7 +161,6 @@ export class ApiService {
         }),
         reduce((acc, current): any => {
           const data = current.body as GeneratedEntitty[];
-          const pageNo = parseInt(String(current.headers.get('x-pagination-page')));
           return concat(acc, data);
         }, []),
         tap((res) => {
