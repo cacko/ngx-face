@@ -83,9 +83,11 @@ export class HomeComponent implements OnInit {
         this.db.$change.subscribe((change: ChangeEntity | null) => {
           switch (change?.event) {
             case ListenEvent.added:
+              console.log('added', change.slug, this.exists(change.slug));
               !this.exists(change.slug) && this.onAdded(change.slug);
               break;
             case ListenEvent.removed:
+              console.log('removed', change.slug, this.exists(change.slug));
               this.exists(change.slug) && this.onRemoved(change.slug);
               break;
           }
